@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <script>
+        let ws;
+        let audio = new Audio();
+
+        function connectWebSocket(roomId) {
+            ws = new WebSocket("ws://your-ngrok-url.ngrok.io");
+            ws.onopen = () => ws.send(roomId);
+            ws.onmessage = (event) => {
+                let data = JSON.parse(event.data);
+                console.log("📡 Received WebSocket Data:", data);
+
+                if (data.action === "play") {
+                    console.log("🎵 Playing Audio:", data.track);
+                    audio.src = data.track;
+                    audio.play().catch(error => console.error("🔴 Audio Play Error:", error));
+                } else if (data.action === "pause") {
+                    audio.pause();
+                } else if (data.action === "next") {
+                    console.log("⏭ Skipping to Next Track:", data.track);
+                    audio.src = data.track;
+                    audio.play();
+                }
+            };
+        }
+
+        function playTrack() {
+            ws.send(JSON.stringify({ action: "play", track: audio.src }));
+        }
+
+        function pauseTrack() {
+            ws.send(JSON.stringify({ action: "pause" }));
+        }
+
+        function nextTrack() {
+            ws.send(JSON.stringify({ action: "next", track: "next-song-url.mp3" }));
+        }
+    </script>
+</head>
+<body onload="connectWebSocket('ROOM_ID')">
+    <h1>Music Player 🎶</h1>
+    <button onclick="playTrack()">▶ Play</button>
+    <button onclick="pauseTrack()">⏸ Pause</button>
+    <button onclick="nextTrack()">⏭ Next</button>
+</body>
+</html>

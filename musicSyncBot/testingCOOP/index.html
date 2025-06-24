@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Hangman Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .word-display {
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 20px 0;
+        }
+        .attempts {
+            font-size: 18px;
+            color: red;
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-correct {
+            background: #28a745 !important; /* Green for correct guesses */
+        }
+        .btn-wrong {
+            background: #dc3545 !important; /* Red for wrong guesses */
+            pointer-events: none; /* Prevent clicking again */
+        }
+    </style>
+    <script>
+        let ws;
+        let groupId = null;
+        let playerName = null;
+        let guessedLetters = [];
+        let attemptsLeft = 6;
+
+        function connectWebSocket(createGroup = false) {
+            if (!groupId || !playerName) {
+                alert("Please enter a valid Group ID and Player Name.");
+                return;
+            }
+            ws = new WebSocket("wss://32eb-81-82-206-40.ngrok-free.app");
+
+            ws.onopen = () => {
+                ws.send(JSON.stringify({ group_id: groupId, player_name: playerName, create_group: createGroup }));
+            };
+
+            ws.onmessage = (event) => {
+                let data = JSON.parse(event.data);
+                console.log("📡 Received WebSocket Data:", data);
+
+                if (data.action === "new_game") {
+                    guessedLetters = [];
+                    attemptsLeft = 6;
+                    updateGameDisplay(data.word);
+                } else if (data.action === "guess") {
+                    guessedLetters = data.guessedLetters.map(l => l.toLowerCase());
+                    attemptsLeft = data.attemptsLeft;
+                    updateGameDisplay(data.word);
+                } else if (data.action === "update_players") {
+                    document.getElementById("playersList").innerText = "Players: " + data.players.join(", ");
+                } else if (data.action === "game_over") {
+                    alert("Game Over! The word was: " + data.word);
+                } else if (data.action === "error") {
+                    alert(data.message);
+                }
+            };
+
+            ws.onerror = (error) => {
+                console.error("WebSocket Error: ", error);
+                alert("Connection error. Please refresh and try again.");
+            };
+        }
+
+
+        function createGroup() {
+            groupId = Math.floor(1000 + Math.random() * 9000).toString();
+            playerName = prompt("Enter your name:");
+            if (!playerName) return;
+            alert("Your Group ID: " + groupId);
+            connectWebSocket(true);  // Pass 'true' to indicate group creation
+        }
+
+
+        function joinGroup() {
+            let inputGroupId = prompt("Enter Group ID:");
+            let inputPlayerName = prompt("Enter your name:");
+            if (inputGroupId && inputPlayerName) {
+                groupId = inputGroupId;
+                playerName = inputPlayerName;
+                connectWebSocket();
+            }
+        }
+
+        function startGame() {
+            if (!groupId) {
+                alert("Please create or join a group first.");
+                return;
+            }
+            ws.send(JSON.stringify({ action: "new_game" }));
+        }
+
+        function guessLetter(letter) {
+            if (!groupId) {
+                alert("Please create or join a group first.");
+                return;
+            }
+            ws.send(JSON.stringify({ action: "guess", letter: letter }));
+        }
+
+        function updateGameDisplay(word) {
+            document.getElementById("wordDisplay").innerText = `Word: ${word}`;
+            document.getElementById("attempts").innerText = `Attempts Left: ${attemptsLeft}`;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Game 🎭</h1>
+        <p id="wordDisplay" class="word-display">Word: _ _ _ _ _</p>
+        <p id="attempts" class="attempts">Attempts Left: 6</p>
+        <button class="btn" onclick="createGroup()">➕ Create Group</button>
+        <button class="btn" onclick="joinGroup()">🔗 Join Group</button>
+        <button class="btn" onclick="startGame()">🎮 Start Game</button>
+        <button id="resetGame" class="btn" onclick="startGame()" style="display:none;">🔄 Restart Game</button>
+        <div class="btn-container">
+            <h3>Guess a letter:</h3>
+            <script>
+                "abcdefghijklmnopqrstuvwxyz".split('').forEach(letter => {
+                    document.write(`<button class="btn" onclick="guessLetter('${letter}')" id="btn-${letter}">${letter.toUpperCase()}</button>`);
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

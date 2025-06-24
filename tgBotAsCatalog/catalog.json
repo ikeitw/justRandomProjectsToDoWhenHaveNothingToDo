@@ -1,0 +1,303 @@
+[
+  {
+  "id": "B01",
+  "name": "Минималистичная брошь-булавка с подвесками из цепочек",
+  "category": "brooch",
+  "price": 2000,
+  "image": "images/brooch_minimal_chain.jpg"
+  },
+  {
+  "id": "B02",
+  "name": "Брошь-булавка с подвесками из цепочек и птичкой",
+  "category": "brooch",
+  "price": 3000,
+  "image": "images/brooch_bird_chain.jpg"
+  },
+  {
+  "id": "B03",
+  "name": "Акцентная брошь-булавка с подвесками из цепочек, натурального жемчуга и большой барочной жемчужины",
+  "category": "brooch",
+  "price": 4500,
+  "image": "images/brooch_gold_pearl_chain.jpg"
+  },
+  {
+  "id": "R01",
+  "name": "Кольцо с акцентными цепочками, натуральной жемчужиной и подвеской-слоном",
+  "category": "ring",
+  "price": 2000,
+  "image": "images/ring_pearl_elephant.jpg"
+  },
+  {
+  "id": "R02",
+  "name": "Кольцо из искусственного жемчуга и кристаллом из ювелирного стекла",
+  "category": "ring",
+  "price": 1500,
+  "image": "images/ring_fake_pearl_crystal.jpg"
+  },
+  {
+  "id": "R03",
+  "name": "Кольцо с акцентными цепочками и искусственным жемчугом",
+  "category": "ring",
+  "price": 1800,
+  "image": "images/ring_chain_fake_pearl.jpg"
+  },
+  {
+  "id": "R04",
+  "name": "Кольцо с акцентными цепочками и натуральной жемчужиной",
+  "category": "ring",
+  "price": 2000,
+  "image": "images/ring_chain_natural_pearl.jpg"
+  },
+  {
+  "id": "R05",
+  "name": "Кольцо из натурального перламутра и жемчуга",
+  "category": "ring",
+  "price": 1500,
+  "image": "images/ring_mother_of_pearl.jpg"
+  },
+  {
+  "id": "N01",
+  "name": "Акцентное колье из натуральных ракушек",
+  "category": "necklace",
+  "price": 5000,
+  "image": "images/necklace_shell_statement.jpg"
+  },
+  {
+  "id": "E01",
+  "name": "Акцентные серьги из натурального жемчуга и цепочек разной длины",
+  "category": "earring",
+  "price": 10000,
+  "image": "images/earrings_pearl_chain.jpg"
+  },
+  {
+  "id": "N02",
+  "name": "Колье из искусственного жемчуга с подвесками в морской тематике",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_sea_fake_pearl.jpg"
+  },
+  {
+  "id": "E02",
+  "name": "Серьги из натурального жемчуга с креплением в виде ракушки",
+  "category": "earring",
+  "price": 5500,
+  "image": "images/earrings_pearl_shell_mount.jpg"
+  },
+  {
+  "id": "N03",
+  "name": "Бодичейн из тонкой цепочки с ракушкой с покрытием золотом 24 карата (Надета в 2 оборота)",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/bodychain_gold_shell.jpg"
+  },
+  {
+  "id": "N04",
+  "name": "Колье из искусственного жемчуга с подвесками в морской тематике",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_sea_theme_fake_pearl.jpg"
+  },
+  {
+  "id": "BR01",
+  "name": "Браслет из искусственного жемчуга с подвесками в морской тематике",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_sea_theme_fake_pearl.jpg"
+  },
+  {
+  "id": "N05",
+  "name": "Колье из искусственного жемчуга с золотыми подвесками и розовым и золотым гематитом (сверху)",
+  "category": "necklace",
+  "price": 3500,
+  "image": "images/necklace_fake_pearl_gold_hematite.jpg"
+  },
+  {
+  "id": "N06",
+  "name": "Натуральная ракушка на длинной цепочке (в 2 оборота на фото)",
+  "category": "necklace",
+  "price": 3000,
+  "image": "images/necklace_long_shell_double_wrap.jpg"
+  },
+  {
+  "id": "E03",
+  "name": "Серьги из натуральных ракушек с цепочками и жемчугом",
+  "category": "earring",
+  "price": 3500,
+  "image": "images/earrings_shells_chains_pearls.jpg"
+  },
+  {
+  "id": "N07",
+  "name": "Тонкое колье из натурального перламутра, ювелирного стекла и искусственного жемчуга (между цепочками)",
+  "category": "necklace",
+  "price": 3500,
+  "image": "images/necklace_thin_shell_glass_pearl.jpg"
+  },
+  {
+  "id": "B04",
+  "name": "Браслет из искусственного жемчуга, ювелирного стекла и натурального перламутра (слева)",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_pearl_glass_shell_left.jpg"
+  },
+  {
+  "id": "N04",
+  "name": "Колье с подвесками из натуральных ракушек и жемчуга",
+  "category": "necklace",
+  "price": 4500,
+  "image": "images/necklace_natural_shells_pearls.jpg"
+  },
+  {
+  "id": "B04",
+  "name": "Браслет с подвесками из жемчуга и натуральных ракушек (сверху)",
+  "category": "bracelet",
+  "price": 3500,
+  "image": "images/bracelet_pearls_natural_shells_top.jpg"
+  },
+  {
+  "id": "E03",
+  "name": "Сережки в тематике сафари со съёмными подвесками в виде зверей",
+  "category": "earring",
+  "price": 2500,
+  "image": "images/earrings_safari_animals_removable.jpg"
+  },
+  {
+  "id": "B04",
+  "name": "Браслет в тематике сафари с подвесками в виде зверей",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_safari_animals.jpg"
+  },
+  {
+  "id": "N07",
+  "name": "Колье в тематике сафари с подвесками в виде зверей и кристаллов",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_safari_animals_crystals.jpg"
+  },
+  {
+  "id": "S01",
+  "name": "Комплект из браслета, колье и сережек в тематике сафари",
+  "category": "set",
+  "price": 8500,
+  "image": "images/set_safari_theme.jpg"
+  },
+  {
+  "id": "B05",
+  "name": "Браслет в тематике сафари с подвесками в виде зверей",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_safari_animals_silver.jpg"
+  },
+  {
+  "id": "N12",
+  "name": "Цепочка в тематике сафари с подвесками в виде зверей",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_safari_animals_silver.jpg"
+  },
+  {
+  "id": "N13",
+  "name": "Колье из цепочки с яркими подвесками",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_bright_charms.jpg"
+  },
+  {
+  "id": "B05",
+  "name": "Браслет из цепочки с яркими подвесками",
+  "category": "bracelet",
+  "price": 2800,
+  "image": "images/bracelet_bright_charms.jpg"
+  },
+  {
+  "id": "S03",
+  "name": "Комплект из браслета и колье с яркими подвесками",
+  "category": "set",
+  "price": 5800,
+  "image": "images/set_bright_charms.jpg"
+  },
+  {
+  "id": "E07",
+  "name": "Серьги с акцентным сердцем",
+  "category": "earring",
+  "price": 2500,
+  "image": "images/earring_red_heart.jpg"
+  },
+  {
+  "id": "N08",
+  "name": "Колье из искусственного жемчуга, ювелирного стекла с акцентными подвесками-сердцами",
+  "category": "necklace",
+  "price": 4500,
+  "image": "images/necklace_heart_pendants.jpg"
+  },
+  {
+  "id": "B05",
+  "name": "Браслет из искусственного жемчуга с акцентным сердцем",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_heart_pearl.jpg"
+  },
+  {
+  "id": "S03",
+  "name": "Комплект из серёжек, браслета и колье с акцентными подвесками-сердцами",
+  "category": "set",
+  "price": 9000,
+  "image": "images/set_heart_charms.jpg"
+  },
+  {
+  "id": "B05",
+  "name": "Браслет из натурального жемчуга зафиксированного на плоской планке",
+  "category": "bracelet",
+  "price": 3000,
+  "image": "images/bracelet_flatbar_natural_pearl.jpg"
+  },
+  {
+  "id": "B06",
+  "name": "Браслет из гематита, ювелирного стекла и цепочек",
+  "category": "bracelet",
+  "price": 3800,
+  "image": "images/bracelet_hematite_glass_chains.jpg"
+  },
+  {
+  "id": "N14",
+  "name": "Цепочка-галстук с акцентным элементом в виде капли",
+  "category": "necklace",
+  "price": 3500,
+  "image": "images/necklace_tie_drop_element.jpg"
+  },
+  {
+  "id": "N15",
+  "name": "Колье из цепочек разной длины",
+  "category": "necklace",
+  "price": 4000,
+  "image": "images/necklace_different_length_chains.jpg"
+  },
+  {
+  "id": "N16",
+  "name": "Колье из цепочек разной длины с подвесками",
+  "category": "necklace",
+  "price": 3500,
+  "image": "images/necklace_different_length_with_pendants.jpg"
+  },
+  {
+  "id": "N17",
+  "name": "Цепочка из гипоаллергенного ювелирного сплава с роликовыми покрытием и буквами",
+  "category": "necklace",
+  "price": 4500,
+  "image": "images/necklace_prosecco_letters.jpg"
+  },
+  {
+  "id": "N18",
+  "name": "Жемчужная нить (искусственный жемчуг) с цветными бусинами из разноцветного ювелирного стекла (сверху)",
+  "category": "necklace",
+  "price": 3500,
+  "image": "images/necklace_colored_beads_letters.jpg"
+  },
+  {
+  "id": "N19",
+  "name": "Колье из искусственного жемчуга с буквами",
+  "category": "necklace",
+  "price": 4500,
+  "image": "images/necklace_pearl_letters.jpg"
+  }
+]

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список дел</title>
+</head>
+<body>
+    <h1>Мой список дел:</h1>
+    <ol>
+        {% for task in tasks %}
+            <li>{{ task }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

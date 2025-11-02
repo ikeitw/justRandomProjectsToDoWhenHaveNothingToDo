@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Drill-Down Disk Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="layout">
+    <div class="left">
+      <div class="section-title">Disks</div>
+      <div id="drives" class="drives"></div>
+      <div class="section-title">Actions</div>
+      <div class="drive" id="upBtn">Up one level</div>
+      <div class="drive" id="centerBtn">Center</div>
+      <div class="drive" id="reloadBtn">Reload</div>
+    </div>
+
+    <div class="header">
+      <div id="path" class="path">Disks</div>
+      <div class="button" id="toDisksBtn">Back to Disks</div>
+    </div>
+
+    <div class="main">
+      <div class="search-overlay">
+        <input id="liveSearch" class="search-input" placeholder="Type to filter… (Esc to clear)" />
+      </div>
+      <div id="searchHint" class="search-hint"></div>
+
+      <svg id="graph"></svg>
+      <div class="legend">
+        <span><i class="dot root"></i> Current</span>
+        <span><i class="dot disk"></i> Disk</span>
+        <span><i class="dot dir"></i> Folder</span>
+        <span><i class="dot file"></i> File</span>
+      </div>
+    </div>
+
+    <div class="right">
+      <h3 id="title">Nothing selected</h3>
+      <div id="stats" class="stats"></div>
+      <div id="meta" class="meta"></div>
+      <div id="preview" class="preview">Select a file to preview text.</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const API = window.location.origin;
+
+    // --- SVG layers ---
+    const svg = d3.select("#graph");
+
+    // Define SVG <defs> once (gradients used by node fills)
+    const defs = svg.append("defs");
+
+    function addRadialGradient(id, inner, outer){
+      const grad = defs.append("radialGradient").attr("id", id);
+      grad.append("stop").attr("offset", "0%").attr("stop-color", inner);
+      grad.append("stop").attr("offset", "100%").attr("stop-color", outer);
+    }
+
+    // Soft glow filter for links
+    const linkGlow = defs.append("filter").attr("id", "linkGlow");
+    linkGlow.append("feGaussianBlur")
+      .attr("in", "SourceGraphic")
+      .attr("stdDeviation", 1.2)
+      .attr("result", "blur");
+    const feMerge = linkGlow.append("feMerge");
+    feMerge.append("feMergeNode").attr("in", "blur");
+    feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+    // Gradients for disks, folders, files
+    addRadialGradient("diskGradient", "#fff0a0", "#ffb84d");
+    addRadialGradient("dirGradient",  "#9dffd6", "#21b87a");
+    addRadialGradient("fileGradient", "#b5c8ff", "#4063ff");
+    addRadialGradient("rootGradient", "#d5b6ff", "#8b4dff");
+
+    // Graph groups
+    const g = svg.append("g");
+    const particlesG = g.append("g");
+    const linkG = g.append("g").attr("stroke-width",1).attr("fill","none");
+    const nodeG = g.append("g");
+    const labelG = g.append("g");
+    particlesG.lower();
+
+    // --- Zoom/pan (labels always visible; scale font slightly on zoom out) ---
+    let labelSel = null;
+    const zoom = d3.zoom()
+      .scaleExtent([0.1, 6])
+      .on("zoom", (e) => {
+        g.attr("transform", e.transform);
+        if (labelSel) {
+          const fs = 11 * Math.min(1, e.transform.k);
+          labelSel.attr("font-size", fs);
+        }
+      });
+    svg.call(zoom);
+
+    // --- UI ---
+    const drivesEl   = document.getElementById("drives");
+    const pathEl     = document.getElementById("path");
+    const toDisksBtn = document.getElementById("toDisksBtn");
+    const upBtn      = document.getElementById("upBtn");
+    const centerBtn  = document.getElementById("centerBtn");
+    const reloadBtn  = document.getElementById("reloadBtn");
+    const titleEl    = document.getElementById("title");
+    const statsEl    = document.getElementById("stats");
+    const metaEl     = document.getElementById("meta");
+    const previewEl  = document.getElementById("preview");
+
+    const liveSearch = document.getElementById("liveSearch");
+    const searchHint = document.getElementById("searchHint");
+
+    toDisksBtn.onclick = () => showDisks();
+    upBtn.onclick      = () => currentParent ? openDir(currentParent) : showDisks();
+    centerBtn.onclick  = () => fit();
+    reloadBtn.onclick  = () => currentBase ? openDir(currentBase) : showDisks();
+
+    // --- State ---
+    let disks = [];
+    let currentBase = null;
+    let currentParent = null;
+    let nodes=[], links=[], nodeSel, linkSel, sim;
+
+    // --- Particles (starfield) ---
+    const FIELD_SIZE     = 3000;
+    const PARTICLE_COUNT = 2000;
+    const PARTICLE_SPEED = 0.075;
+
+    let particles = [], particleSel, particleTimer;
+
+    function initParticles(){
+      if (particleTimer) particleTimer.stop();
+
+      const half = FIELD_SIZE / 2;
+
+      particles = d3.range(PARTICLE_COUNT).map(() => {
+        const s = (Math.random() * 0.8 + 0.2) * PARTICLE_SPEED;
+        return {
+          x: Math.random() * FIELD_SIZE - half,
+          y: Math.random() * FIELD_SIZE - half,
+          vx: (Math.random() * 2 - 1) * s,
+          vy: (Math.random() * 2 - 1) * s,
+          r: Math.random() * 1.8 + 0.6
+        };
+      });
+
+      particleSel = particlesG.selectAll("circle")
+        .data(particles)
+        .join("circle")
+        .attr("r", d => d.r)
+        .attr("fill", "#1b2231");
+
+      particleTimer = d3.timer(() => {
+        for (const p of particles){
+          p.x += p.vx * 16;
+          p.y += p.vy * 16;
+
+          // wrap in a 3000x3000 world centered at (0,0)
+          if (p.x < -half) p.x += FIELD_SIZE;
+          else if (p.x > half) p.x -= FIELD_SIZE;
+
+          if (p.y < -half) p.y += FIELD_SIZE;
+          else if (p.y > half) p.y -= FIELD_SIZE;
+        }
+        particleSel.attr("cx", d => d.x).attr("cy", d => d.y);
+      });
+    }
+
+    window.addEventListener("resize", initParticles);
+
+
+    // Load disks -> left menu -> show disks graph
+    fetch(`${API}/drives`).then(r=>r.json()).then(list=>{
+      disks = list || [];
+      drivesEl.innerHTML = "";
+      disks.forEach(d=>{
+        const el = document.createElement("div");
+        el.className = "drive";
+        el.textContent = d.name;
+        el.title = d.path;
+        el.onclick = ()=> openDir(d.path);
+        drivesEl.appendChild(el);
+      });
+      showDisks();
+    });
+
+    function showDisks(){
+      currentBase = null;
+      currentParent = null;
+      pathEl.textContent = "Disks";
+      titleEl.textContent = "Disks";
+      statsEl.textContent = "";
+      metaEl.textContent  = "Click a disk to open it.";
+      previewEl.textContent = "Select a file to preview text.";
+      clearFilter();
+
+      const diskNodes = disks.map(d => ({ id: d.path, name: d.name, type: "disk", size: 0, ext: "" }));
+      renderGraph({ nodes: diskNodes, links: [] });
+    }
+
+    async function showDiskStats(basePath){
+      try{
+        const r = await fetch(`${API}/disk_usage?path=${encodeURIComponent(basePath)}`);
+        const s = await r.json();
+        statsEl.textContent = `Total: ${s.total_human}   •   Used: ${s.used_human}   •   Free: ${s.free_human}`;
+      }catch(_){
+        statsEl.textContent = "";
+      }
+    }
+
+    function openDir(base){
+      fetch(`${API}/dir?base=${encodeURIComponent(base)}`)
+        .then(r=>r.json())
+        .then(async data=>{
+          currentBase   = data.base;
+          currentParent = data.parent;
+          pathEl.textContent = data.base;
+          titleEl.textContent = data.base;
+          metaEl.textContent = "Click a folder to drill down. Files show a text preview on the right.";
+          previewEl.textContent = "Select a file to preview text.";
+          clearFilter();
+
+          renderGraph({ nodes: data.nodes, links: data.links });
+
+          // if opening a disk root, show usage
+          const isWinDrive = /^[A-Za-z]:\\$/.test(currentBase);
+          const isPosixRoot = currentBase === "/";
+          if (isWinDrive || isPosixRoot) {
+            await showDiskStats(currentBase);
+          } else {
+            statsEl.textContent = "";
+          }
+        });
+    }
+
+    function renderGraph(data){
+      nodes = data.nodes;
+      links = data.links;
+
+      if (sim) sim.stop();
+
+      linkSel = linkG.selectAll("line")
+        .data(links)
+        .join("line")
+        .attr("class","link")
+        .classed("emph", d => d.source.id === (currentBase || ""));
+
+      nodeSel = nodeG.selectAll("g")
+        .data(nodes, d=>d.id)
+        .join(enter=>{
+          const n = enter.append("g").attr("class", d => `node ${d.type}`);
+
+          // bigger hit target
+          n.append("circle")
+            .attr("class","hit")
+            .attr("r", d => (d.type === "disk") ? 22 : (d.type === "dir" ? 18 : 14));
+
+          // visible circle
+          n.append("circle")
+            .attr("r", d => (d.type === "disk") ? 14 : (d.type === "dir" ? 10 : Math.max(3, Math.min(10, Math.sqrt((d.size||1))/20))));
+
+          n.on("mouseenter", function(_, d){
+               d.__hoverPinned = true;
+               d.fx = d.x; d.fy = d.y;
+
+               d3.select(this).classed("hover", true);
+               linkSel.classed("emph", l => l.source.id === d.id || l.target.id === d.id || l.source.id === (currentBase || ""));
+             })
+           .on("mouseleave", function(_, d){
+               d3.select(this).classed("hover", false);
+               if (!d.__userPinned) { d.fx = null; d.fy = null; }
+               d.__hoverPinned = false;
+               linkSel.classed("emph", l => l.source.id === (currentBase || ""));
+             })
+           .on("dblclick", function(_, d){
+               d.__userPinned = !d.__userPinned;
+               if (d.__userPinned) { d.fx = d.x; d.fy = d.y; }
+               else if (!d.__hoverPinned) { d.fx = null; d.fy = null; }
+               d3.selectAll(".node").classed("fixed", nd => !!nd.__userPinned);
+             })
+           .on("click",   (_, d) => onClickNode(d));
+          return n;
+        });
+
+      // 🔹 mark the currently opened (root) node so it turns purple
+      nodeSel.classed("root", d => d.id === (currentBase || ""));
+
+      labelSel = labelG.selectAll("text")
+        .data(nodes)
+        .join("text")
+        .text(d=>d.name)
+        .attr("text-anchor","middle")
+        .attr("dy",-18)
+        .attr("fill","#ffffff")
+        .style("pointer-events","none");
+
+      // --- spacing baseline (kept generous) ---
+      const childCount = links.filter(l => l.source.id === (currentBase || "")).length || nodes.length;
+      const baseDist   = Math.min(600, 200 + childCount * 6);
+
+      // Identify the root node (purple)
+      const rootId = (currentBase || "");
+
+      // Seed positions around root to avoid “left bias”
+      nodes.forEach(d => {
+        if (d.id === rootId) { d.x = 0; d.y = 0; }
+        else {
+          // random ring seed
+          const a = Math.random() * Math.PI * 2;
+          const r = baseDist * (0.8 + Math.random() * 0.6);
+          d.x = Math.cos(a) * r * (0.2 + Math.random());
+          d.y = Math.sin(a) * r * (0.2 + Math.random());
+        }
+      });
+
+      // Link length: slight randomness so it doesn’t look perfect
+      const linkLen = l => baseDist * (0.9 + Math.random() * 0.4);
+
+      // --- true radial force around the root + a touch of chaos ---
+      sim = d3.forceSimulation(nodes)
+        .alpha(1).alphaDecay(0.028)
+        .force("link", d3.forceLink(links).id(d=>d.id).distance(linkLen).strength(0.75))
+        .force("charge", d3.forceManyBody().strength(-240 - childCount * 0.4))
+        .force("collide", d3.forceCollide().radius(d =>
+          d.type === "disk" ? 36 : (d.type === "dir" ? 28 : 20)).iterations(2))
+        .force("radial", d3.forceRadial(d => d.id === rootId ? 0 : baseDist * (0.9 + Math.random() * 0.6), 0, 0).strength(0.12))
+        .force("center", d3.forceCenter(0, 0).strength(0.02))
+        .on("tick", ticked);
+
+      // 3) Softer centering; stronger collision to avoid overlaps.
+      sim = d3.forceSimulation(nodes)
+        .alpha(1)
+        .alphaDecay(0.03)
+        .force("link", d3.forceLink(links).id(d=>d.id).distance(distFor).strength(0.8))
+        .force("charge", d3.forceManyBody().strength(-320 - childCount))
+        .force("collide", d3.forceCollide().radius(d =>
+          d.type === "disk" ? 36 : (d.type==="dir" ? 28 : 20)).iterations(2))
+        .force("jitterX", d3.forceX(d => d._jx).strength(0.035))
+        .force("jitterY", d3.forceY(d => d._jy).strength(0.035))
+        .force("center", d3.forceCenter(0, 0).strength(0.02))
+        .on("tick", ticked);
+
+      fit();
+      initParticles();
+      applyFilter(liveSearch.value.trim());
+    }
+
+
+    function ticked(){
+      linkSel
+        .attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
+        .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+      nodeSel.attr("transform", d=>`translate(${d.x},${d.y})`);
+      if (labelSel){
+        labelSel.attr("x", d=>d.x).attr("y", d=>d.y);
+      }
+    }
+
+    function pinNode(d){
+      d.fx = d.fx == null ? d.x : null;
+      d.fy = d.fy == null ? d.y : null;
+      d3.selectAll(".node").classed("fixed", nd => nd.fx != null);
+    }
+
+    function onClickNode(d){
+      if (d.type === "disk" || d.type === "dir") {
+        openDir(d.id);
+        return;
+      }
+      titleEl.textContent = d.name;
+      metaEl.textContent  = `FILE • ${d.id}  •  Size: ${d.size} bytes`;
+      previewEl.textContent = "Loading preview…";
+      fetch(`${API}/read?path=${encodeURIComponent(d.id)}`)
+        .then(r=>r.text())
+        .then(t => previewEl.textContent = t || "(empty file)")
+        .catch(()=> previewEl.textContent = "(preview unavailable)");
+    }
+
+    function fit(){
+      const w = svg.node().clientWidth, h = svg.node().clientHeight;
+      const t = d3.zoomIdentity.translate(w/2, h/2).scale(1);
+      svg.transition().duration(400).call(zoom.transform, t);
+    }
+
+    // ------- Live search / highlight -------
+    function applyFilter(q){
+      const term = (q || "").toLowerCase();
+      if (!nodeSel) return;
+
+      // clear state first
+      nodeSel.classed("dim", false).classed("match", false);
+      if (labelSel) labelSel.classed("dim", false);
+      linkSel.classed("dim", false).classed("emph", d => d.source.id === (currentBase || ""));
+
+      if (!term){
+        searchHint.textContent = "";
+        return;
+      }
+
+      // mark matches
+      let matchCount = 0;
+      const isMatchNode = new Map();
+      nodeSel.each(function(d){
+        const isMatch = (d.name && d.name.toLowerCase().includes(term)) ||
+                        (d.id && d.id.toLowerCase().includes(term));
+        isMatchNode.set(d.id, isMatch);
+        d3.select(this)
+          .classed("match", isMatch)
+          .classed("dim", !isMatch);
+        if (isMatch) matchCount += 1;
+      });
+
+      // dim labels for non-matches
+      if (labelSel){
+        labelSel.classed("dim", d => !isMatchNode.get(d.id));
+      }
+
+      // links: emphasize those connected to a matched node; dim the rest
+      linkSel
+        .classed("emph", l => isMatchNode.get(l.source.id) || isMatchNode.get(l.target.id))
+        .classed("dim",  l => !(isMatchNode.get(l.source.id) || isMatchNode.get(l.target.id)));
+
+      searchHint.textContent = matchCount ? `${matchCount} match${matchCount>1?'es':''}` : "No matches";
+    }
+
+    function clearFilter(){
+      liveSearch.value = "";
+      applyFilter("");
+    }
+
+    liveSearch.addEventListener("input", (e)=> applyFilter(e.target.value));
+    liveSearch.addEventListener("keydown", (e)=>{
+      if (e.key === "Escape"){
+        e.preventDefault();
+        clearFilter();
+      }
+    });
+
+    // Focus the centered search when you start typing anywhere (except inputs)
+    document.addEventListener("keydown", (e)=>{
+      const tag = (e.target && e.target.tagName || "").toLowerCase();
+      if (tag === "input" || tag === "textarea" || e.ctrlKey || e.metaKey || e.altKey) return;
+
+      // Only inject character if the input was NOT focused
+      const wasFocused = document.activeElement === liveSearch;
+      if (!wasFocused) liveSearch.focus();
+
+      if (e.key.length === 1 && !wasFocused) {
+        liveSearch.value += e.key;
+        applyFilter(liveSearch.value);
+      } else if (e.key === "Backspace" && !wasFocused) {
+        liveSearch.value = liveSearch.value.slice(0, -1);
+        applyFilter(liveSearch.value);
+      } else if (e.key === "Escape") {
+        clearFilter();
+      }
+    });
+  </script>
+</body>
+</html>

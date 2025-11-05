@@ -1,62 +1,52 @@
 :root {
-  /* background and text */
   --bg: #0b0e13;
   --panel: #131720;
   --text: #f4f6fa;
   --muted: #8c95b8;
   --outline: #1c2230;
   --accent: #5ab0ff;
-
-  /* node colors */
   --node-disk: linear-gradient(145deg, #ffd36b, #ffb84d);
   --node-dir:  linear-gradient(145deg, #4df0a8, #21b87a);
   --node-file: linear-gradient(145deg, #5b7fff, #4063ff);
-
-  /* glow shadows */
   --glow-disk: 0 0 10px #ffb84d66;
   --glow-dir:  0 0 12px #00ffaa55;
   --glow-file: 0 0 12px #5b7fff55;
-
-  /* search pill */
   --pill: #0f1420;
 }
 
 html,body{
-  height:100%; margin:0; background:var(--bg); color:var(--text);
+  height:100%;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
   font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
 }
 
-/* Layout */
 .layout{
-  display:grid; height:100%;
+  display:grid;
+  height:100%;
   grid-template-columns:220px 1fr 420px;
   grid-template-rows:48px 1fr;
   grid-template-areas:"left header header" "left main right";
 }
 
-/* === Floating Liquid Glass Left Menu (safe, grid-friendly) === */
 .left{
   grid-area: left;
-  position: relative;                 /* scope the ::before glow */
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 14px 10px;
-
-  /* subtle glass; fully inside the grid column */
   background: rgba(255,255,255,0.03);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-
   border-right: 1px solid rgba(255,255,255,0.06);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
-
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* soft internal glow, confined to the left panel only */
 .left::before{
   content: "";
   position: absolute;
@@ -67,10 +57,8 @@ html,body{
   z-index: 0;
 }
 
-/* make the content sit above the glow */
 .left > * { position: relative; z-index: 1; }
 
-/* subtle section headings */
 .section-title{
   padding: 6px 8px 2px;
   font-weight: 700;
@@ -81,19 +69,16 @@ html,body{
 
 .drives{ padding: 2px 4px 8px; }
 
-/* glassy items (used for disks + actions) */
 .drive{
   display:flex; align-items:center; gap:10px;
   margin: 6px 6px;
   padding: 10px 12px;
   border-radius: 12px;
-
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.06);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.05),
     0 4px 14px rgba(0,0,0,.25);
-
   color: var(--text);
   cursor: pointer;
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
@@ -121,34 +106,83 @@ html,body{
     0 10px 22px rgba(70,100,160,.22);
 }
 
-/* Header */
 .header{
-  grid-area:header; display:flex; align-items:center; gap:10px; padding:0 12px;
-  border-bottom:1px solid var(--outline); background:#0e1118;
+  grid-area:header;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 12px;
+  border-bottom:1px solid var(--outline);
+  background:#0e1118;
 }
-.path{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted) }
+
+.path{
+  flex:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:var(--muted)
+}
+
 .button{
-  background:#121722; border:1px solid var(--outline); border-radius:10px;
-  padding:8px 12px; cursor:pointer; color:var(--text)
+  background:#121722;
+  border:1px solid var(--outline);
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer;
+  color:var(--text)
 }
-.button:hover{ filter:brightness(1.08) }
 
-/* Main */
-.main{ grid-area:main; position:relative }
-svg{ width:100%; height:100%; display:block; background:var(--bg) }
+.button:hover{
+  filter:brightness(1.08)
+}
 
-/* Right panel */
-.right{ grid-area:right; border-left:1px solid var(--outline); background:var(--panel); display:flex; flex-direction:column }
-.right h3{ margin:12px 12px 6px; font-weight:600 }
-.meta{ color:var(--muted); margin:0 12px 8px; white-space:pre-wrap }
+.main{
+  grid-area:main;
+  position:relative
+}
+
+svg{
+  width:100%;
+  height:100%;
+  display:block;
+  background:var(--bg)
+}
+
+.right{
+  grid-area:right;
+  border-left:1px solid var(--outline);
+  background:var(--panel);
+  display:flex;
+  flex-direction:column
+}
+
+.right h3{
+  margin:12px 12px 6px;
+  font-weight:600
+}
+
+.meta{
+  color:var(--muted);
+  margin:0 12px 8px;
+  white-space:pre-wrap
+}
+
 .preview{
-  flex:1; background:#0e1118; border-top:1px solid var(--outline);
-  padding:12px; overflow:auto;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#cfe1ff
+  flex:1;
+  background:#0e1118;
+  border-top:1px solid var(--outline);
+  padding:12px;
+  overflow:auto;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:#cfe1ff
 }
-.stats{ margin:0 12px 10px; color:#cfe1ff; font-weight:600 }
+.stats{
+  margin:0 12px 10px;
+  color:#cfe1ff;
+  font-weight:600
+}
 
-/* Root (current opened) node */
 .node.root circle{
   fill: url(#rootGradient) !important;
   filter: drop-shadow(0 0 12px #b366ff99);
@@ -157,14 +191,12 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   animation: rootPulse 2.8s ease-in-out infinite;
 }
 
-/* Soft breathing pulse for current (root) node */
 @keyframes rootPulse {
   0%   { filter: drop-shadow(0 0 10px #b366ff66); }
   50%  { filter: drop-shadow(0 0 18px #b366ffcc); }
   100% { filter: drop-shadow(0 0 10px #b366ff66); }
 }
 
-/* --- Node styles with glow and gradient --- */
 .node circle {
   stroke: #0b0d12;
   stroke-width: 1px;
@@ -173,7 +205,6 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   transform-origin: center;
 }
 
-/* Glow only; no scale -> no bounce */
 .node:hover circle{
   transform: none;
   filter: drop-shadow(0 0 10px rgba(255,255,255,.12))
@@ -202,39 +233,78 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   filter: drop-shadow(0 0 8px #5b7fff55);
 }
 
-/* glowing stroke for pinned nodes */
 .node.fixed circle {
   stroke: var(--accent);
   stroke-width: 1.5px;
 }
 
-/* labels */
-.node text{ font-size:11px; fill:#fff; pointer-events:none }
-.node.hover text{ fill:#fff }
-
-/* Larger invisible hit area */
-.node .hit{ fill:transparent; stroke:none; pointer-events:all }
-
-/* Filtered state */
-.dim  { opacity: .25; }
-.match circle { stroke:#ffd86b; stroke-width:2px }
-
-/* Legend */
-.legend{
-  position:absolute; left:12px; bottom:12px; background:#0e1118; border:1px solid var(--outline);
-  padding:8px 10px; border-radius:10px; color:var(--muted); user-select:none
+.node text{
+  font-size:11px;
+  fill:#fff;
+  pointer-events:none
 }
-.legend span{ display:inline-flex; align-items:center; gap:6px; margin-right:12px }
-.dot{ width:10px; height:10px; border-radius:50%; display:inline-block }
-.dot.file{ background:var(--node-file) }
-.dot.dir{  background:var(--node-dir)  }
-.dot.disk{ background:var(--node-disk) }
+
+.node.hover text{
+  fill:#fff
+}
+
+.node .hit{
+  fill:transparent;
+  stroke:none;
+  pointer-events:all
+}
+
+.dim  {
+  opacity: .25;
+}
+
+.match circle {
+  stroke:#ffd86b;
+  stroke-width:2px
+}
+
+.legend{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  background:#0e1118;
+  border:1px solid var(--outline);
+  padding:8px 10px;
+  border-radius:10px;
+  color:var(--muted);
+  user-select:none
+}
+.legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-right:12px
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block
+}
+
+.dot.file{
+  background:var(--node-file)
+}
+
+.dot.dir{
+  background:var(--node-dir)
+}
+
+.dot.disk{
+  background:var(--node-disk)
+}
+
 .dot.root{
-  background: linear-gradient(145deg, #d5b6ff, #8b4dff);  /* matches rootGradient */
+  background: linear-gradient(145deg, #d5b6ff, #8b4dff);
   box-shadow: 0 0 8px #b366ff66;
 }
 
-/* Top-centered live search */
 .search-overlay{
   position:absolute;
   left:50%;
@@ -257,7 +327,6 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   font-size:16px;
 }
 
-/* small hint below the pill, aligned with it */
 .search-hint{
   position:absolute;
   left:50%;
@@ -269,7 +338,6 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   z-index:1000;
 }
 
-/* Base links */
 .link{
   stroke: #9aa3b2;
   stroke-opacity: .25;
@@ -279,7 +347,6 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   filter: url(#linkGlow);
 }
 
-/* Highlighted links (hover/root/match) */
 .link.emph{
   stroke: #cbd5e1;
   stroke-opacity: .95;
@@ -287,7 +354,6 @@ svg{ width:100%; height:100%; display:block; background:var(--bg) }
   filter: url(#linkGlow);
 }
 
-/* Extra-dim links when filtering and they don't match */
 .link.dim{
   stroke-opacity: .08;
 }

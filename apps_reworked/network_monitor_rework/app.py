@@ -1,7 +1,6 @@
 import threading, socket, sys, time
 import webview
 from uvicorn import Config, Server
-
 from backend.main import app  # FastAPI
 
 def find_free_port():

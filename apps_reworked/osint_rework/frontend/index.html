@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>OSINT Recon (Reworked)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <h1>OSINT Recon</h1>
+      <div class="panel">
+        <label>Target (IP / Domain / URL)</label>
+        <input id="target" placeholder="example.com or 1.1.1.1 or https://example.com"/>
+        <button id="btn-run">Run Recon</button>
+        <button id="btn-export" class="ghost">Export JSON</button>
+      </div>
+      <div class="panel small">
+        <h3>Modules</h3>
+        <label><input type="checkbox" id="m-ip" checked/> IP Info</label>
+        <label><input type="checkbox" id="m-dns" checked/> DNS Records</label>
+        <label><input type="checkbox" id="m-whois" checked/> WHOIS (domain)</label>
+        <label><input type="checkbox" id="m-sub" checked/> Subdomain brute</label>
+        <label><input type="checkbox" id="m-ports" checked/> Port scan (common)</label>
+        <label><input type="checkbox" id="m-http" checked/> HTTP headers</label>
+      </div>
+      <p class="hint">Tip: use a domain for most info (e.g., <code>howest.be</code>).</p>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div id="status">Ready.</div>
+      </header>
+
+      <section id="output" class="output">
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

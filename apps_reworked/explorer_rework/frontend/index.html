@@ -49,10 +49,8 @@
   <script>
     const API = window.location.origin;
 
-    // --- SVG layers ---
     const svg = d3.select("#graph");
 
-    // Define SVG <defs> once (gradients used by node fills)
     const defs = svg.append("defs");
 
     function addRadialGradient(id, inner, outer){
@@ -61,7 +59,6 @@
       grad.append("stop").attr("offset", "100%").attr("stop-color", outer);
     }
 
-    // Soft glow filter for links
     const linkGlow = defs.append("filter").attr("id", "linkGlow");
     linkGlow.append("feGaussianBlur")
       .attr("in", "SourceGraphic")
@@ -71,13 +68,11 @@
     feMerge.append("feMergeNode").attr("in", "blur");
     feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-    // Gradients for disks, folders, files
     addRadialGradient("diskGradient", "#fff0a0", "#ffb84d");
     addRadialGradient("dirGradient",  "#9dffd6", "#21b87a");
     addRadialGradient("fileGradient", "#b5c8ff", "#4063ff");
     addRadialGradient("rootGradient", "#d5b6ff", "#8b4dff");
 
-    // Graph groups
     const g = svg.append("g");
     const particlesG = g.append("g");
     const linkG = g.append("g").attr("stroke-width",1).attr("fill","none");
@@ -85,7 +80,6 @@
     const labelG = g.append("g");
     particlesG.lower();
 
-    // --- Zoom/pan (labels always visible; scale font slightly on zoom out) ---
     let labelSel = null;
     const zoom = d3.zoom()
       .scaleExtent([0.1, 6])
@@ -98,7 +92,6 @@
       });
     svg.call(zoom);
 
-    // --- UI ---
     const drivesEl   = document.getElementById("drives");
     const pathEl     = document.getElementById("path");
     const toDisksBtn = document.getElementById("toDisksBtn");
@@ -118,13 +111,11 @@
     centerBtn.onclick  = () => fit();
     reloadBtn.onclick  = () => currentBase ? openDir(currentBase) : showDisks();
 
-    // --- State ---
     let disks = [];
     let currentBase = null;
     let currentParent = null;
     let nodes=[], links=[], nodeSel, linkSel, sim;
 
-    // --- Particles (starfield) ---
     const FIELD_SIZE     = 3000;
     const PARTICLE_COUNT = 2000;
     const PARTICLE_SPEED = 0.075;
@@ -158,7 +149,6 @@
           p.x += p.vx * 16;
           p.y += p.vy * 16;
 
-          // wrap in a 3000x3000 world centered at (0,0)
           if (p.x < -half) p.x += FIELD_SIZE;
           else if (p.x > half) p.x -= FIELD_SIZE;
 
@@ -171,8 +161,6 @@
 
     window.addEventListener("resize", initParticles);
 
-
-    // Load disks -> left menu -> show disks graph
     fetch(`${API}/drives`).then(r=>r.json()).then(list=>{
       disks = list || [];
       drivesEl.innerHTML = "";
@@ -225,7 +213,6 @@
 
           renderGraph({ nodes: data.nodes, links: data.links });
 
-          // if opening a disk root, show usage
           const isWinDrive = /^[A-Za-z]:\\$/.test(currentBase);
           const isPosixRoot = currentBase === "/";
           if (isWinDrive || isPosixRoot) {
@@ -253,12 +240,10 @@
         .join(enter=>{
           const n = enter.append("g").attr("class", d => `node ${d.type}`);
 
-          // bigger hit target
           n.append("circle")
             .attr("class","hit")
             .attr("r", d => (d.type === "disk") ? 22 : (d.type === "dir" ? 18 : 14));
 
-          // visible circle
           n.append("circle")
             .attr("r", d => (d.type === "disk") ? 14 : (d.type === "dir" ? 10 : Math.max(3, Math.min(10, Math.sqrt((d.size||1))/20))));
 
@@ -285,7 +270,6 @@
           return n;
         });
 
-      // 🔹 mark the currently opened (root) node so it turns purple
       nodeSel.classed("root", d => d.id === (currentBase || ""));
 
       labelSel = labelG.selectAll("text")
@@ -297,18 +281,14 @@
         .attr("fill","#ffffff")
         .style("pointer-events","none");
 
-      // --- spacing baseline (kept generous) ---
       const childCount = links.filter(l => l.source.id === (currentBase || "")).length || nodes.length;
       const baseDist   = Math.min(600, 200 + childCount * 6);
 
-      // Identify the root node (purple)
       const rootId = (currentBase || "");
 
-      // Seed positions around root to avoid “left bias”
       nodes.forEach(d => {
         if (d.id === rootId) { d.x = 0; d.y = 0; }
         else {
-          // random ring seed
           const a = Math.random() * Math.PI * 2;
           const r = baseDist * (0.8 + Math.random() * 0.6);
           d.x = Math.cos(a) * r * (0.2 + Math.random());
@@ -316,10 +296,8 @@
         }
       });
 
-      // Link length: slight randomness so it doesn’t look perfect
       const linkLen = l => baseDist * (0.9 + Math.random() * 0.4);
 
-      // --- true radial force around the root + a touch of chaos ---
       sim = d3.forceSimulation(nodes)
         .alpha(1).alphaDecay(0.028)
         .force("link", d3.forceLink(links).id(d=>d.id).distance(linkLen).strength(0.75))
@@ -330,7 +308,6 @@
         .force("center", d3.forceCenter(0, 0).strength(0.02))
         .on("tick", ticked);
 
-      // 3) Softer centering; stronger collision to avoid overlaps.
       sim = d3.forceSimulation(nodes)
         .alpha(1)
         .alphaDecay(0.03)
@@ -385,12 +362,10 @@
       svg.transition().duration(400).call(zoom.transform, t);
     }
 
-    // ------- Live search / highlight -------
     function applyFilter(q){
       const term = (q || "").toLowerCase();
       if (!nodeSel) return;
 
-      // clear state first
       nodeSel.classed("dim", false).classed("match", false);
       if (labelSel) labelSel.classed("dim", false);
       linkSel.classed("dim", false).classed("emph", d => d.source.id === (currentBase || ""));
@@ -400,7 +375,6 @@
         return;
       }
 
-      // mark matches
       let matchCount = 0;
       const isMatchNode = new Map();
       nodeSel.each(function(d){
@@ -413,12 +387,10 @@
         if (isMatch) matchCount += 1;
       });
 
-      // dim labels for non-matches
       if (labelSel){
         labelSel.classed("dim", d => !isMatchNode.get(d.id));
       }
 
-      // links: emphasize those connected to a matched node; dim the rest
       linkSel
         .classed("emph", l => isMatchNode.get(l.source.id) || isMatchNode.get(l.target.id))
         .classed("dim",  l => !(isMatchNode.get(l.source.id) || isMatchNode.get(l.target.id)));
@@ -439,12 +411,10 @@
       }
     });
 
-    // Focus the centered search when you start typing anywhere (except inputs)
     document.addEventListener("keydown", (e)=>{
       const tag = (e.target && e.target.tagName || "").toLowerCase();
       if (tag === "input" || tag === "textarea" || e.ctrlKey || e.metaKey || e.altKey) return;
 
-      // Only inject character if the input was NOT focused
       const wasFocused = document.activeElement === liveSearch;
       if (!wasFocused) liveSearch.focus();
 

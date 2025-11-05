@@ -1,11 +1,9 @@
 from __future__ import annotations
-
 import platform
 import shutil
 import string
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, PlainTextResponse
@@ -13,7 +11,6 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Drill-Down Explorer API")
 
-# CORS (harmless in desktop shell)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], allow_credentials=True,
@@ -22,10 +19,6 @@ app.add_middleware(
 
 # ---------- Helpers ----------
 def list_disks() -> List[Dict[str, str]]:
-    """
-    Windows: C:\\, D:\\ ...
-    POSIX: / and common mount points.
-    """
     sysname = platform.system().lower()
     if "windows" in sysname:
         disks: List[Dict[str, str]] = []
@@ -38,7 +31,6 @@ def list_disks() -> List[Dict[str, str]]:
                 disks.append({"name": f"{letter}:", "path": p})
         return disks
 
-    # POSIX
     candidates = {"/"}
     for base in ("/mnt", "/media", "/Volumes", "/run/media"):
         b = Path(base)
@@ -53,13 +45,7 @@ def list_disks() -> List[Dict[str, str]]:
                 pass
     return [{"name": "Root (/)" if p == "/" else p, "path": p} for p in sorted(candidates)]
 
-
 def list_dir_immediate(base: Path, max_children: int = 500) -> Dict[str, Any]:
-    """
-    Return the immediate children of `base` WITHOUT following junctions/symlinks.
-    Graph:
-      nodes: [base, child...], links: [base->child], parent
-    """
     if not base.exists():
         raise HTTPException(status_code=404, detail="Path does not exist")
     if not base.is_dir():
@@ -96,7 +82,6 @@ def list_dir_immediate(base: Path, max_children: int = 500) -> Dict[str, Any]:
                 entry_abs = entry.absolute()
                 entry_abs_str = str(entry_abs)
 
-                # Skip self-loops (junction pointing back to base)
                 if entry_abs_str == base_abs_str:
                     continue
 
@@ -116,13 +101,11 @@ def list_dir_immediate(base: Path, max_children: int = 500) -> Dict[str, Any]:
     except PermissionError:
         pass
 
-    # parent (None for drive root)
     parent: Optional[str] = None
     if base_path.parent != base_path:
         parent = str(base_path.parent.absolute())
 
     return {"base": base_abs_str, "parent": parent, "nodes": nodes, "links": links}
-
 
 def human_bytes(n: int) -> str:
     for unit in ("B", "KB", "MB", "GB", "TB", "PB"):
@@ -142,9 +125,6 @@ def dir_graph(base: str = Query(..., description="Absolute directory (immediate 
 
 @app.get("/disk_usage")
 def disk_usage(path: str = Query(..., description="Any path on the target volume")):
-    """
-    Return total/used/free bytes for the volume containing 'path'.
-    """
     p = Path(path).absolute()
     if not p.exists():
         raise HTTPException(status_code=404, detail="Path does not exist")
@@ -174,7 +154,6 @@ def read_file(path: str):
         return PlainTextResponse("[Binary or unreadable file]")
 
 
-# ---------- Static & Index ----------
 _here = Path(__file__).parent
 _frontend_dir = (_here.parent / "frontend").absolute()
 

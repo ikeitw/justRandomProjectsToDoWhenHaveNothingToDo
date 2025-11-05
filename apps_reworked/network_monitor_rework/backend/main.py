@@ -1,22 +1,17 @@
 from __future__ import annotations
-
 import asyncio
 import collections
 import ipaddress
 import socket
 import threading
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Deque, Dict, List, Tuple, Optional
-
 import psutil
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-
-# ---- Scapy sniffer (needs Npcap on Windows) ----
 from scapy.all import sniff, IP, IPv6, TCP, UDP, Raw  # type: ignore
 
 app = FastAPI(title="NetGlass (Sniffer Mode)")
@@ -36,22 +31,20 @@ if _frontend.exists():
 # Rolling store (24 hours)
 # =======================
 
-Point = Tuple[int, float, float]  # (ts_ms, up_bps, down_bps)
-GLOBAL_SERIES: Deque[Point] = collections.deque(maxlen=24 * 60 * 60)  # 1s points
+Point = Tuple[int, float, float]
+GLOBAL_SERIES: Deque[Point] = collections.deque(maxlen=24 * 60 * 60)
 
-# Each event: (ts_ms, pid, exe, up_bytes, down_bytes)
 Event = Tuple[int, int, str, int, int]
 APP_EVENTS: Deque[Event] = collections.deque(maxlen=600_000)
 
-# live accumulators reset every second by aggregator
 _live_up_total = 0
 _live_down_total = 0
 _live_up_pid: Dict[int, int] = collections.defaultdict(int)
 _live_down_pid: Dict[int, int] = collections.defaultdict(int)
 
 PROC_NAME: Dict[int, str] = {}
-LOCAL_IPS: set[str] = set()      # updated periodically
-CONN_INDEX = {}                  # 5-tuple → PID
+LOCAL_IPS: set[str] = set()
+CONN_INDEX = {}
 CONN_LOCK = threading.Lock()
 
 # -----------------
@@ -102,7 +95,6 @@ def _rebuild_conn_index():
                 if raddr and raddr.ip:
                     rip, rport = raddr.ip, raddr.port
                 else:
-                    # For outbound UDP, raddr may be empty; we’ll match on (lip,lport,proto) only later
                     rip, rport = "", 0
                 idx[(lip, lport, rip, rport, proto)] = c.pid
             except Exception:
@@ -132,7 +124,7 @@ def _packet_pid(packet) -> Optional[int]:
         else:
             src = packet[IPv6].src
             dst = packet[IPv6].dst
-            proto_num = packet[IPv6].nh  # next header
+            proto_num = packet[IPv6].nh
 
         if TCP in packet:
             sport = packet[TCP].sport
@@ -146,15 +138,12 @@ def _packet_pid(packet) -> Optional[int]:
             return None
 
         with CONN_LOCK:
-            # exact outbound
             pid = CONN_INDEX.get((src, sport, dst, dport, proto))
             if pid:
                 return pid
-            # exact inbound
             pid = CONN_INDEX.get((dst, dport, src, sport, proto))
             if pid:
                 return pid
-            # fallback: local endpoint only (useful for UDP)
             pid = CONN_INDEX.get((src, sport, "", 0, proto))
             if pid:
                 return pid
@@ -173,12 +162,11 @@ def _is_outbound(packet) -> Optional[bool]:
             return True
         if dst in LOCAL_IPS and src not in LOCAL_IPS:
             return False
-        return None   # unknown (loopback etc.)
+        return None
     except Exception:
         return None
 
 def _sniffer():
-    # capture only IP packets with TCP/UDP (fast BPF)
     bpf = "ip and (tcp or udp) or (ip6 and (tcp or udp))"
     sniff(store=False, prn=_on_packet, filter=bpf)
 
@@ -189,9 +177,8 @@ def _on_packet(pkt):
     if pid is None:
         return
 
-    # size: full wire length if available, else len(raw)
     try:
-        size = int(pkt.wirelen)  # scapy >= 2.5
+        size = int(pkt.wirelen)
     except Exception:
         try:
             size = len(bytes(pkt))
@@ -208,7 +195,6 @@ def _on_packet(pkt):
         _live_down_total += size
         _live_down_pid[pid] += size
     else:
-        # ambiguous; ignore
         return
 
 # -----------------------
@@ -253,7 +239,6 @@ async def aggregator_task():
         ts = int(now * 1000)
         GLOBAL_SERIES.append((ts, up_bps, dn_bps))
 
-        # record per-app bytes as events
         for pid, b in list(_live_up_pid.items()):
             if b > 0:
                 APP_EVENTS.append((ts, pid, _safe_proc_name(pid), b, 0))
@@ -261,7 +246,6 @@ async def aggregator_task():
             if b > 0:
                 APP_EVENTS.append((ts, pid, _safe_proc_name(pid), 0, b))
 
-        # reset
         _live_up_total = 0
         _live_down_total = 0
         _live_up_pid.clear()
@@ -272,7 +256,6 @@ async def aggregator_task():
 
         tick += 1
         if tick % 2 == 0:
-            # refresh local IPs & conn index
             try:
                 ips = _update_local_ips()
                 LOCAL_IPS.clear()
@@ -286,7 +269,6 @@ async def aggregator_task():
 
 @app.on_event("startup")
 async def _startup():
-    # initial warm-up
     try:
         ips = _update_local_ips()
         LOCAL_IPS.update(ips)
@@ -294,11 +276,9 @@ async def _startup():
     except Exception:
         pass
 
-    # start sniffer in daemon thread
     t = threading.Thread(target=_sniffer, name="sniffer", daemon=True)
     t.start()
 
-    # start aggregator
     asyncio.create_task(aggregator_task())
 
 # -------------

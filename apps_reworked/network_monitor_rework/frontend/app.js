@@ -36,8 +36,8 @@ const lineUp   = plotG.append("path").attr("fill","none").attr("stroke","#a98bff
 const lineDown = plotG.append("path").attr("fill","none").attr("stroke","#6fbfff").attr("stroke-width",2);
 const labelsG  = root.append("g");
 
-let W=0,H=0;           // svg pixel size
-const M = {top:28, right:28, bottom:44, left:72};  // margins
+let W=0,H=0;
+const M = {top:28, right:28, bottom:44, left:72};
 
 function resize(){
   const n = svg.node();
@@ -57,14 +57,12 @@ function draw(){
   const data = windowSlice();
   if (data.length < 2) return;
 
-  // --- inner plot size ---
   const innerW = Math.max(100, W - M.left - M.right);
   const innerH = Math.max(80, H - M.top - M.bottom);
 
   const now = new Date();
   const start = new Date(now.getTime() - WINDOW*1000);
 
-  // --- scales ---
   const x = d3.scaleTime()
     .domain([start, now])
     .range([M.left, M.left + innerW]);
@@ -75,7 +73,6 @@ function draw(){
     .nice(6)
     .range([M.top + innerH, M.top]);
 
-  // --- AREA + LINES ---
   const area = d3.area()
     .x(d => x(d.ts))
     .y0(M.top + innerH)
@@ -87,12 +84,10 @@ function draw(){
     .y(d => y(d.v))
     .curve(d3.curveMonotoneX);
 
-  // ✅ correct path rendering
   areaDown.attr("d", area(data));
   lineUp.attr("d", lineGen(data.map(d => ({ts:d.ts, v:d.up_bps}))));
   lineDown.attr("d", lineGen(data.map(d => ({ts:d.ts, v:d.down_bps}))));
 
-  // --- GRID ---
   gridG.selectAll("*").remove();
   gridG.append("g")
     .attr("transform",`translate(0,${M.top + innerH})`)
@@ -115,10 +110,8 @@ function draw(){
   gridG.selectAll("line").attr("stroke","#18202c");
   gridG.selectAll("path").attr("stroke","#18202c");
 
-  // --- AXES ---
   axesG.selectAll("*").remove();
 
-  // LEFT (Kb/s → Mb/s)
   axesG.append("g")
     .attr("transform",`translate(${M.left},0)`)
     .call(
@@ -128,7 +121,6 @@ function draw(){
     )
     .selectAll("text").attr("fill","#cfe1ff");
 
-  // BOTTOM (time)
   function tickSpec(winSec){
     if (winSec <= 30)    return {unit:"second", every:5,    fmt:d3.timeFormat("%H:%M:%S")};
     if (winSec <= 60)    return {unit:"second", every:10,   fmt:d3.timeFormat("%H:%M:%S")};
@@ -136,12 +128,11 @@ function draw(){
     if (winSec <= 1800)  return {unit:"minute", every:5,    fmt:d3.timeFormat("%H:%M")};
     if (winSec <= 3600)  return {unit:"minute", every:10,   fmt:d3.timeFormat("%H:%M")};
     if (winSec <= 21600) return {unit:"hour",   every:1,    fmt:d3.timeFormat("%H:%M")};
-    return                {unit:"hour",   every:4,    fmt:d3.timeFormat("%H:%M")}; // 24h fallback
+    return                {unit:"hour",   every:4,    fmt:d3.timeFormat("%H:%M")};
   }
 
   const spec = tickSpec(WINDOW);
 
-  // Generate ticks
   let tickTimes;
   if (spec.unit === "second") {
     tickTimes = d3.timeSecond.every(spec.every).range(start, now);
@@ -151,12 +142,10 @@ function draw(){
     tickTimes = d3.timeHour.every(spec.every).range(start, now);
   }
 
-  // Always include “now” as last tick
   if (tickTimes.length === 0 || +tickTimes[tickTimes.length - 1] !== +now) {
     tickTimes.push(now);
   }
 
-  // Build X-axis
   const gx = axesG.append("g")
     .attr("transform",`translate(0,${M.top + innerH})`)
     .call(
@@ -167,7 +156,6 @@ function draw(){
 
   gx.selectAll("text").attr("fill","#cfe1ff");
 
-  // Last tick = show “now”
   gx.selectAll(".tick:last-child text")
     .text(spec.fmt(now) + " now")
     .attr("fill", "#9fb0d4");

@@ -4,12 +4,12 @@ from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from providers.metadata_tools import read_basic_metadata
-from providers.entropy_tools import calc_entropy
-from providers.hex_tools import read_hex_chunk
-from providers.strings_tools import extract_ascii_strings, extract_utf16le_strings
-from providers.pe_tools import read_pe_info
-from providers.ioc_rules import analyze_iocs
+from .providers.metadata_tools import read_basic_metadata
+from .providers.entropy_tools import calc_entropy
+from .providers.hex_tools import read_hex_chunk
+from .providers.strings_tools import extract_ascii_strings, extract_utf16le_strings
+from .providers.pe_tools import read_pe_info
+from .providers.ioc_rules import analyze_iocs
 
 app = FastAPI(title="Forensic File Analyzer (Reworked)", version="1.0.0")
 

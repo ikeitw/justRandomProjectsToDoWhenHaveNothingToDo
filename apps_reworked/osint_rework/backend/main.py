@@ -3,11 +3,11 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from pathlib import Path
-from providers.dns_tools import resolve_records, dns_health
-from providers.whois_tools import whois_domain, whois_ip
-from providers.ports import scan_common_ports, scan_custom_ports
-from providers.subdomains import brute_subdomains
-from providers.http_headers import fetch_headers
+from .providers.dns_tools import resolve_records, dns_health
+from .providers.whois_tools import whois_domain, whois_ip
+from .providers.ports import scan_common_ports, scan_custom_ports
+from .providers.subdomains import brute_subdomains
+from .providers.http_headers import fetch_headers
 
 app = FastAPI(title="OSINT Recon (Reworked)", version="1.0.0")
 

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NetGlass – Live Network Timeline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="left glass">
+      <div class="section-title">Top Apps (window)</div>
+      <div id="appsList" class="list"></div>
+    </aside>
+
+    <header class="header glass">
+      <div class="path">Real-time Usage</div>
+      <div class="window-pills" id="windowPills">
+        <button data-w="30" class="pill">30s</button>
+        <button data-w="60" class="pill active">1m</button>
+        <button data-w="300" class="pill">5m</button>
+        <button data-w="1800" class="pill">30m</button>
+        <button data-w="3600" class="pill">1h</button>
+        <button data-w="21600" class="pill">6h</button>
+        <button data-w="86400" class="pill">24h</button>
+      </div>
+      <div class="header-actions">
+        <span id="rateUp" class="badge up">↑ 0 Mb/s</span>
+        <span id="rateDown" class="badge down">↓ 0 Mb/s</span>
+        <span id="winBytes" class="badge window">Window: ↑ 0 MB · ↓ 0 MB</span>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- NEW: centered, smaller chart container -->
+      <div class="chart-wrap glass">
+        <svg id="chart"></svg>
+      </div>
+      <div class="legend glass">
+        <span><i class="dot up"></i> Upload</span>
+        <span><i class="dot down"></i> Download</span>
+      </div>
+    </main>
+
+    <aside class="right glass">
+      <h3>App totals in window</h3>
+      <div id="appsTotals" class="totals"></div>
+    </aside>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

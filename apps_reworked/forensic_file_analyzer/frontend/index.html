@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Forensic File Analyzer (Reworked)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+<div id="app">
+  <aside class="sidebar">
+    <h1>Forensic Analyzer</h1>
+    <div class="panel">
+      <label>Select a file</label>
+      <input id="file" type="file"/>
+      <button id="btn-upload">Analyze</button>
+      <button id="btn-export" class="ghost">Export JSON</button>
+    </div>
+
+    <div class="panel small">
+      <h3>Strings</h3>
+      <label>Min length <input id="minlen" type="number" value="4" min="3" max="16" style="width:70px;margin-left:6px"/></label>
+      <label>Max results <input id="maxres" type="number" value="5000" min="100" max="50000" style="width:90px;margin-left:6px"/></label>
+      <button id="btn-strings" class="ghost">Load Full Strings</button>
+    </div>
+
+    <p class="hint">Tip: PE parsing needs <code>pefile</code>. Magic MIME uses optional <code>python-magic</code>.</p>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="status">Ready.</div>
+    </header>
+
+    <section id="output" class="output"></section>
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pywebview
+pefile
+python-magic
+python-multipart

@@ -1,7 +1,9 @@
 fastapi
-uvicorn
-pywebview
+uvicorn[standard]
 requests
 dnspython
-python-whois
+beautifulsoup4
 ipwhois
+python-whois
+pywebview
+mmh3

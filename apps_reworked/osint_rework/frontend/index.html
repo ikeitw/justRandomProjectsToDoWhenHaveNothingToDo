@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>OSINT Recon (Reworked)</title>
+  <title>OSINT Recon — OSINT & Pentest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/static/style.css"/>
 </head>
@@ -10,22 +10,76 @@
   <div id="app">
     <aside class="sidebar">
       <h1>OSINT Recon</h1>
-      <div class="panel">
+
+      <div class="tabs">
+        <button class="tabbtn active" data-tab="osint">OSINT</button>
+        <button class="tabbtn" data-tab="pentest">Pentest</button>
+      </div>
+
+      <!-- OSINT controls -->
+      <div id="osint-controls" class="panel panel-controls">
         <label>Target (IP / Domain / URL)</label>
         <input id="target" placeholder="example.com or 1.1.1.1 or https://example.com"/>
         <button id="btn-run">Run Recon</button>
-        <button id="btn-export" class="ghost">Export JSON</button>
+
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <select id="export-format">
+            <option value="json">JSON</option>
+            <option value="zip">ZIP (with snapshot)</option>
+            <option value="md">Markdown</option>
+            <option value="html">HTML</option>
+          </select>
+          <input id="export-project" placeholder="project name" style="flex:1"/>
+        </div>
+        <label style="margin-top:6px;"><input id="export-redact" type="checkbox"/> Redact IPs/emails</label>
+        <button id="btn-export" class="ghost">Export</button>
+
+        <div class="panel small" style="margin-top:12px;">
+          <h3>OSINT Modules</h3>
+          <label><input type="checkbox" id="m-ip" checked/> IP Info</label>
+          <label><input type="checkbox" id="m-dns" checked/> DNS Records</label>
+          <label><input type="checkbox" id="m-whois" checked/> WHOIS (domain)</label>
+          <label><input type="checkbox" id="m-sub" checked/> Subdomain brute + crt.sh</label>
+          <label><input type="checkbox" id="m-ports" checked/> Port scan (common)</label>
+          <label><input type="checkbox" id="m-http" checked/> HTTP headers</label>
+        </div>
       </div>
-      <div class="panel small">
-        <h3>Modules</h3>
-        <label><input type="checkbox" id="m-ip" checked/> IP Info</label>
-        <label><input type="checkbox" id="m-dns" checked/> DNS Records</label>
-        <label><input type="checkbox" id="m-whois" checked/> WHOIS (domain)</label>
-        <label><input type="checkbox" id="m-sub" checked/> Subdomain brute</label>
-        <label><input type="checkbox" id="m-ports" checked/> Port scan (common)</label>
-        <label><input type="checkbox" id="m-http" checked/> HTTP headers</label>
+
+      <!-- Pentest controls -->
+      <div id="pentest-controls" class="panel panel-controls hidden">
+        <label>Target (Domain / URL)</label>
+        <input id="pt-target" placeholder="example.com or https://example.com" />
+
+        <div style="margin-top:8px;">
+          <button id="btn-pt-run">Run Pentest Suite</button>
+          <button id="btn-pt-run-quick" class="ghost">Quick (summary)</button>
+        </div>
+
+        <div class="panel small" style="margin-top:12px;">
+          <h3>Pentest Modules (safe probes)</h3>
+          <label><input id="pt-param" type="checkbox" checked/> Param discovery</label>
+          <label><input id="pt-js" type="checkbox" checked/> JS scanner</label>
+          <label><input id="pt-dir" type="checkbox" checked/> Dir bruteforce</label>
+          <label><input id="pt-waf" type="checkbox" checked/> WAF detection</label>
+          <label><input id="pt-cors" type="checkbox" checked/> CORS checks</label>
+          <label><input id="pt-redirect" type="checkbox" checked/> Open redirect</label>
+          <label><input id="pt-xss" type="checkbox" checked/> XSS probe (safe)</label>
+          <label><input id="pt-sqli" type="checkbox" checked/> SQLi probe (safe)</label>
+          <label><input id="pt-ssrf" type="checkbox" checked/> SSRF probe</label>
+          <label><input id="pt-auth" type="checkbox" checked/> Auth discovery</label>
+          <label><input id="pt-api" type="checkbox" checked/> API discovery</label>
+          <label><input id="pt-robots" type="checkbox" checked/> Robots analysis</label>
+          <label><input id="pt-favicon" type="checkbox" checked/> Favicon hash</label>
+          <label><input id="pt-tls" type="checkbox" checked/> TLS check</label>
+          <label><input id="pt-errors" type="checkbox" checked/> Error analysis</label>
+          <label><input id="pt-session" type="checkbox" checked/> Session cookie audit</label>
+          <label><input id="pt-upload" type="checkbox" checked/> File upload forms</label>
+          <label><input id="pt-csp" type="checkbox" checked/> CSP analyzer</label>
+          <label><input id="pt-summary" type="checkbox" checked/> Produce summary</label>
+        </div>
       </div>
-      <p class="hint">Tip: use a domain for most info (e.g., <code>howest.be</code>).</p>
+
+      <p class="hint">Use Pentest tab only on targets you are authorized to test.</p>
     </aside>
 
     <main class="main">
@@ -33,8 +87,7 @@
         <div id="status">Ready.</div>
       </header>
 
-      <section id="output" class="output">
-      </section>
+      <section id="output" class="output"></section>
     </main>
   </div>
 

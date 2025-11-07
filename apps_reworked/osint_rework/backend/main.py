@@ -1,13 +1,9 @@
-# backend/main.py
 import json
 from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
-from .providers.dns_tools import (
-    resolve_records, dns_health, get_spf, get_dmarc, attempt_axfr,
-    get_caa, ptr_for_addresses
-)
+from .providers.dns_tools import resolve_records, dns_health, get_spf, get_dmarc, attempt_axfr, get_caa, ptr_for_addresses
 from .providers.whois_tools import whois_domain, whois_ip
 from .providers.ports import scan_common_ports, scan_custom_ports
 from .providers.subdomains import discover
@@ -19,12 +15,8 @@ from datetime import datetime
 import zipfile
 from urllib.parse import urlparse
 from typing import Optional
-from .pentest import (
-    param_fuzz, js_scanner, dir_bruteforce, waf_detector, cors_checker,
-    open_redirect, xss_probe, sqli_probe, ssrf_checker, auth_fingerprinter,
-    api_scanner, robots_analyzer, favicon_hash, tls_checker, error_analyzer,
-    session_analyzer, file_upload_tester, csp_analyzer, summary
-)
+from .pentest import param_fuzz, js_scanner, dir_bruteforce, waf_detector, cors_checker, open_redirect, xss_probe, sqli_probe, ssrf_checker, auth_fingerprinter, api_scanner, robots_analyzer, favicon_hash, tls_checker, error_analyzer, session_analyzer, file_upload_tester, csp_analyzer, summary
+
 app = FastAPI(title="OSINT Recon (Reworked)", version="1.2.0")
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -34,7 +26,6 @@ app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
 def _is_domain(s: str) -> bool:
     try:
-        # very light check: contains a dot and no spaces
         return "." in s and " " not in s and not s.startswith(("http://", "https://"))
     except Exception:
         return False
@@ -118,7 +109,6 @@ def dns_records(
                     axfr_results[ns_val] = ax
         ptr_map = {}
         if ptr:
-            # build PTR map for A/AAAA (works whether value is string or dict)
             a_items = (records.get("A") or [])
             aaaa_items = (records.get("AAAA") or [])
             ptr_map.update(ptr_for_addresses(a_items))
@@ -211,10 +201,8 @@ def http_headers(
         raise HTTPException(status_code=400, detail=f"http error: {e}")
 
 def _redact(data: dict):
-    """Remove IPs/emails/domains if asked for redaction (basic)."""
     import re
     s = json.dumps(data, ensure_ascii=False)
-    # very light redactions:
     s = re.sub(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", "[REDACTED_IP]", s)
     s = re.sub(r"\b[\w\.-]+@[\w\.-]+\.\w+\b", "[REDACTED_EMAIL]", s)
     return json.loads(s)
@@ -314,7 +302,6 @@ def pentest_dir_brute(target: str, timeout: int = 6):
 
 @app.get("/api/pentest/waf_detect")
 def pentest_waf_detect(target: str, timeout: int = 6):
-    # fetch headers first
     import requests
     base = target if target.startswith(("http://","https://")) else "http://" + target
     try:
@@ -392,10 +379,8 @@ def pentest_csp(target: str, timeout: int = 6):
 
 @app.get("/api/pentest/summary")
 def pentest_summary(target: str, timeout: int = 6):
-    # run a few lightweight modules and summarize (fast)
     res = {}
     res["cors"] = cors_checker.check_cors(target, timeout=timeout)
-    # waf
     import requests
     try:
         r = requests.head(target if target.startswith(("http://","https://")) else "http://" + target, timeout=timeout, allow_redirects=True)
@@ -405,4 +390,3 @@ def pentest_summary(target: str, timeout: int = 6):
     res["waf"] = waf_detector.detect_waf(headers, None)
     res["cookies"] = session_analyzer.analyze_cookies(target, timeout=timeout)
     return {"target": target, "summary": summary.build_summary(res), "raw": res}
-# --- END pentest routes ---

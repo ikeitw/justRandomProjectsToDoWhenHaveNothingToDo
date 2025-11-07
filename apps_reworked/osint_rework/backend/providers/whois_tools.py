@@ -1,4 +1,3 @@
-# backend/providers/whois_tools.py
 def whois_domain(domain: str):
     try:
         import whois

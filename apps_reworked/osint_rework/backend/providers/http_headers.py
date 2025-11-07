@@ -1,7 +1,6 @@
-# backend/providers/http_headers.py
 import requests
 from urllib.parse import urljoin
-from bs4 import BeautifulSoup  # pip install beautifulsoup4
+from bs4 import BeautifulSoup
 import re
 
 SECURITY_HEADERS = [
@@ -33,7 +32,6 @@ def _fetch(session: requests.Session, url: str, method: str = "HEAD", timeout: i
 def _redirect_chain(session: requests.Session, url: str, method: str):
     chain = []
     current = url
-    # follow up to 8 redirects manually to capture the whole chain
     for _ in range(8):
         r = _fetch(session, current, method=method)
         chain.append({"url": current, "status": r.status_code, "location": r.headers.get("Location")})
@@ -41,7 +39,7 @@ def _redirect_chain(session: requests.Session, url: str, method: str):
             loc = r.headers.get("Location")
             if not loc:
                 break
-            if loc.startswith("//"):  # scheme-relative
+            if loc.startswith("//"):
                 loc = ("https:" if current.startswith("https") else "http:") + loc
             elif loc.startswith("/"):
                 base = "/".join(current.split("/")[:3])
@@ -84,7 +82,6 @@ def _security_checks(headers: dict):
         if present:
             score += 1
     pct = int((score / max_score) * 100) if max_score else 0
-    # map to A–F
     grade = "F"
     if pct >= 90: grade = "A"
     elif pct >= 75: grade = "B"
@@ -97,8 +94,6 @@ def _cookie_audit(headers: dict):
     out = []
     for k, v in headers.items():
         if k.lower() == "set-cookie":
-            # can be multiple Set-Cookie headers; requests may fold them, split on comma only if it separates cookies.
-            # we take a safe approach: split by '\n' if available; otherwise treat as single cookie.
             cookies = [v] if "\n" not in v else v.split("\n")
             for c in cookies:
                 s = c.lower()
@@ -112,8 +107,6 @@ def _cookie_audit(headers: dict):
     return out
 
 def _http_version_hint(headers: dict):
-    # We can’t reliably read HTTP version from requests alone.
-    # Infer HTTP/3 support from alt-svc, HTTP/2 from 'h2' or via ALPN (handled in ports module).
     altsvc = headers.get("alt-svc", "") or ""
     h3 = "h3" in altsvc
     h2_hint = "h2" in altsvc
@@ -121,12 +114,6 @@ def _http_version_hint(headers: dict):
 
 def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robots: bool = False, sitemap: bool = False,
                   redirect_chain: bool = True, cookie_inspect: bool = True, csp_analyze: bool = True):
-    """
-    Returns (headers: dict, status_code: int, final_url: str, extras: dict)
-    extras includes: title, meta_description, robots_txt, sitemap_xml,
-    security_checks, security_score, security_grade, waf_detected, waf_name,
-    cookies (audit), csp_issues, redirect_chain, http_version_hints
-    """
     url = _normalize_url(url)
     extras = {
         "title": None,
@@ -147,7 +134,6 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
     s = requests.Session()
     s.max_redirects = 10
 
-    # Build redirect chain & final response headers
     if redirect_chain:
         chain, final_url, final_status, final_headers = _redirect_chain(s, url, method)
         extras["redirect_chain"] = chain
@@ -159,7 +145,6 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
         status = r.status_code
         final_url = r.url
 
-    # waf + security headers
     waf, name = _detect_waf_from_headers(headers)
     extras["waf_detected"] = bool(waf)
     extras["waf_name"] = name
@@ -168,7 +153,6 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
     extras["security_score"] = score
     extras["security_grade"] = grade
 
-    # HTML title/meta
     if fetch_html:
         try:
             rh = s.get(final_url, timeout=8, allow_redirects=True)
@@ -181,7 +165,6 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
         except Exception:
             pass
 
-        # robots/sitemap
     base = "/".join(final_url.split("/")[:3])
     if robots:
         try:
@@ -200,11 +183,9 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
         except Exception:
             pass
 
-    # cookie inspection
     if cookie_inspect:
         extras["cookies"] = _cookie_audit(headers)
 
-    # CSP analyzer (very lightweight)
     if csp_analyze:
         csp = headers.get("content-security-policy")
         issues = []
@@ -216,7 +197,6 @@ def fetch_headers(url: str, method: str = "HEAD", fetch_html: bool = False, robo
                 issues.append("CSP uses wildcard sources (*).")
         extras["csp_issues"] = issues
 
-    # HTTP version hints
     extras["http_version_hints"] = _http_version_hint(headers)
 
     return headers, status, final_url, extras

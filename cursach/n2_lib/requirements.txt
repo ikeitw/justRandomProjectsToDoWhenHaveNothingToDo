@@ -1,5 +1,0 @@
-sqlalchemy>=2.0
-psycopg2-binary
-configparser
-tk
-streamlit

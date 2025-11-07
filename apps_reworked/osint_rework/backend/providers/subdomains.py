@@ -1,4 +1,3 @@
-# backend/providers/subdomains.py
 import socket
 import requests
 import urllib.parse
@@ -40,7 +39,6 @@ def brute_subdomains(domain: str, max_results: int = 100, words: list | None = N
             pass
         if want_ipv6:
             try:
-                # first AAAA of that name
                 ip6 = socket.getaddrinfo(sub, None, socket.AF_INET6)[0][4][0]
             except Exception:
                 pass
@@ -86,9 +84,6 @@ def query_crtsh(domain: str, max_results: int = 200, want_ipv6: bool = True):
         return []
 
 def http_liveness(sub: str, timeout: int = 4):
-    """
-    Very light liveness check via HEAD to http and https.
-    """
     try:
         r = requests.head("http://" + sub, timeout=timeout, allow_redirects=True)
         if r.status_code:
@@ -113,7 +108,6 @@ def discover(domain: str, max_results: int = 200, use_crtsh: bool = True, want_i
         remaining = max_results - len(out)
         out += brute_subdomains(domain, max_results=remaining, want_ipv6=want_ipv6)
 
-    # dedupe
     tmp = {}
     for e in out:
         key = e["subdomain"].lower()
@@ -121,7 +115,6 @@ def discover(domain: str, max_results: int = 200, use_crtsh: bool = True, want_i
             tmp[key] = e
     final = list(tmp.values())
 
-    # annotate wildcard & liveness
     for e in final:
         e["wildcard_suspected"] = bool(wcard)
         if check_liveness:

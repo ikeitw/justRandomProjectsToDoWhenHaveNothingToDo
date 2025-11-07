@@ -1,4 +1,3 @@
-// frontend/app.js
 const $ = (s) => document.querySelector(s);
 const out = $("#output");
 const statusEl = $("#status");
@@ -32,7 +31,6 @@ async function fetchJSON(url){
   return r.json();
 }
 
-/* ------------------ OSINT functions (kept similar to previous) ------------------ */
 
 async function runRecon(){
   out.innerHTML = "";
@@ -102,7 +100,6 @@ async function runRecon(){
   }
 }
 
-/* ------------------ Pentest UI / functions ------------------ */
 
 async function runPentestSuite(quick=false){
   out.innerHTML = "";
@@ -135,7 +132,6 @@ async function runPentestSuite(quick=false){
   const report = { target, timestamp: new Date().toISOString(), results: {} };
 
   try{
-    // quick path: only summary
     if(quick){
       const res = await fetchJSON(`/api/pentest/summary?target=${encodeURIComponent(target)}`);
       report.results.summary = res;
@@ -145,7 +141,6 @@ async function runPentestSuite(quick=false){
       return;
     }
 
-    // run selected modules sequentially (keeps UI readable). Could be parallelized later.
     if(modules.param){
       const r = await fetchJSON(`/api/pentest/param_probe?target=${encodeURIComponent(target)}`);
       report.results.param = r;
@@ -269,7 +264,6 @@ async function runPentestSuite(quick=false){
   }
 }
 
-/* ------------------ tab switching ------------------ */
 document.querySelectorAll(".tabbtn").forEach(b=>{
   b.addEventListener("click", ()=>{
     document.querySelectorAll(".tabbtn").forEach(x=>x.classList.remove("active"));
@@ -285,7 +279,6 @@ document.querySelectorAll(".tabbtn").forEach(b=>{
   });
 });
 
-/* ------------------ wire UI buttons ------------------ */
 $("#btn-run").addEventListener("click", runRecon);
 $("#btn-export").addEventListener("click", async ()=>{
   const payload = window.__lastReport || window.__lastPentest || { note:"No report yet." };

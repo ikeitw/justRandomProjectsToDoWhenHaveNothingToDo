@@ -1,4 +1,3 @@
-# backend/providers/dns_tools.py
 import dns.resolver
 import dns.exception
 import dns.query
@@ -24,7 +23,6 @@ def resolve_one(domain: str, rtype: str, lifetime: float = 2.0, want_ttl: bool =
         return [] if not want_ttl else []
 
 def resolve_one_doh(domain: str, rtype: str, want_ttl: bool = False, timeout: int = 3):
-    """Very small DoH fallback using Cloudflare JSON (GET)."""
     try:
         params = {"name": domain, "type": rtype}
         headers = {"accept": "application/dns-json"}
@@ -66,7 +64,6 @@ def dns_health(domain: str, use_doh: bool = False):
 
 def get_spf(domain: str, use_doh: bool = False):
     txts = resolve_one(domain, "TXT") or (use_doh and resolve_one_doh(domain, "TXT")) or []
-    # normalize text values if TTL present
     vals = [t["value"] if isinstance(t, dict) else t for t in txts]
     for t in vals:
         low = t.lower()
@@ -108,7 +105,6 @@ def attempt_axfr(ns: str, domain: str, timeout: int = 5):
         return None
 
 def ptr_for_addresses(records: list):
-    """Given A/AAAA items (may be dict with ttl), return PTR texts."""
     addrs = []
     for r in records:
         v = r["value"] if isinstance(r, dict) else r

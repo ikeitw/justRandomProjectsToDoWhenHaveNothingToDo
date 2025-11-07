@@ -1,4 +1,3 @@
-# backend/providers/ports.py
 import socket
 import ssl
 import asyncio
@@ -11,7 +10,7 @@ COMMON_PORTS = [
     8080,8081,8088,8181,8443,8888,9000,9001,9002,9090,9200,9300,9418,9443,11211
 ]
 
-UDP_MINI = [53, 123, 161, 500, 1900]  # DNS, NTP, SNMP, IKE, SSDP (best-effort/noisy)
+UDP_MINI = [53, 123, 161, 500, 1900]
 
 def _probe_sync_tcp(host: str, port: int, timeout_ms: int = 600, banner: bool = False, alpn: bool = False):
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
@@ -27,14 +26,12 @@ def _probe_sync_tcp(host: str, port: int, timeout_ms: int = 600, banner: bool = 
                         result["banner"] = data.decode(errors="ignore").strip()
                 except Exception:
                     pass
-            # simple service hint
             if port in (80, 8000, 8080): result["service_hint"] = "http"
             elif port in (443, 8443): result["service_hint"] = "https"
             elif port == 22: result["service_hint"] = "ssh"
             elif port == 3306: result["service_hint"] = "mysql"
             elif port == 5432: result["service_hint"] = "postgresql"
             elif port == 3389: result["service_hint"] = "rdp"
-            # ALPN attempt for TLS ports
             if alpn and port in (443, 8443):
                 try:
                     ctx = ssl.create_default_context()
@@ -51,7 +48,6 @@ def _probe_sync_udp(host: str, port: int, timeout_ms: int = 600):
     with closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)) as s:
         s.settimeout(timeout_ms / 1000.0)
         try:
-            # Send tiny, protocol-safe probes (best-effort; avoid amplification)
             if port == 53:
                 s.sendto(b"\x12\x34\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x01\x00", (host, port))
             elif port == 123:
@@ -102,7 +98,6 @@ def scan_custom_ports(host: str, ports: str, timeout_ms: int = 600, banner: bool
         tasks = [sem_tcp(p) for p in port_list]
         results = await asyncio.gather(*tasks)
         open_ports = [r for r in results if r]
-        # UDP optional mini-scan on known ports
         if udp:
             async def sem_udp(p):
                 async with sem:

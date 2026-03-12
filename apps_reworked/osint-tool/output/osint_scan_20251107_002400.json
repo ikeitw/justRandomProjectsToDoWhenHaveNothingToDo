@@ -1,0 +1,155 @@
+{
+  "scan_time": "2025-11-06T23:24:00.606306",
+  "results": {
+    "zorg-saam.be": {
+      "target": "zorg-saam.be",
+      "scan_time": "2025-11-06T23:23:47.030406",
+      "type": "domain",
+      "whois": {
+        "domain_name": "zorg-saam.be",
+        "status": "NOT AVAILABLE",
+        "name": "ClearMedia NV",
+        "org": "ClearMedia NV",
+        "phone": "+32.36580036",
+        "fax": null,
+        "email": null,
+        "creation_date": "2005-09-20 00:00:00+00:00",
+        "name_servers": "ns2.clf.proximus.be\r\n\tns3.clf.proximus.be\r\n\tns1.clf.proximus.be"
+      },
+      "dns": {
+        "A": [
+          "77.241.81.229"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [
+          "ns2.clf.proximus.be.",
+          "ns1.clf.proximus.be.",
+          "ns3.clf.proximus.be."
+        ],
+        "TXT": [
+          "\"v=spf1 include:_spf.relay.mailprotect.be ?all\""
+        ],
+        "CNAME": [],
+        "SOA": [
+          "ns1.clf.proximus.be. dns.cloudflare.com. 2386993951 10000 2400 604800 1800"
+        ]
+      },
+      "ssl": {
+        "error": "can't subtract offset-naive and offset-aware datetimes"
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://zorg-saam.be/",
+        "headers": {
+          "Server": "nginx",
+          "Date": "Thu, 06 Nov 2025 23:23:51 GMT",
+          "Content-Type": "text/html; charset=UTF-8",
+          "Content-Length": "21807",
+          "Connection": "keep-alive",
+          "Link": "<https://www.zorg-saam.be/>; rel=\"canonical\"",
+          "Content-Security-Policy": "default-src * 'unsafe-inline' 'unsafe-eval'; font-src * data: blob: 'unsafe-inline';",
+          "X-Frame-Options": "DENY",
+          "Cache-Control": "public",
+          "Expires": "Thu, 06 Nov 2025 23:23:50 GMT",
+          "Accept-Ranges": "none",
+          "Vary": "Accept-Encoding",
+          "Content-Encoding": "gzip"
+        },
+        "title": "Home | Zorg-saam",
+        "meta": {
+          "viewport": "width=device-width, initial-scale=1",
+          "lang": "nl",
+          "robots": "all,index,follow",
+          "og:title": "Home",
+          "og:url": "'nl",
+          "og:image": "https://zorg-saam.be/build/images/share-image.a5f369a4.jpg",
+          "og:site_name": "Zorg-saam",
+          "og:type": "website",
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Home",
+          "twitter:image": "https://zorg-saam.be/build/images/share-image.a5f369a4.jpg",
+          "apple-mobile-web-app-capable": "yes",
+          "mobile-web-app-capable": "yes",
+          "theme-color": "#ffffff",
+          "msapplication-config": "/browserconfig.xml",
+          "msapplication-TileColor": "#ffffff",
+          "msapplication-TileImage": "../../assets/images/icons/ms-icon-144x144.png"
+        },
+        "external_links": [
+          "https://goo.gl/maps/gFqmuzzmjJo6aXN88",
+          "https://www.google.be/maps/place/Kasteelstraat+41,+9470+Denderleeuw/@50.8723945,4.0774516,17z/data=!3m1!4b1!4m5!3m4!1s0x47c3bc6ec70d5213:0xd249e18a8511cfc7!8m2!3d50.8720946!4d4.0800874",
+          "https://www.google.com/maps/place/Residentie%20Sara%20-%20Monniksbosstraat%2011%20Liedekerke%20belgium"
+        ],
+        "forms_count": 0,
+        "login_form_detected": false
+      },
+      "subdomains": [
+        "admin.zorg-saam.be",
+        "api.zorg-saam.be",
+        "dev.zorg-saam.be",
+        "ftp.zorg-saam.be",
+        "mail.zorg-saam.be",
+        "portal.zorg-saam.be",
+        "smtp.zorg-saam.be",
+        "staging.zorg-saam.be",
+        "test.zorg-saam.be",
+        "vpn.zorg-saam.be",
+        "webmail.zorg-saam.be",
+        "www.zorg-saam.be",
+        "zorg-saam.be"
+      ],
+      "emails": [],
+      "company_info": {
+        "domain": "zorg-saam.be",
+        "note": "Company intelligence gathered from WHOIS and website"
+      },
+      "social_media": {
+        "facebook": [
+          "https://facebook.com/profile.php",
+          "https://facebook.com/zorg.saam.zkj"
+        ],
+        "twitter": [
+          "https://twitter.com/ZorgsaamZKJ"
+        ],
+        "linkedin": [
+          "https://company"
+        ],
+        "instagram": [
+          "https://instagram.com/zorg_saam"
+        ]
+      },
+      "technologies": {
+        "web_server": [
+          "nginx"
+        ],
+        "javascript_libraries": [
+          "jQuery"
+        ]
+      },
+      "security": {
+        "score": 20,
+        "issues": [
+          "Missing HSTS"
+        ],
+        "good_practices": [
+          "Clickjacking Protection enabled",
+          "CSP enabled"
+        ],
+        "max_score": 30,
+        "percentage": 66
+      },
+      "shodan": {
+        "status": "skipped",
+        "reason": "No API key or no IPs"
+      },
+      "risk_assessment": {
+        "level": "MEDIUM",
+        "score": 30,
+        "findings": [
+          "SSL certificate error"
+        ]
+      }
+    }
+  }
+}

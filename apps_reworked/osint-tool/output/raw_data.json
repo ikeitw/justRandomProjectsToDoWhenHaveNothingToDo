@@ -1,0 +1,1748 @@
+{
+  "meta": {
+    "generated_at": "2025-11-06T22:54:42.868736Z"
+  },
+  "findings": {
+    "zorg-saam.be": {
+      "type": "domain",
+      "whois": {
+        "domain_name": "zorg-saam.be",
+        "status": "NOT AVAILABLE",
+        "name": "ClearMedia NV",
+        "org": "ClearMedia NV",
+        "phone": "+32.36580036",
+        "fax": null,
+        "email": null,
+        "creation_date": "2005-09-20 00:00:00+00:00",
+        "name_servers": "ns2.clf.proximus.be\r\n\tns3.clf.proximus.be\r\n\tns1.clf.proximus.be"
+      },
+      "dns": {
+        "A": [
+          "77.241.81.229"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [
+          "ns3.clf.proximus.be.",
+          "ns2.clf.proximus.be.",
+          "ns1.clf.proximus.be."
+        ],
+        "TXT": [
+          "\"v=spf1 include:_spf.relay.mailprotect.be ?all\""
+        ],
+        "CNAME": [],
+        "SOA": [
+          "ns1.clf.proximus.be. dns.cloudflare.com. 2386993951 10000 2400 604800 1800"
+        ]
+      },
+      "ssl": {
+        "subject": [
+          [
+            [
+              "commonName",
+              "zorg-saam.be"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "US"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Let's Encrypt"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "R13"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "0554E6792E63EC1FD70B742F3CC00D87334E",
+        "notBefore": "Oct 23 10:54:13 2025 GMT",
+        "notAfter": "Jan 21 10:54:12 2026 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "www.zorg-saam.be"
+          ],
+          [
+            "DNS",
+            "zorg-saam.be"
+          ]
+        ],
+        "caIssuers": [
+          "http://r13.i.lencr.org/"
+        ],
+        "crlDistributionPoints": [
+          "http://r13.c.lencr.org/79.crl"
+        ]
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://zorg-saam.be/",
+        "headers": {
+          "Server": "nginx",
+          "Date": "Thu, 06 Nov 2025 22:53:07 GMT",
+          "Content-Type": "text/html; charset=UTF-8",
+          "Content-Length": "21807",
+          "Connection": "keep-alive",
+          "Link": "<https://www.zorg-saam.be/>; rel=\"canonical\"",
+          "Content-Security-Policy": "default-src * 'unsafe-inline' 'unsafe-eval'; font-src * data: blob: 'unsafe-inline';",
+          "X-Frame-Options": "DENY",
+          "Cache-Control": "public",
+          "Expires": "Thu, 06 Nov 2025 22:53:06 GMT",
+          "Accept-Ranges": "none",
+          "Vary": "Accept-Encoding",
+          "Content-Encoding": "gzip"
+        },
+        "title": "Home | Zorg-saam",
+        "tech": []
+      },
+      "subdomains": [
+        "*.zorg-saam.be",
+        "zorg-saam.be"
+      ],
+      "assets": {
+        "assets": {
+          "pdfs": [
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2025/08/12.08.2025_Privacy-Policy-Zorggebruikers_WZC-KT_v1.1.pdf"
+          ],
+          "images": [
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/KANUNNIK-TRIEST-wit.svg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/cafertaria-kanunnik.jpg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/de-buurt-cafetarie-kanunnik.png",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/verzorger-kanunnik.jpg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/zorg-kanunnik.jpg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/10/footer-logo.svg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2024/10/header-logo.svg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_1.jpg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_2.jpg",
+            "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_5.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/albums/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-10-09-115534_2025-10-09-100900_dotj.png",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/albums/_767xAUTO_fit_center-center_5_none_ns/zomer_2025-09-19-101209_tplj.webp",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/globals/_767xAUTO_fit_center-center_5_none_ns/298960474_496348329164137_5117868535582211998_n.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/441537767_443333295072267_6032194284418192099_n_2025-03-07-092701_cqjo.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/content.webp",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/f40b65e6-5ea7-4198-9270-d77e154c162c.webp",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/news/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-05-06-084649.png",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/news/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-06-26-121222.png",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/patients/_767xAUTO_fit_center-center_5_none_ns/eduardo-barrios-P5c4cgJgg3g-unsplash_2023-05-22-135724.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/patients/_767xAUTO_fit_center-center_5_none_ns/micheile-henderson-PpZasS086os-unsplash.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/IMG_2763.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/Vivendum.jpg",
+            "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/WZC-086.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250822_145457.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250828_142822-1.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250905_112559.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250908_144808-1.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/IMG-20250930-WA0001.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/globals/_767xAUTO_fit_center-center_5_none_ns/IMG20230313113308.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/home/_767xAUTO_fit_center-center_5_none_ns/210043464_1387427331636107_4075299841677894086_n.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/news/_767xAUTO_fit_center-center_5_none_ns/372680/lisanga_2025-10-23-122704_fyur.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/patients/_767xAUTO_fit_center-center_5_none_ns/BAR_8168.jpeg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/BAR_8095.jpeg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/BAR_8108.jpeg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20230911-WA0001.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/IMG20230313113308_2023-05-05-055303.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/Krant-lezen-1.jpg",
+            "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/Puyenbroeck-2023-6-of-57.jpeg",
+            "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/372462/groepsfoto_2025-10-17-163832_tapq.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Breughel-24.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Keith-Haring.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Wat-is-er-te-doen-vandaag-1.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.23.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/home/_767xAUTO_fit_center-center_5_none_ns/Tuin-De-Mantel.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/news/_767xAUTO_fit_center-center_5_none_ns/foto-weekmenu-website.webp",
+            "https://www.zorg-saam.be/public/De-Regenboog/news/_767xAUTO_fit_center-center_5_none_ns/jaarmarkt-DRB-17_2025-11-06-100114_mmja.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/patients/_767xAUTO_fit_center-center_5_none_ns/aaidieren-63-van-85.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/patients/_767xAUTO_fit_center-center_5_none_ns/aaidieren-90-van-186.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/09.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/5358/DSCN2986_190816_122426.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/Lava.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/Mannen.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/middelheim-109.jpg",
+            "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/regenboog-12-Kopie.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/356930020_646017894243587_3386840614921040175_n.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/359832756_655043680007675_3236804895286044845_n.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/365228161_664891202356256_1983705001209695190_n.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/366356323_669313525247357_4206569647817824759_n.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/441245964_825592262952815_1547419077246877281_n_2024-06-06-142359.jpg",
+            "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/447560578_839172334928141_5418889080541265466_n_2024-06-06-142750.jpg",
+            "https://www.zorg-saam.be/public/Immadi/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.06.17.jpg",
+            "https://www.zorg-saam.be/public/Immadi/home/_767xAUTO_fit_center-center_5_none_ns/2625/2018-05-25-met-Immadi-in-Wiemesmeer-55.jpg",
+            "https://www.zorg-saam.be/public/Immadi/patients/_767xAUTO_fit_center-center_5_none_ns/4183/2018-05-14-Bewoners-Immadi-24.jpg",
+            "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/20190529_095404.jpg",
+            "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/20190529_102926.jpg",
+            "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/IMG_20170623_144637.jpg",
+            "https://www.zorg-saam.be/public/Kanunnik-Triest/globals/_767xAUTO_fit_center-center_5_none_ns/20230622_091012.jpg",
+            "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/1_2025-08-20-105148_toey.png",
+            "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_4960.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5072.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5392.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5461.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/globals/_767xAUTO_fit_center-center_5_none_ns/504205458_1305233684945024_8912296082407334975_n.jpg",
+            "https://www.zorg-saam.be/public/Moervaartheem/home/_767xAUTO_fit_center-center_5_none_ns/image00007.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/news/_767xAUTO_fit_center-center_5_none_ns/hond.png",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/1567-Verstraeten-Sien.jpg",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/18551/IMG_4865.jpg",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/4.png",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240626-WA0016.jpg",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/overzicht-sociaal-restaurant.png",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/tuinieren.jpeg",
+            "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/wandelpad.jpeg",
+            "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A1599.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A1902-Enhanced-NR.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A2852.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A5363.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/DSC_4623.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/globals/_767xAUTO_fit_center-center_5_none_ns/097A9792.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/home/_767xAUTO_fit_center-center_5_none_ns/097A6361_2025-09-12-184024_pcme.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/home/_767xAUTO_fit_center-center_5_none_ns/IMG_9021_2025-09-13-081005_ipup.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/news/_767xAUTO_fit_center-center_5_none_ns/Black-Grey-80s-Aesthetic-Music-Festival-Flyer-2.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A0372.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A5893.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A6433a.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A2858.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A6930.jpg",
+            "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A9809.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.12.31.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/20250930_095434.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/2_2025-10-02-101141_qtpe.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/371746/P9306883.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/372715/PA237010.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/3_2025-10-02-101425_hkzj.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_20251014_122427.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/home/_767xAUTO_fit_center-center_5_none_ns/4.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/news/_767xAUTO_fit_center-center_5_none_ns/48.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/patients/_767xAUTO_fit_center-center_5_none_ns/26.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/patients/_767xAUTO_fit_center-center_5_none_ns/3.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/18.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/2.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/23.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/3104/fotos-website-Ons-Zomerheem-2015-4.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/373581/IMG_2257.jpg",
+            "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/kinderopvang-ons-zomerheem.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/albums/het-wzc-in-beeld/_767xAUTO_fit_center-center_5_none_ns/3650/BWPM3465.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.44.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/home/_767xAUTO_fit_center-center_5_none_ns/246401/P1060550.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/news/_767xAUTO_fit_center-center_5_none_ns/grembergen1.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/news/_767xAUTO_fit_center-center_5_none_ns/wandeling-2021-1-of-97-65.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/1977/BWPM3409.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/84476/P1030698.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/dementie.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/145537338_754987445223582_3973540144553826462_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/160566846_775174489871544_7893156083278189880_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/1902/P1140702.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/1970/BWPM3478.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/303857/P1070567.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/303862/IMG_0027.jpg",
+            "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/pexels-markus-winkler-4057663.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/377698489_768679341935291_189606335133072355_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/461495587_1047407687395787_7094762547959094627_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/462685108_1055915946544961_826187128307245911_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.09.24.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/home/_767xAUTO_fit_center-center_5_none_ns/Opa.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/360125515_728238729312686_5908247359426429533_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/473995727_29033608956238008_4041087635479144940_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/Week-van-de-valpreventie-21-tot-27-april-2025.png",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/0-Voorkaft-1.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/494198821_1228714622598425_1971986438114140445_n-002.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/5888/Foto-met-betrekking-tot-beleving-12.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/DVC.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Fotos-met-betrekking-tot-de-voorziening-2.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Geen-fotobeschrijving-beschikbaar.png",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Hoogeloon-3.jpg",
+            "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/happy.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/20250711_154415kopie_2025-07-14-120404_ccaf.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/20250919_180144_2025-10-16-101135_qape.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_9305.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_9818.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/Valpreventie-2025-Facebook-bericht.png",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.11.23.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/home/_767xAUTO_fit_center-center_5_none_ns/IMG_20250130_143424469_MF_PORTRAITkopie.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/news/_767xAUTO_fit_center-center_5_none_ns/Typemachine_2025-01-31-131829_eebm.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/4298/IMG_0321.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/IMG_20240609_143510_resized_20240610_101629380_2024-07-05-114732.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/kind.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/356490/IMG_2276_2025-04-24-122120_qdch.jpeg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/366362/P1040380-kopie_2025-07-16-124816_sgvf.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/IMG_7990kopie.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/Nieuwbouw-1096.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/P1030724_edited.jpg",
+            "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/baby.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/albums/_767xAUTO_fit_center-center_5_none_ns/319408/IMG_9796_2024-07-23-140048.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.11.54.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/home/_767xAUTO_fit_center-center_5_none_ns/20160504_145652.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/130640/IMG_0297.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/Banner-blauw-website_2022-11-22-123945.png",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/De-ongehoorde-toekomst.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/ian-schneider-PAykYb-8Er8-unsplash.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/patients/_767xAUTO_fit_center-center_5_none_ns/A1.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/1.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/2650/2018-R42-seniorenweek0019.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/2791/A23.png",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/5854/IMG_3433.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/A2.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/tuin-wzc.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/albums/_767xAUTO_fit_center-center_5_none_ns/BI3A8171_190802_114132.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/albums/assistentiewoningen/_767xAUTO_fit_center-center_5_none_ns/BI3A8171.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/globals/_767xAUTO_fit_center-center_5_none_ns/Sint_Jozef_190704_084541.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/home/_767xAUTO_fit_center-center_5_none_ns/4451e223-4042-4867-b75d-93a69e631ad6.jpeg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/291758973_402114645217063_8392150786960353086_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/308961953_5736556236387707_6628637403638579362_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/371895607_768049041994569_8793390151683221946_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/794ec818-9c1f-49c0-8350-f8793e7ac3f6.jpeg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/10431153_10152560815464834_7737640807052877424_o.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/453096774_997914415674696_1713995970631619588_n.jpg",
+            "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/4647/kids3.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/40.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/RS20.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/Van-Geert-100-2.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/contentPages/_767xAUTO_fit_center-center_5_none_ns/1707/tobias.png",
+            "https://www.zorg-saam.be/public/Sint-Rafael/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.05.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/home/_767xAUTO_fit_center-center_5_none_ns/binnenplein-2.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/FB-aankondiging-nieuw-krantje.png",
+            "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/RS.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/website-2.png",
+            "https://www.zorg-saam.be/public/Sint-Rafael/patients/_767xAUTO_fit_center-center_5_none_ns/ouderen_2025-03-31-143434_jpwa.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Salontafeltje.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Seniors-Having-Dinner_210304_101510.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Welkom.jpeg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/diensten.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/kalender-kortverblijf.jpg",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/visie-afb.png",
+            "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/waterlelie.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/20251001_094013.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/20251003_145745.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/368410/DSC_1957.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_20251017_170920.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.12.09.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/home/_767xAUTO_fit_center-center_5_none_ns/ventje.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/043.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/pexels-thngocbich-636246-1_2025-10-17-073421_vwoy.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/pexels-thngocbich-636246-1_2025-10-24-073121_auat.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/patients/_767xAUTO_fit_center-center_5_none_ns/1262/DSC_0759.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/patients/_767xAUTO_fit_center-center_5_none_ns/Samaes-Valentine.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/Afbeelding1.jpg",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/kaprijke-1_190708_140059.png",
+            "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/kortverblijf.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/albums/_767xAUTO_fit_center-center_5_none_ns/371239/IMG_0597.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/albums/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-10-03-at-18.08.06.jpeg",
+            "https://www.zorg-saam.be/public/Zonnehove/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-19-at-16.12.40.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/home/_767xAUTO_fit_center-center_5_none_ns/323833/P1012029.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/home/_767xAUTO_fit_center-center_5_none_ns/zon038.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/Herfst-menu.png",
+            "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0016.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/processed-69AB9E7A-5976-4562-9F64-9473E0FF82DE.jpeg",
+            "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/warm-weer.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/323967/P1012029.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0010.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0014.jpg",
+            "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/zon045.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/albums/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-10-15-at-12.18.30.jpeg",
+            "https://www.zorg-saam.be/public/Zorg-saam/home/_767xAUTO_fit_center-center_5_none_ns/Zorgsaam-hoofdingsafbeelding.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/jobs/_767xAUTO_fit_center-center_5_none_ns/bench-chair-friends-288583.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/82.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-07-17-at-21.00.19.jpeg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-11-04-at-10.59.22_2025-11-04-100153_nzcl.jpeg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/original-CE8ABF9B-B53B-4E93-A954-77001F660C0A.jpeg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/scott-blake-x-ghf9LjrVg-unsplash.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/woonzorgzeker_2025-10-23-075144_chuq.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/347551364_984063819555170_4336636835774929981_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/355139579_721554619977345_7504901930625047560_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/363308819_1012517270043158_4374617235230553753_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/364150172_755187276612820_1068886949560215326_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/365593811_770580791735984_4637031671228707899_n_2024-07-10-112017.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/308968035_536684321791718_2023425407285946840_n_2024-07-10-111726.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/312119199_613510503903673_2667411212170634758_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/356195424_749894393812292_735393208747721015_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/395478637_1075352780426273_2123415104014689419_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447732991_1220686605892889_901668885705893703_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447760795_1220686842559532_8658932532599674943_n.jpg",
+            "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447766501_1220686322559584_8733202745476839216_n.jpg",
+            "https://zorg-saam.be/actions/assets/generate-transform?transformId=129559",
+            "https://zorg-saam.be/actions/assets/generate-transform?transformId=149441",
+            "https://zorg-saam.be/actions/assets/generate-transform?transformId=6826",
+            "https://zorg-saam.be/build/images/bgshape-logo.d53d0538.png",
+            "https://zorg-saam.be/build/images/logo-full.349ffbbe.svg",
+            "https://zorg-saam.be/build/images/logo-poppr.1ed1bdc1.png",
+            "https://zorg-saam.be/build/images/logo-shield.347270c9.svg",
+            "https://zorg-saam.be/build/images/logo-text-white.360d4b70.svg",
+            "https://zorg-saam.be/build/images/marker-bol.bd2114b6.png",
+            "https://zorg-saam.be/build/images/zorgsaam-map.72516ff2.png"
+          ]
+        },
+        "pdf_metas": [
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2025/08/12.08.2025_Privacy-Policy-Zorggebruikers_WZC-KT_v1.1.pdf",
+            "metadata": {
+              "/Producer": "GPL Ghostscript 9.55.0",
+              "/CreationDate": "D:20250822090630Z00'00'",
+              "/ModDate": "D:20250822090630Z00'00'",
+              "/Author": "Sigrid De Ro | Nuans Law",
+              "/Creator": "Microsoft\u00ae Word 2016"
+            }
+          }
+        ],
+        "img_metas": [
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/KANUNNIK-TRIEST-wit.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10e386540>"
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/cafertaria-kanunnik.jpg",
+            "exif": {
+              "296": "2",
+              "34665": "90",
+              "274": "1",
+              "282": "240.0",
+              "283": "240.0",
+              "36864": "b'0231'",
+              "40961": "1",
+              "40962": "2400",
+              "40963": "1600"
+            }
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/de-buurt-cafetarie-kanunnik.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/verzorger-kanunnik.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/04/zorg-kanunnik.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/10/footer-logo.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10d84a130>"
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2024/10/header-logo.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10ed40ae0>"
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_1.jpg",
+            "exif": {
+              "256": "7993",
+              "257": "5330",
+              "258": "(8, 8, 8)",
+              "262": "2",
+              "296": "2",
+              "34665": "276",
+              "271": "Canon",
+              "272": "Canon EOS R5",
+              "305": "Adobe Photoshop 21.0 (Macintosh)",
+              "274": "1",
+              "306": "2025:01:06 12:57:14",
+              "277": "3",
+              "282": "72.0",
+              "283": "72.0",
+              "36864": "b'0231'",
+              "37377": "7.965784",
+              "37378": "3.356144",
+              "36867": "2024:12:10 16:00:00",
+              "36868": "2024:12:10 16:00:00",
+              "37380": "0.0",
+              "37381": "3.0",
+              "37383": "5",
+              "40961": "1",
+              "37385": "9",
+              "37386": "45.0",
+              "40962": "2560",
+              "40963": "1422",
+              "41990": "0",
+              "41486": "5773.079633544749",
+              "41487": "5769.799366420275",
+              "36880": "+01:00",
+              "36881": "+00:00",
+              "36882": "+00:00",
+              "37521": "12",
+              "37522": "12",
+              "41488": "2",
+              "33434": "0.004",
+              "33437": "3.2",
+              "34850": "1",
+              "41985": "0",
+              "34855": "1600",
+              "41986": "1",
+              "34864": "2",
+              "41987": "0",
+              "34866": "1600",
+              "42033": "273026000963",
+              "42034": "(24.0, 70.0, nan, nan)",
+              "42036": "EF24-70mm f/2.8L II USM",
+              "42037": "7285000809"
+            }
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_2.jpg",
+            "exif": {
+              "256": "8192",
+              "257": "5464",
+              "258": "(8, 8, 8)",
+              "262": "2",
+              "296": "2",
+              "34665": "276",
+              "271": "Canon",
+              "272": "Canon EOS R5",
+              "305": "Adobe Photoshop 21.0 (Macintosh)",
+              "274": "1",
+              "306": "2025:01:06 12:57:07",
+              "277": "3",
+              "282": "72.0",
+              "283": "72.0",
+              "36864": "b'0231'",
+              "37377": "7.965784",
+              "37378": "3.356144",
+              "36867": "2024:12:10 16:16:43",
+              "36868": "2024:12:10 16:16:43",
+              "37380": "0.0",
+              "37381": "3.0",
+              "37383": "5",
+              "40961": "1",
+              "37385": "9",
+              "37386": "41.0",
+              "40962": "2000",
+              "40963": "1334",
+              "41990": "0",
+              "41486": "5773.079633544749",
+              "41487": "5769.799366420275",
+              "36880": "+01:00",
+              "36881": "+00:00",
+              "36882": "+00:00",
+              "37521": "81",
+              "37522": "81",
+              "41488": "2",
+              "33434": "0.004",
+              "33437": "3.2",
+              "34850": "1",
+              "41985": "0",
+              "34855": "1250",
+              "41986": "1",
+              "34864": "2",
+              "41987": "0",
+              "34866": "1250",
+              "42033": "273026000963",
+              "42034": "(24.0, 70.0, nan, nan)",
+              "42036": "EF24-70mm f/2.8L II USM",
+              "42037": "7285000809"
+            }
+          },
+          {
+            "url": "https://www.wzckanunniktriest.be/wp-content/uploads/2025/01/KT_WEB_HOMEPAGE_5.jpg",
+            "exif": {
+              "256": "7319",
+              "257": "4882",
+              "258": "(8, 8, 8)",
+              "262": "2",
+              "296": "2",
+              "34665": "276",
+              "271": "Canon",
+              "272": "Canon EOS R5",
+              "305": "Adobe Photoshop 21.0 (Macintosh)",
+              "274": "1",
+              "306": "2025:01:06 12:57:23",
+              "277": "3",
+              "282": "72.0",
+              "283": "72.0",
+              "36864": "b'0231'",
+              "37377": "7.965784",
+              "37378": "3.356144",
+              "36867": "2024:12:10 15:13:20",
+              "36868": "2024:12:10 15:13:20",
+              "37380": "0.0",
+              "37381": "3.0",
+              "37383": "5",
+              "40961": "1",
+              "37385": "9",
+              "37386": "57.0",
+              "40962": "2000",
+              "40963": "1334",
+              "41990": "0",
+              "41486": "5773.079633544749",
+              "41487": "5769.799366420275",
+              "36880": "+01:00",
+              "36881": "+00:00",
+              "36882": "+00:00",
+              "37521": "98",
+              "37522": "98",
+              "41488": "2",
+              "33434": "0.004",
+              "33437": "3.2",
+              "34850": "1",
+              "41985": "0",
+              "34855": "1000",
+              "41986": "1",
+              "34864": "2",
+              "41987": "0",
+              "34866": "1000",
+              "42033": "273026000963",
+              "42034": "(24.0, 70.0, nan, nan)",
+              "42036": "EF24-70mm f/2.8L II USM",
+              "42037": "7285000809"
+            }
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/albums/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-10-09-115534_2025-10-09-100900_dotj.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/albums/_767xAUTO_fit_center-center_5_none_ns/zomer_2025-09-19-101209_tplj.webp",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/globals/_767xAUTO_fit_center-center_5_none_ns/298960474_496348329164137_5117868535582211998_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/441537767_443333295072267_6032194284418192099_n_2025-03-07-092701_cqjo.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/content.webp",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/home/_767xAUTO_fit_center-center_5_none_ns/f40b65e6-5ea7-4198-9270-d77e154c162c.webp",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/news/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-05-06-084649.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/news/_767xAUTO_fit_center-center_5_none_ns/Schermafbeelding-2025-06-26-121222.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/patients/_767xAUTO_fit_center-center_5_none_ns/eduardo-barrios-P5c4cgJgg3g-unsplash_2023-05-22-135724.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/patients/_767xAUTO_fit_center-center_5_none_ns/micheile-henderson-PpZasS086os-unsplash.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/IMG_2763.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/Vivendum.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Aqua-Vitae/services/_767xAUTO_fit_center-center_5_none_ns/WZC-086.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250822_145457.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250828_142822-1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250905_112559.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/20250908_144808-1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/albums/_767xAUTO_fit_center-center_5_none_ns/IMG-20250930-WA0001.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/globals/_767xAUTO_fit_center-center_5_none_ns/IMG20230313113308.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/home/_767xAUTO_fit_center-center_5_none_ns/210043464_1387427331636107_4075299841677894086_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/news/_767xAUTO_fit_center-center_5_none_ns/372680/lisanga_2025-10-23-122704_fyur.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/patients/_767xAUTO_fit_center-center_5_none_ns/BAR_8168.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/BAR_8095.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/BAR_8108.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20230911-WA0001.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/IMG20230313113308_2023-05-05-055303.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/Krant-lezen-1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Lichtervelde/services/_767xAUTO_fit_center-center_5_none_ns/Puyenbroeck-2023-6-of-57.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/372462/groepsfoto_2025-10-17-163832_tapq.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Breughel-24.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Keith-Haring.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/albums/_767xAUTO_fit_center-center_5_none_ns/Wat-is-er-te-doen-vandaag-1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.23.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/home/_767xAUTO_fit_center-center_5_none_ns/Tuin-De-Mantel.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/news/_767xAUTO_fit_center-center_5_none_ns/foto-weekmenu-website.webp",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/news/_767xAUTO_fit_center-center_5_none_ns/jaarmarkt-DRB-17_2025-11-06-100114_mmja.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/patients/_767xAUTO_fit_center-center_5_none_ns/aaidieren-63-van-85.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/patients/_767xAUTO_fit_center-center_5_none_ns/aaidieren-90-van-186.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/09.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/5358/DSCN2986_190816_122426.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/Lava.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/Mannen.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/middelheim-109.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/De-Regenboog/services/_767xAUTO_fit_center-center_5_none_ns/regenboog-12-Kopie.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/356930020_646017894243587_3386840614921040175_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/359832756_655043680007675_3236804895286044845_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/365228161_664891202356256_1983705001209695190_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/366356323_669313525247357_4206569647817824759_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/441245964_825592262952815_1547419077246877281_n_2024-06-06-142359.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/albums/_767xAUTO_fit_center-center_5_none_ns/447560578_839172334928141_5418889080541265466_n_2024-06-06-142750.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.06.17.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/home/_767xAUTO_fit_center-center_5_none_ns/2625/2018-05-25-met-Immadi-in-Wiemesmeer-55.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/patients/_767xAUTO_fit_center-center_5_none_ns/4183/2018-05-14-Bewoners-Immadi-24.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/20190529_095404.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/20190529_102926.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Immadi/services/_767xAUTO_fit_center-center_5_none_ns/IMG_20170623_144637.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Kanunnik-Triest/globals/_767xAUTO_fit_center-center_5_none_ns/20230622_091012.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/1_2025-08-20-105148_toey.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_4960.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5072.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5392.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_5461.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/globals/_767xAUTO_fit_center-center_5_none_ns/504205458_1305233684945024_8912296082407334975_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/home/_767xAUTO_fit_center-center_5_none_ns/image00007.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/news/_767xAUTO_fit_center-center_5_none_ns/hond.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/1567-Verstraeten-Sien.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/18551/IMG_4865.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/4.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240626-WA0016.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/overzicht-sociaal-restaurant.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/tuinieren.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Moervaartheem/services/_767xAUTO_fit_center-center_5_none_ns/wandelpad.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A1599.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A1902-Enhanced-NR.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A2852.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/097A5363.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/albums/_767xAUTO_fit_center-center_5_none_ns/DSC_4623.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/globals/_767xAUTO_fit_center-center_5_none_ns/097A9792.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/home/_767xAUTO_fit_center-center_5_none_ns/097A6361_2025-09-12-184024_pcme.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/home/_767xAUTO_fit_center-center_5_none_ns/IMG_9021_2025-09-13-081005_ipup.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/news/_767xAUTO_fit_center-center_5_none_ns/Black-Grey-80s-Aesthetic-Music-Festival-Flyer-2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A0372.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A5893.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/patients/_767xAUTO_fit_center-center_5_none_ns/097A6433a.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A2858.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A6930.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Onderdale/services/_767xAUTO_fit_center-center_5_none_ns/097A9809.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.12.31.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/20250930_095434.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/2_2025-10-02-101141_qtpe.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/371746/P9306883.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/372715/PA237010.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/3_2025-10-02-101425_hkzj.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_20251014_122427.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/home/_767xAUTO_fit_center-center_5_none_ns/4.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/news/_767xAUTO_fit_center-center_5_none_ns/48.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/patients/_767xAUTO_fit_center-center_5_none_ns/26.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/patients/_767xAUTO_fit_center-center_5_none_ns/3.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/18.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/23.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/3104/fotos-website-Ons-Zomerheem-2015-4.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/373581/IMG_2257.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Ons-Zomerheem/services/_767xAUTO_fit_center-center_5_none_ns/kinderopvang-ons-zomerheem.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/albums/het-wzc-in-beeld/_767xAUTO_fit_center-center_5_none_ns/3650/BWPM3465.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.44.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/home/_767xAUTO_fit_center-center_5_none_ns/246401/P1060550.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/news/_767xAUTO_fit_center-center_5_none_ns/grembergen1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/news/_767xAUTO_fit_center-center_5_none_ns/wandeling-2021-1-of-97-65.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/1977/BWPM3409.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/84476/P1030698.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/patients/_767xAUTO_fit_center-center_5_none_ns/dementie.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/145537338_754987445223582_3973540144553826462_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/160566846_775174489871544_7893156083278189880_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/1902/P1140702.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/1970/BWPM3478.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/303857/P1070567.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/303862/IMG_0027.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Antonius/services/_767xAUTO_fit_center-center_5_none_ns/pexels-markus-winkler-4057663.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/377698489_768679341935291_189606335133072355_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/461495587_1047407687395787_7094762547959094627_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/albums/_767xAUTO_fit_center-center_5_none_ns/462685108_1055915946544961_826187128307245911_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.09.24.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/home/_767xAUTO_fit_center-center_5_none_ns/Opa.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/360125515_728238729312686_5908247359426429533_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/473995727_29033608956238008_4041087635479144940_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/news/_767xAUTO_fit_center-center_5_none_ns/Week-van-de-valpreventie-21-tot-27-april-2025.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/0-Voorkaft-1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/494198821_1228714622598425_1971986438114140445_n-002.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/5888/Foto-met-betrekking-tot-beleving-12.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/DVC.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Fotos-met-betrekking-tot-de-voorziening-2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Geen-fotobeschrijving-beschikbaar.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/Hoogeloon-3.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Eligius/services/_767xAUTO_fit_center-center_5_none_ns/happy.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/20250711_154415kopie_2025-07-14-120404_ccaf.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/20250919_180144_2025-10-16-101135_qape.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_9305.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_9818.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/albums/_767xAUTO_fit_center-center_5_none_ns/Valpreventie-2025-Facebook-bericht.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.11.23.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/home/_767xAUTO_fit_center-center_5_none_ns/IMG_20250130_143424469_MF_PORTRAITkopie.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/news/_767xAUTO_fit_center-center_5_none_ns/Typemachine_2025-01-31-131829_eebm.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/4298/IMG_0321.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/IMG_20240609_143510_resized_20240610_101629380_2024-07-05-114732.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/patients/_767xAUTO_fit_center-center_5_none_ns/kind.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/356490/IMG_2276_2025-04-24-122120_qdch.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/366362/P1040380-kopie_2025-07-16-124816_sgvf.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/IMG_7990kopie.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/Nieuwbouw-1096.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/P1030724_edited.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Elisabeth/services/_767xAUTO_fit_center-center_5_none_ns/baby.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/albums/_767xAUTO_fit_center-center_5_none_ns/319408/IMG_9796_2024-07-23-140048.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.11.54.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/home/_767xAUTO_fit_center-center_5_none_ns/20160504_145652.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/130640/IMG_0297.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/Banner-blauw-website_2022-11-22-123945.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/De-ongehoorde-toekomst.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/news/_767xAUTO_fit_center-center_5_none_ns/ian-schneider-PAykYb-8Er8-unsplash.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/patients/_767xAUTO_fit_center-center_5_none_ns/A1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/2650/2018-R42-seniorenweek0019.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/2791/A23.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/5854/IMG_3433.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/A2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Assenede/services/_767xAUTO_fit_center-center_5_none_ns/tuin-wzc.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/albums/_767xAUTO_fit_center-center_5_none_ns/BI3A8171_190802_114132.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/albums/assistentiewoningen/_767xAUTO_fit_center-center_5_none_ns/BI3A8171.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/globals/_767xAUTO_fit_center-center_5_none_ns/Sint_Jozef_190704_084541.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/home/_767xAUTO_fit_center-center_5_none_ns/4451e223-4042-4867-b75d-93a69e631ad6.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/291758973_402114645217063_8392150786960353086_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/308961953_5736556236387707_6628637403638579362_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/371895607_768049041994569_8793390151683221946_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/news/_767xAUTO_fit_center-center_5_none_ns/794ec818-9c1f-49c0-8350-f8793e7ac3f6.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/10431153_10152560815464834_7737640807052877424_o.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/453096774_997914415674696_1713995970631619588_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Jozef-Wetteren/services/_767xAUTO_fit_center-center_5_none_ns/4647/kids3.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/40.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/RS20.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/albums/_767xAUTO_fit_center-center_5_none_ns/Van-Geert-100-2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/contentPages/_767xAUTO_fit_center-center_5_none_ns/1707/tobias.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.08.05.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/home/_767xAUTO_fit_center-center_5_none_ns/binnenplein-2.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/FB-aankondiging-nieuw-krantje.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/RS.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/news/_767xAUTO_fit_center-center_5_none_ns/website-2.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/patients/_767xAUTO_fit_center-center_5_none_ns/ouderen_2025-03-31-143434_jpwa.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Salontafeltje.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Seniors-Having-Dinner_210304_101510.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/Welkom.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/diensten.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/kalender-kortverblijf.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/visie-afb.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Rafael/services/_767xAUTO_fit_center-center_5_none_ns/waterlelie.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/20251001_094013.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/20251003_145745.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/368410/DSC_1957.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/albums/_767xAUTO_fit_center-center_5_none_ns/IMG_20251017_170920.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-02-at-14.12.09.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/home/_767xAUTO_fit_center-center_5_none_ns/ventje.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/043.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/pexels-thngocbich-636246-1_2025-10-17-073421_vwoy.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/news/_767xAUTO_fit_center-center_5_none_ns/pexels-thngocbich-636246-1_2025-10-24-073121_auat.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/patients/_767xAUTO_fit_center-center_5_none_ns/1262/DSC_0759.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/patients/_767xAUTO_fit_center-center_5_none_ns/Samaes-Valentine.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/Afbeelding1.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/kaprijke-1_190708_140059.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Sint-Vincentius/services/_767xAUTO_fit_center-center_5_none_ns/kortverblijf.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/albums/_767xAUTO_fit_center-center_5_none_ns/371239/IMG_0597.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/albums/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-10-03-at-18.08.06.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/globals/_767xAUTO_fit_center-center_5_none_ns/Screenshot-2019-07-19-at-16.12.40.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/home/_767xAUTO_fit_center-center_5_none_ns/323833/P1012029.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/home/_767xAUTO_fit_center-center_5_none_ns/zon038.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/Herfst-menu.png",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0016.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/processed-69AB9E7A-5976-4562-9F64-9473E0FF82DE.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/news/_767xAUTO_fit_center-center_5_none_ns/warm-weer.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/323967/P1012029.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0010.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/IMG-20240704-WA0014.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zonnehove/services/_767xAUTO_fit_center-center_5_none_ns/zon045.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/albums/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-10-15-at-12.18.30.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/home/_767xAUTO_fit_center-center_5_none_ns/Zorgsaam-hoofdingsafbeelding.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/jobs/_767xAUTO_fit_center-center_5_none_ns/bench-chair-friends-288583.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/82.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-07-17-at-21.00.19.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/WhatsApp-Image-2025-11-04-at-10.59.22_2025-11-04-100153_nzcl.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/original-CE8ABF9B-B53B-4E93-A954-77001F660C0A.jpeg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/scott-blake-x-ghf9LjrVg-unsplash.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/news/_767xAUTO_fit_center-center_5_none_ns/woonzorgzeker_2025-10-23-075144_chuq.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/347551364_984063819555170_4336636835774929981_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/355139579_721554619977345_7504901930625047560_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/363308819_1012517270043158_4374617235230553753_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/364150172_755187276612820_1068886949560215326_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/patients/_767xAUTO_fit_center-center_5_none_ns/365593811_770580791735984_4637031671228707899_n_2024-07-10-112017.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/308968035_536684321791718_2023425407285946840_n_2024-07-10-111726.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/312119199_613510503903673_2667411212170634758_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/356195424_749894393812292_735393208747721015_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/395478637_1075352780426273_2123415104014689419_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447732991_1220686605892889_901668885705893703_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447760795_1220686842559532_8658932532599674943_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://www.zorg-saam.be/public/Zorg-saam/services/_767xAUTO_fit_center-center_5_none_ns/447766501_1220686322559584_8733202745476839216_n.jpg",
+            "exif": {}
+          },
+          {
+            "url": "https://zorg-saam.be/actions/assets/generate-transform?transformId=129559",
+            "error": "cannot identify image file <_io.BytesIO object at 0x1082124a0>"
+          },
+          {
+            "url": "https://zorg-saam.be/actions/assets/generate-transform?transformId=149441",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10ec5a130>"
+          },
+          {
+            "url": "https://zorg-saam.be/actions/assets/generate-transform?transformId=6826",
+            "error": "cannot identify image file <_io.BytesIO object at 0x108acabd0>"
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/bgshape-logo.d53d0538.png",
+            "exif": {}
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/logo-full.349ffbbe.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10ed8c900>"
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/logo-poppr.1ed1bdc1.png",
+            "exif": {}
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/logo-shield.347270c9.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10ed8c900>"
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/logo-text-white.360d4b70.svg",
+            "error": "cannot identify image file <_io.BytesIO object at 0x10ec5a130>"
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/marker-bol.bd2114b6.png",
+            "exif": {}
+          },
+          {
+            "url": "https://zorg-saam.be/build/images/zorgsaam-map.72516ff2.png",
+            "exif": {}
+          }
+        ]
+      },
+      "risk": {
+        "score": 0,
+        "reasons": []
+      },
+      "shodan": {
+        "skipped": "no_api_key_or_no_ips"
+      }
+    },
+    "zorgsaam.tobacube.be": {
+      "type": "domain",
+      "whois": {
+        "domain_name": "tobacube.be",
+        "status": "NOT AVAILABLE",
+        "name": "Level27 BV",
+        "org": "Level27 BV",
+        "phone": "+32.89449130",
+        "fax": null,
+        "email": null,
+        "creation_date": "2018-05-22 00:00:00+00:00",
+        "name_servers": "dns3.level27.net\r\n\tdns2.level27.eu\r\n\tdns1.level27.eu"
+      },
+      "dns": {
+        "A": [
+          "20.103.51.179"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [],
+        "TXT": [],
+        "CNAME": [
+          "tobahrazurewebsitesNew.tobacube.be."
+        ],
+        "SOA": []
+      },
+      "ssl": {
+        "subject": [
+          [
+            [
+              "commonName",
+              "*.tobacube.be"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "GB"
+            ]
+          ],
+          [
+            [
+              "stateOrProvinceName",
+              "Greater Manchester"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Salford"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Sectigo Limited"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Sectigo RSA Domain Validation Secure Server CA"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "E2DC802EFEBC5CAD582BD663C4BA11C8",
+        "notBefore": "Dec 30 00:00:00 2024 GMT",
+        "notAfter": "Jan 23 23:59:59 2026 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "*.tobacube.be"
+          ],
+          [
+            "DNS",
+            "tobacube.be"
+          ]
+        ],
+        "OCSP": [
+          "http://ocsp.sectigo.com"
+        ],
+        "caIssuers": [
+          "http://crt.sectigo.com/SectigoRSADomainValidationSecureServerCA.crt"
+        ]
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://zorgsaam.tobacube.be/",
+        "headers": {
+          "Cache-Control": "max-age=5356800",
+          "Content-Type": "text/html",
+          "Last-Modified": "Tue, 21 Jan 2025 10:33:51 GMT",
+          "Accept-Ranges": "bytes",
+          "ETag": "\"ed2e86f6ef6bdb1:0\"",
+          "Server": "Microsoft-IIS/10.0",
+          "Request-Context": "appId=cid-v1:07ae81ca-92e1-40b4-b897-f98f8679c386",
+          "Access-Control-Expose-Headers": "Request-Context",
+          "X-Robots-Tag": "noindex,nofollow",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Content-Security-Policy": "frame-ancestors 'none'; script-src 'self' 'unsafe-inline'  https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
+          "Date": "Thu, 06 Nov 2025 22:54:44 GMT",
+          "Content-Length": "151"
+        },
+        "title": "WorkForce",
+        "tech": []
+      },
+      "subdomains": [],
+      "assets": {
+        "assets": {
+          "pdfs": [],
+          "images": []
+        },
+        "pdf_metas": [],
+        "img_metas": []
+      },
+      "risk": {
+        "score": 0,
+        "reasons": []
+      },
+      "shodan": {
+        "skipped": "no_api_key_or_no_ips"
+      }
+    },
+    "109.135.69.8/29": {
+      "type": "ip",
+      "ip_range": "109.135.69.8/29",
+      "shodan": {
+        "skipped": "no_api_key"
+      }
+    }
+  }
+}

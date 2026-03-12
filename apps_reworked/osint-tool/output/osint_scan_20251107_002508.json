@@ -1,0 +1,363 @@
+{
+  "scan_time": "2025-11-06T23:25:08.412132",
+  "results": {
+    "zorg-saam.be": {
+      "target": "zorg-saam.be",
+      "scan_time": "2025-11-06T23:24:53.849196",
+      "type": "domain",
+      "whois": {
+        "domain_name": "zorg-saam.be",
+        "status": "NOT AVAILABLE",
+        "name": "ClearMedia NV",
+        "org": "ClearMedia NV",
+        "phone": "+32.36580036",
+        "fax": null,
+        "email": null,
+        "creation_date": "2005-09-20 00:00:00+00:00",
+        "name_servers": "ns2.clf.proximus.be\r\n\tns3.clf.proximus.be\r\n\tns1.clf.proximus.be"
+      },
+      "dns": {
+        "A": [
+          "77.241.81.229"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [
+          "ns2.clf.proximus.be.",
+          "ns1.clf.proximus.be.",
+          "ns3.clf.proximus.be."
+        ],
+        "TXT": [
+          "\"v=spf1 include:_spf.relay.mailprotect.be ?all\""
+        ],
+        "CNAME": [],
+        "SOA": [
+          "ns1.clf.proximus.be. dns.cloudflare.com. 2386993951 10000 2400 604800 1800"
+        ]
+      },
+      "ssl": {
+        "error": "can't subtract offset-naive and offset-aware datetimes"
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://zorg-saam.be/",
+        "headers": {
+          "Server": "nginx",
+          "Date": "Thu, 06 Nov 2025 23:24:58 GMT",
+          "Content-Type": "text/html; charset=UTF-8",
+          "Content-Length": "21807",
+          "Connection": "keep-alive",
+          "Link": "<https://www.zorg-saam.be/>; rel=\"canonical\"",
+          "Content-Security-Policy": "default-src * 'unsafe-inline' 'unsafe-eval'; font-src * data: blob: 'unsafe-inline';",
+          "X-Frame-Options": "DENY",
+          "Cache-Control": "public",
+          "Expires": "Thu, 06 Nov 2025 23:24:56 GMT",
+          "Accept-Ranges": "none",
+          "Vary": "Accept-Encoding",
+          "Content-Encoding": "gzip"
+        },
+        "title": "Home | Zorg-saam",
+        "meta": {
+          "viewport": "width=device-width, initial-scale=1",
+          "lang": "nl",
+          "robots": "all,index,follow",
+          "og:title": "Home",
+          "og:url": "'nl",
+          "og:image": "https://zorg-saam.be/build/images/share-image.a5f369a4.jpg",
+          "og:site_name": "Zorg-saam",
+          "og:type": "website",
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Home",
+          "twitter:image": "https://zorg-saam.be/build/images/share-image.a5f369a4.jpg",
+          "apple-mobile-web-app-capable": "yes",
+          "mobile-web-app-capable": "yes",
+          "theme-color": "#ffffff",
+          "msapplication-config": "/browserconfig.xml",
+          "msapplication-TileColor": "#ffffff",
+          "msapplication-TileImage": "../../assets/images/icons/ms-icon-144x144.png"
+        },
+        "external_links": [
+          "https://goo.gl/maps/gFqmuzzmjJo6aXN88",
+          "https://www.google.be/maps/place/Kasteelstraat+41,+9470+Denderleeuw/@50.8723945,4.0774516,17z/data=!3m1!4b1!4m5!3m4!1s0x47c3bc6ec70d5213:0xd249e18a8511cfc7!8m2!3d50.8720946!4d4.0800874",
+          "https://www.google.com/maps/place/Residentie%20Sara%20-%20Monniksbosstraat%2011%20Liedekerke%20belgium"
+        ],
+        "forms_count": 0,
+        "login_form_detected": false
+      },
+      "subdomains": [
+        "admin.zorg-saam.be",
+        "api.zorg-saam.be",
+        "dev.zorg-saam.be",
+        "ftp.zorg-saam.be",
+        "mail.zorg-saam.be",
+        "portal.zorg-saam.be",
+        "smtp.zorg-saam.be",
+        "staging.zorg-saam.be",
+        "test.zorg-saam.be",
+        "vpn.zorg-saam.be",
+        "webmail.zorg-saam.be",
+        "www.zorg-saam.be",
+        "zorg-saam.be"
+      ],
+      "emails": [],
+      "company_info": {
+        "domain": "zorg-saam.be",
+        "note": "Company intelligence gathered from WHOIS and website"
+      },
+      "social_media": {
+        "facebook": [
+          "https://facebook.com/profile.php",
+          "https://facebook.com/zorg.saam.zkj"
+        ],
+        "twitter": [
+          "https://twitter.com/ZorgsaamZKJ"
+        ],
+        "linkedin": [
+          "https://company"
+        ],
+        "instagram": [
+          "https://instagram.com/zorg_saam"
+        ]
+      },
+      "technologies": {
+        "web_server": [
+          "nginx"
+        ],
+        "javascript_libraries": [
+          "jQuery"
+        ]
+      },
+      "security": {
+        "score": 20,
+        "issues": [
+          "Missing HSTS"
+        ],
+        "good_practices": [
+          "Clickjacking Protection enabled",
+          "CSP enabled"
+        ],
+        "max_score": 30,
+        "percentage": 66
+      },
+      "shodan": {
+        "status": "skipped",
+        "reason": "No API key or no IPs"
+      },
+      "risk_assessment": {
+        "level": "MEDIUM",
+        "score": 30,
+        "findings": [
+          "SSL certificate error"
+        ]
+      }
+    },
+    "zorgsaam.tobacube.be": {
+      "target": "zorgsaam.tobacube.be",
+      "scan_time": "2025-11-06T23:25:02.244904",
+      "type": "domain",
+      "whois": {
+        "domain_name": "tobacube.be",
+        "status": "NOT AVAILABLE",
+        "name": "Level27 BV",
+        "org": "Level27 BV",
+        "phone": "+32.89449130",
+        "fax": null,
+        "email": null,
+        "creation_date": "2018-05-22 00:00:00+00:00",
+        "name_servers": "dns3.level27.net\r\n\tdns2.level27.eu\r\n\tdns1.level27.eu"
+      },
+      "dns": {
+        "A": [
+          "20.103.51.179"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [],
+        "TXT": [],
+        "CNAME": [
+          "tobahrazurewebsitesNew.tobacube.be."
+        ],
+        "SOA": []
+      },
+      "ssl": {
+        "error": "can't subtract offset-naive and offset-aware datetimes"
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://zorgsaam.tobacube.be/",
+        "headers": {
+          "Cache-Control": "max-age=5356800",
+          "Content-Type": "text/html",
+          "Last-Modified": "Tue, 21 Jan 2025 10:33:51 GMT",
+          "Accept-Ranges": "bytes",
+          "ETag": "\"ed2e86f6ef6bdb1:0\"",
+          "Server": "Microsoft-IIS/10.0",
+          "Request-Context": "appId=cid-v1:07ae81ca-92e1-40b4-b897-f98f8679c386",
+          "Access-Control-Expose-Headers": "Request-Context",
+          "X-Robots-Tag": "noindex,nofollow",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Content-Security-Policy": "frame-ancestors 'none'; script-src 'self' 'unsafe-inline'  https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
+          "Date": "Thu, 06 Nov 2025 23:25:05 GMT",
+          "Content-Length": "151"
+        },
+        "title": "WorkForce",
+        "meta": {},
+        "external_links": [],
+        "forms_count": 0,
+        "login_form_detected": false
+      },
+      "subdomains": [],
+      "emails": [],
+      "company_info": {
+        "domain": "zorgsaam.tobacube.be",
+        "note": "Company intelligence gathered from WHOIS and website"
+      },
+      "social_media": {},
+      "technologies": {
+        "web_server": [
+          "Microsoft-IIS/10.0"
+        ]
+      },
+      "security": {
+        "score": 20,
+        "issues": [
+          "Missing Clickjacking Protection"
+        ],
+        "good_practices": [
+          "HSTS enabled",
+          "CSP enabled"
+        ],
+        "max_score": 30,
+        "percentage": 66
+      },
+      "shodan": {
+        "status": "skipped",
+        "reason": "No API key or no IPs"
+      },
+      "risk_assessment": {
+        "level": "MEDIUM",
+        "score": 30,
+        "findings": [
+          "SSL certificate error"
+        ]
+      }
+    },
+    "idp.assessmentq.com": {
+      "target": "idp.assessmentq.com",
+      "scan_time": "2025-11-06T23:25:04.738705",
+      "type": "domain",
+      "whois": {
+        "domain_name": "ASSESSMENTQ.COM",
+        "registrar": "Ascio Technologies, Inc",
+        "registrar_url": "http://www.ascio.com",
+        "reseller": null,
+        "whois_server": "whois.ascio.com",
+        "referral_url": null,
+        "updated_date": [
+          "2025-10-11 07:19:47+00:00",
+          "2025-10-11 00:30:51+00:00"
+        ],
+        "creation_date": [
+          "2016-10-10 13:25:29+00:00",
+          "2016-10-10 00:00:00+00:00"
+        ],
+        "expiration_date": [
+          "2026-10-10 13:25:29+00:00",
+          "2026-10-10 00:00:00+00:00"
+        ],
+        "name_servers": [
+          "NS1.COMBELL.EU",
+          "NS3.COMBELL.NET",
+          "NS4.COMBELL.NET"
+        ],
+        "status": "clientTransferProhibited https://icann.org/epp#clientTransferProhibited",
+        "emails": "abuse@ascio.com",
+        "dnssec": "unsigned",
+        "name": "Not Disclosed",
+        "org": "Not Disclosed",
+        "address": "Not Disclosed",
+        "city": "Not Disclosed",
+        "state": null,
+        "registrant_postal_code": "Not Disclosed",
+        "country": "BE",
+        "tech_name": "Not Disclosed",
+        "tech_org": "Not Disclosed",
+        "admin_name": "Not Disclosed",
+        "admin_org": "Not Disclosed"
+      },
+      "dns": {
+        "A": [
+          "20.73.179.14"
+        ],
+        "AAAA": [],
+        "MX": [],
+        "NS": [],
+        "TXT": [],
+        "CNAME": [
+          "ingress.europe1.assessmentq.com."
+        ],
+        "SOA": []
+      },
+      "ssl": {
+        "error": "can't subtract offset-naive and offset-aware datetimes"
+      },
+      "http": {
+        "status_code": 200,
+        "final_url": "https://idp.assessmentq.com/",
+        "headers": {
+          "Date": "Thu, 06 Nov 2025 23:25:08 GMT",
+          "Content-Type": "text/html; charset=utf-8",
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "Cache-Control": "no-cache, no-store",
+          "Pragma": "no-cache",
+          "Set-Cookie": ".AspNetCore.Antiforgery.vHsmmeQ3QSs=CfDJ8JT3I_0KmAtEgjwz2kVvSqLvsqysyCRSN3n6GSXd-Q0zjLZKNdQwnRrV5483noeuBjw1uTfUCU2y60PB2nzACqlzL-KLVKxCqY-tfwnlopqQZqelqw24M39bKVPp_81t6qN6Wfy8VNsCHWDf9qf2Uik; path=/; samesite=strict; httponly",
+          "Strict-Transport-Security": "max-age=2592000",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "SAMEORIGIN",
+          "Content-Security-Policy": "default-src 'self'; object-src 'none'; frame-ancestors https://*:*; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';upgrade-insecure-requests;img-src 'self' https://*.assessmentq.com;style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.assessmentq.com;font-src 'self' https://fonts.gstatic.com;connect-src 'self' https://dc.services.visualstudio.com",
+          "X-Content-Security-Policy": "default-src 'self'; object-src 'none'; frame-ancestors https://*:*; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';upgrade-insecure-requests;img-src 'self' https://*.assessmentq.com;style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.assessmentq.com;font-src 'self' https://fonts.gstatic.com;connect-src 'self' https://dc.services.visualstudio.com",
+          "Referrer-Policy": "no-referrer"
+        },
+        "title": null,
+        "meta": {
+          "viewport": "width=device-width, initial-scale=1.0",
+          "robots": "noindex, nofollow"
+        },
+        "external_links": [],
+        "forms_count": 1,
+        "login_form_detected": false
+      },
+      "subdomains": [],
+      "emails": [],
+      "company_info": {
+        "domain": "idp.assessmentq.com",
+        "note": "Company intelligence gathered from WHOIS and website"
+      },
+      "social_media": {},
+      "technologies": {},
+      "security": {
+        "score": 30,
+        "issues": [],
+        "good_practices": [
+          "HSTS enabled",
+          "Clickjacking Protection enabled",
+          "CSP enabled"
+        ],
+        "max_score": 30,
+        "percentage": 100
+      },
+      "shodan": {
+        "status": "skipped",
+        "reason": "No API key or no IPs"
+      },
+      "risk_assessment": {
+        "level": "MEDIUM",
+        "score": 30,
+        "findings": [
+          "SSL certificate error"
+        ]
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
-# 🛡️ Security & Network Toolkit — Reworked Apps
+# ️ Security & Network Toolkit — Reworked Apps
 
 A collection of desktop and web-based security, OSINT, and network analysis tools built with **Python + FastAPI** backends and lightweight HTML/JS or pywebview frontends. Each project is self-contained and designed for use in lab or authorized penetration testing environments.
 
 ---
 
-## 📁 Projects
+##  Projects
 
 | Project | Type | Description |
 |---|---|---|
@@ -14,6 +14,7 @@ A collection of desktop and web-based security, OSINT, and network analysis tool
 | [`network_monitor_rework`](#4-network_monitor_rework--netglass-live-traffic-monitor) | Desktop App | Live per-process network traffic monitor |
 | [`osint_rework`](#5-osint_rework--osint-recon--web-pentest-suite) | Desktop App | Full OSINT recon + active web pentest suite |
 | [`providers_lookup`](#6-providers_lookup--bgp-upstream-provider-lookup) | CLI Script | BGP upstream provider lookup for a domain |
+| [`f1_telemetry`](#7-f1_telemetry--f1-25-live-telemetry-dashboard) | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
 
 ---
 
@@ -218,7 +219,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 
 Open: `http://127.0.0.1:8000`
 
-> ⚠️ Requires Nmap, Nikto, Gobuster, and SQLMap to be installed on the system. Only use on systems you are authorized to test.
+>  Requires Nmap, Nikto, Gobuster, and SQLMap to be installed on the system. Only use on systems you are authorized to test.
 
 ---
 
@@ -272,7 +273,7 @@ pip install fastapi uvicorn pywebview scapy psutil
 python app.py
 ```
 
-> ⚠️ Packet sniffing requires elevated privileges. Run as `root` on Linux/macOS or as Administrator on Windows.
+>  Packet sniffing requires elevated privileges. Run as `root` on Linux/macOS or as Administrator on Windows.
 
 ---
 
@@ -386,7 +387,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-> ⚠️ Only use on domains and systems you own or have explicit written authorization to test.
+>  Only use on domains and systems you own or have explicit written authorization to test.
 
 ---
 
@@ -433,9 +434,109 @@ RETN
 
 ---
 
-## 🏗️ Common Architecture
+## 7. `f1_telemetry` — F1 25 Live Telemetry Dashboard
 
-All desktop apps follow the same launcher pattern:
+A real-time racing dashboard for **F1 25**, inspired by [f1-dash.com](https://f1-dash.com). Captures UDP telemetry packets broadcast by the game and serves a live dashboard over HTTP — accessible from any browser on the same network, including phones and tablets.
+
+Unlike the other projects in this repo, this one lives under `other_projects/` rather than `apps_reworked/` and uses a pure `asyncio` stack instead of pywebview.
+
+### How it works
+
+`run.py` launches three concurrent services:
+
+1. **UDP listener** (`server/udp_listener.py`) — binds to `0.0.0.0:20777` and receives raw binary packets from F1 25 at up to 20 Hz. Each packet is dispatched to the parser.
+
+2. **Packet parser** (`server/packet_parser.py`) — decodes the binary F1 25 UDP spec (packet format 2025) into Python dicts using `struct.unpack_from`. Handles packet types: Motion (0), Session (1), LapData (2), CarTelemetry (6), CarStatus (7), and CarDamage (10).
+
+3. **WebSocket + HTTP server** (`server/websocket_server.py`) — pushes live telemetry state as JSON to all connected browser clients over WebSocket, and serves the static dashboard files over HTTP.
+
+A fourth component, `server/session_recorder.py`, watches the live state and persists every session and completed lap to a local SQLite database (`f1_telemetry.db`) via `server/database.py`.
+
+#### Graceful shutdown
+
+Signal handlers (`SIGINT`/`SIGTERM`) ensure that `ended_at` is always written to the current session row before the process exits — even on Windows where `add_signal_handler` falls back to `KeyboardInterrupt`.
+
+#### Ports
+
+| Port | Protocol | Purpose |
+|---|---|---|
+| `20777` | UDP | F1 25 → server (telemetry input) |
+| `8765` | WebSocket | server → browser (live JSON push) |
+| `8080` | HTTP | dashboard + history file server |
+
+#### Database schema
+
+Session and lap data are stored in `f1_telemetry.db` (SQLite, standard library only — no ORM).
+
+**`sessions`** — one row per game session, with track name, session type, weather, total laps, track length, and ISO-8601 UTC timestamps for start and end.
+
+**`laps`** — one row per completed lap, linked to a session. Stores lap time, sector times (S3 derived as `lap − S1 − S2`), tyre compound and age (captured at lap start so pit stops don't overwrite them), validity flag, fastest-lap flag, pit-stop flag, and fuel load.
+
+### Project structure
+
+```
+other_projects/f1_telemetry/
+├── run.py                      ← entry point
+├── logger.py                   ← standalone raw-packet logger / debug tool
+├── server/
+│   ├── config.py               ← ports, struct formats, lookup tables
+│   ├── state.py                ← shared live telemetry state
+│   ├── packet_parser.py        ← binary UDP → Python dicts (F1 25 spec)
+│   ├── udp_listener.py         ← async UDP socket loop
+│   ├── session_recorder.py     ← persists sessions & laps to SQLite
+│   ├── database.py             ← SQLite schema and query helpers
+│   └── websocket_server.py     ← WebSocket push + HTTP file server
+└── dashboard/
+    ├── index.html              ← live telemetry view
+    ├── history.html            ← lap history view
+    ├── css/
+    │   ├── style.css
+    │   └── history.css
+    └── js/
+        ├── main.js
+        ├── websocket.js        ← WS connection + auto-reconnect
+        ├── ui.js               ← DOM update logic
+        └── history.js          ← history page logic
+```
+
+### Stack
+
+Python · asyncio · websockets · sqlite3 (stdlib only)
+
+### Configure F1 25
+
+**Options → Settings → Telemetry Settings**
+
+| Setting | Value |
+|---|---|
+| UDP Telemetry | **On** |
+| UDP IP Address | `127.0.0.1` (or your server PC's LAN IP if playing on a different machine) |
+| UDP Port | `20777` |
+| UDP Format | **2025** |
+| UDP Send Rate | `20Hz` |
+
+### Run
+
+```bash
+pip install websockets
+python run.py
+```
+
+Open `http://localhost:8080` for the live dashboard or `http://localhost:8080/history.html` for lap history.
+
+### Debugging
+
+Use `logger.py` instead of `run.py` to capture and decode raw packets without running the full server. Output goes to `telemetry_log.json` (newline-delimited, flushed per packet) and `telemetry_log.txt` (human-readable summary).
+
+```bash
+python logger.py
+```
+
+---
+
+## ️ Common Architecture
+
+All `apps_reworked` desktop apps follow the same launcher pattern:
 
 ```
 app.py  →  find_free_port()
@@ -464,14 +565,12 @@ All backends share the same project layout:
 └── requirements.txt
 ```
 
+`f1_telemetry` intentionally diverges from this pattern — it uses raw `asyncio` sockets instead of FastAPI/Uvicorn and has no pywebview dependency, since the dashboard is accessed over the network rather than in a native window.
+
 ---
 
-## ⚠️ Legal & Ethical Notice
+##  Legal & Ethical Notice
 
 These tools are intended for **authorized security research, CTF environments, and lab use only**. Running active scans, exploit probes, or packet sniffers against systems you do not own or have explicit written permission to test may be **illegal** in your jurisdiction. Always obtain proper authorization before use.
 
 ---
-
-## 📄 License
-
-See individual project folders for license information.

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>F1 25 · Live Telemetry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- loading screen overlay -->
+<div id="waiting">
+  <div class="wait-inner">
+    <div class="wait-logo">
+      <div class="wait-f1">F1</div>
+      <div class="wait-year">25</div>
+    </div>
+    <div class="wait-bars">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div id="waiting-title">LIVE TELEMETRY</div>
+    <div class="waiting-sub">Connecting to server…</div>
+    <div class="waiting-hint">Make sure <code>run.py</code> is running</div>
+  </div>
+</div>
+
+<!-- top navigation bar -->
+<header id="topbar">
+  <div class="f1-logo">
+    <div class="logo-mark">
+      <span class="logo-f1">F1</span><span class="logo-25">25</span>
+    </div>
+    <div class="logo-divider"></div>
+    <span class="logo-label">TELEMETRY</span>
+  </div>
+
+  <div id="track-info">
+    <span id="track-name">— —</span>
+    <span id="weather-badge">—</span>
+    <span id="session-type-badge">—</span>
+  </div>
+
+  <div class="topbar-right">
+    <div id="flag-indicator">⬤ NO FLAG</div>
+    <div id="pit-badge">PIT LIM</div>
+    <a href="history.html" class="nav-link">HISTORY</a>
+    <div id="status-badge">
+      <div id="status-dot"></div>
+      <span id="status-text">OFFLINE</span>
+    </div>
+  </div>
+</header>
+
+<!-- main grid layout -->
+<main id="main">
+
+  <!-- left panel -->
+  <aside id="left">
+
+    <!-- Position / Lap -->
+    <section class="panel panel--flush">
+      <div class="plap-grid">
+        <div class="plap-cell">
+          <div class="plap-num" id="pos-val">—</div>
+          <div class="plap-label">POS</div>
+        </div>
+        <div class="plap-divider"></div>
+        <div class="plap-cell">
+          <div class="plap-num accent" id="lap-val">—</div>
+          <div class="plap-label">LAP</div>
+        </div>
+        <div class="plap-divider"></div>
+        <div class="plap-cell">
+          <div class="plap-num muted" id="total-laps-val">—</div>
+          <div class="plap-label">OF</div>
+        </div>
+      </div>
+      <!-- Live sector strip -->
+      <div class="sector-strip">
+        <div class="sector-tile" id="s-block-1">
+          <div class="stile-label">S1</div>
+          <div class="stile-time" id="s-t1">—</div>
+        </div>
+        <div class="sector-tile" id="s-block-2">
+          <div class="stile-label">S2</div>
+          <div class="stile-time" id="s-t2">—</div>
+        </div>
+        <div class="sector-tile" id="s-block-3">
+          <div class="stile-label">S3</div>
+          <div class="stile-time" id="s-t3">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lap times -->
+    <section class="panel">
+      <div class="panel-label"><span class="pl-dot"></span>LAP TIMES</div>
+      <div class="time-row">
+        <span class="time-key">CURRENT</span>
+        <span class="time-val" id="t-current">-:--.---</span>
+      </div>
+      <div class="time-row">
+        <span class="time-key">LAST LAP</span>
+        <span class="time-val highlight" id="t-last">-:--.---</span>
+      </div>
+      <div class="time-row">
+        <span class="time-key">S1</span>
+        <span class="time-val dim" id="t-s1">-.---</span>
+      </div>
+      <div class="time-row no-border">
+        <span class="time-key">S2</span>
+        <span class="time-val dim" id="t-s2">-.---</span>
+      </div>
+    </section>
+
+    <!-- Damage -->
+    <section class="panel">
+      <div class="panel-label"><span class="pl-dot warn"></span>DAMAGE</div>
+      <div class="dmg-row"><span class="dmg-key">FL WING</span><div class="dmg-bar-wrap"><div class="dmg-bar"><div class="dmg-fill" id="d-flw"></div></div><span class="dmg-val" id="d-flw-v">0%</span></div></div>
+      <div class="dmg-row"><span class="dmg-key">FR WING</span><div class="dmg-bar-wrap"><div class="dmg-bar"><div class="dmg-fill" id="d-frw"></div></div><span class="dmg-val" id="d-frw-v">0%</span></div></div>
+      <div class="dmg-row"><span class="dmg-key">REAR WING</span><div class="dmg-bar-wrap"><div class="dmg-bar"><div class="dmg-fill" id="d-rw"></div></div><span class="dmg-val" id="d-rw-v">0%</span></div></div>
+      <div class="dmg-row"><span class="dmg-key">ENGINE</span><div class="dmg-bar-wrap"><div class="dmg-bar"><div class="dmg-fill" id="d-eng"></div></div><span class="dmg-val" id="d-eng-v">0%</span></div></div>
+      <div class="dmg-row no-border"><span class="dmg-key">GEARBOX</span><div class="dmg-bar-wrap"><div class="dmg-bar"><div class="dmg-fill" id="d-gbx"></div></div><span class="dmg-val" id="d-gbx-v">0%</span></div></div>
+    </section>
+
+  </aside>
+
+  <!-- hero section with speed display -->
+  <div id="hero" class="panel">
+
+    <!-- Rev lights -->
+    <div id="rev-lights">
+      <div class="rev-light" data-i="0"></div>
+      <div class="rev-light" data-i="1"></div>
+      <div class="rev-light" data-i="2"></div>
+      <div class="rev-light" data-i="3"></div>
+      <div class="rev-light" data-i="4"></div>
+      <div class="rev-light" data-i="5"></div>
+      <div class="rev-light" data-i="6"></div>
+      <div class="rev-light" data-i="7"></div>
+      <div class="rev-light" data-i="8"></div>
+      <div class="rev-light" data-i="9"></div>
+      <div class="rev-light" data-i="10"></div>
+      <div class="rev-light" data-i="11"></div>
+    </div>
+
+    <!-- Speed -->
+    <div id="speed-wrap">
+      <div id="speed-display">0</div>
+      <div id="speed-unit">KM/H</div>
+    </div>
+
+    <!-- Gear + RPM + DRS -->
+    <div id="gear-rpm-row">
+      <div id="gear-display">N</div>
+      <div id="rpm-section">
+        <div id="rpm-bar-track"><div id="rpm-bar-fill"></div></div>
+        <div id="rpm-bottom">
+          <div id="rpm-label">RPM</div>
+          <div id="rpm-value">0</div>
+        </div>
+      </div>
+      <div id="drs-badge">DRS</div>
+    </div>
+
+    <!-- Session info strip — lives inside hero -->
+    <div id="session-strip">
+      <div class="sstrip-item">
+        <div class="sstrip-label">TRACK</div>
+        <div class="sstrip-value" id="b-track">—</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">WEATHER</div>
+        <div class="sstrip-value" id="b-weather">—</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">TRK TEMP</div>
+        <div class="sstrip-value mono" id="b-ttemp">—°C</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">AIR TEMP</div>
+        <div class="sstrip-value mono" id="b-atemp">—°C</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">PITS</div>
+        <div class="sstrip-value mono" id="b-pits">—</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">BIAS</div>
+        <div class="sstrip-value mono" id="b-bias">—%</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">TRAP</div>
+        <div class="sstrip-value mono" id="b-trap">—</div>
+      </div>
+      <div class="sstrip-sep"></div>
+      <div class="sstrip-item">
+        <div class="sstrip-label">PEN</div>
+        <div class="sstrip-value mono accent" id="b-pen">0s</div>
+      </div>
+    </div>
+
+    <!-- Pedals + Steering -->
+    <div id="pedals">
+      <div class="pedal-group">
+        <div class="pedal-wrap">
+          <div class="pedal-track"><div class="pedal-fill throttle" id="p-throttle"></div></div>
+          <div class="pedal-label">THR</div>
+          <div class="pedal-value" id="v-throttle">0%</div>
+        </div>
+        <div class="pedal-wrap">
+          <div class="pedal-track"><div class="pedal-fill brake" id="p-brake"></div></div>
+          <div class="pedal-label">BRK</div>
+          <div class="pedal-value" id="v-brake">0%</div>
+        </div>
+        <div class="pedal-wrap">
+          <div class="pedal-track"><div class="pedal-fill clutch" id="p-clutch"></div></div>
+          <div class="pedal-label">CLU</div>
+          <div class="pedal-value" id="v-clutch">0%</div>
+        </div>
+      </div>
+      <div class="steer-group">
+        <div class="steer-label">STEER</div>
+        <div id="steer-track"><div id="steer-cursor"></div></div>
+        <div class="pedal-value" id="v-steer">0°</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- right panel -->
+  <aside id="right">
+
+    <!-- Tyre compound + temps -->
+    <section class="panel">
+      <div class="panel-label"><span class="pl-dot green"></span>TYRES</div>
+      <div id="tyre-compound-badge">
+        <div id="compound-circle">S</div>
+        <div id="compound-info">
+          <div id="compound-name">Soft</div>
+          <div id="compound-age">— laps old</div>
+        </div>
+        <div id="compound-temps">
+          <div class="compound-temps-label">ENGINE</div>
+          <div id="engine-temp">—°C</div>
+        </div>
+      </div>
+      <div class="tyre-grid">
+        <div class="tyre-cell"><div class="tyre-pos">FL</div><div class="tyre-temp" id="tt-fl">—°</div><div class="tyre-wear" id="tw-fl">—%</div></div>
+        <div class="tyre-cell"><div class="tyre-pos">FR</div><div class="tyre-temp" id="tt-fr">—°</div><div class="tyre-wear" id="tw-fr">—%</div></div>
+        <div class="tyre-cell"><div class="tyre-pos">RL</div><div class="tyre-temp" id="tt-rl">—°</div><div class="tyre-wear" id="tw-rl">—%</div></div>
+        <div class="tyre-cell"><div class="tyre-pos">RR</div><div class="tyre-temp" id="tt-rr">—°</div><div class="tyre-wear" id="tw-rr">—%</div></div>
+      </div>
+    </section>
+
+    <!-- ERS -->
+    <section class="panel">
+      <div class="panel-label"><span class="pl-dot blue"></span>ERS / ENERGY</div>
+      <div class="ers-header">
+        <div>
+          <div id="ers-pct-val" class="ers-value">—%</div>
+          <div class="ers-sublabel">ENERGY STORE</div>
+        </div>
+        <div class="ers-mode-block">
+          <div class="ers-mode-label">MODE</div>
+          <div id="ers-mode" class="ers-mode-value">—</div>
+        </div>
+      </div>
+      <div class="ers-bar-track"><div class="ers-bar-fill" id="ers-bar"></div></div>
+    </section>
+
+    <!-- Fuel -->
+    <section class="panel">
+      <div class="panel-label"><span class="pl-dot yellow"></span>FUEL</div>
+      <div class="fuel-main">
+        <span id="fuel-value">—</span>
+        <span class="fuel-unit">kg</span>
+      </div>
+      <div class="fuel-row">
+        <span class="fuel-sub">REMAINING LAPS</span>
+        <span id="fuel-laps" class="fuel-laps">—</span>
+      </div>
+      <div class="fuel-bar-track"><div id="fuel-bar" class="fuel-bar-fill"></div></div>
+    </section>
+
+  </aside>
+
+</main>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

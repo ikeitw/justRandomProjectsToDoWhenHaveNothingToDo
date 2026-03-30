@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>F1 25 · Session History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/history.css"/>
+</head>
+<body>
+
+<header id="topbar">
+  <div class="f1-logo">
+    <svg viewBox="0 0 60 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="60" height="22" rx="2" fill="#e10600"/>
+      <text x="5" y="16" font-family="'Titillium Web',sans-serif" font-weight="900" font-size="14" fill="white">F1</text>
+      <text x="26" y="16" font-family="'Titillium Web',sans-serif" font-weight="400" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="1">25</text>
+    </svg>
+    <span class="logo-label">Session History</span>
+  </div>
+
+  <nav class="topbar-nav">
+    <a href="index.html" class="nav-link">◀ Live Dashboard</a>
+  </nav>
+</header>
+
+<div id="history-root">
+
+  <!-- left: session list -->
+  <aside id="session-list-panel">
+    <div class="h-panel-header">
+      <div class="h-panel-title">Sessions</div>
+      <div id="session-count" class="h-panel-sub">—</div>
+    </div>
+
+    <!-- All-time records strip -->
+    <div id="records-strip" class="records-strip hidden">
+      <div class="records-title">🏆 ALL-TIME BESTS</div>
+      <div id="records-list"></div>
+    </div>
+
+    <div id="session-list">
+      <div class="empty-state">Loading sessions…</div>
+    </div>
+  </aside>
+
+  <!-- right: session detail -->
+  <main id="session-detail">
+    <div class="empty-state centered">
+      <div class="empty-icon">📋</div>
+      <div>Select a session to view lap data</div>
+    </div>
+  </main>
+
+</div>
+
+<script type="module" src="js/history.js"></script>
+</body>
+</html>

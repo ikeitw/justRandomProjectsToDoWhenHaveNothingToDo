@@ -59,6 +59,15 @@ CREATE TABLE IF NOT EXISTS watchlist (
   UNIQUE(user_id, movie_id)
 );
 
+CREATE TABLE IF NOT EXISTS watch_progress (
+  user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  movie_id    INTEGER NOT NULL,
+  progress    FLOAT   NOT NULL DEFAULT 0,
+  duration    FLOAT,
+  updated_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (user_id, movie_id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_watch_history_user_id ON watch_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_watch_history_watched_at ON watch_history(watched_at DESC);
 CREATE INDEX IF NOT EXISTS idx_watchlist_user_id ON watchlist(user_id);

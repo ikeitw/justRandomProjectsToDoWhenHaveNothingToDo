@@ -1,20 +1,21 @@
 # ️ Security & Network Toolkit — Reworked Apps
 
-A collection of desktop and web-based security, OSINT, and network analysis tools built with **Python + FastAPI** backends and lightweight HTML/JS or pywebview frontends. Each project is self-contained and designed for use in lab or authorized penetration testing environments.
+A collection of desktop and web-based security, OSINT, network analysis, and personal-project tools. Each project is self-contained; the security/network tools are built with **Python + FastAPI** backends and lightweight HTML/JS or pywebview frontends.
 
 ---
 
-##  Projects
+## Projects
 
-| Project | Type | Description |
-|---|---|---|
-| [`explorer_rework`](#1-explorer_rework--drill-down-file-system-explorer) | Desktop App | Cross-platform visual file system explorer |
-| [`forensic_file_analyzer`](#2-forensic_file_analyzer--static-file-forensics-tool) | Desktop App | Static malware triage and IOC detection |
-| [`kali_pentest`](#3-kali_pentest--kali-linux-pentest-dashboard) | Web Dashboard | GUI wrapper for common Kali Linux pentest tools |
-| [`network_monitor_rework`](#4-network_monitor_rework--netglass-live-traffic-monitor) | Desktop App | Live per-process network traffic monitor |
-| [`osint_rework`](#5-osint_rework--osint-recon--web-pentest-suite) | Desktop App | Full OSINT recon + active web pentest suite |
-| [`providers_lookup`](#6-providers_lookup--bgp-upstream-provider-lookup) | CLI Script | BGP upstream provider lookup for a domain |
-| [`f1_telemetry`](#7-f1_telemetry--f1-25-live-telemetry-dashboard) | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
+| Project | Location | Type | Description |
+|---|---|---|---|
+| [`explorer_rework`](#1-explorer_rework--drill-down-file-system-explorer) | `apps_reworked/` | Desktop App | Cross-platform visual file system explorer |
+| [`forensic_file_analyzer`](#2-forensic_file_analyzer--static-file-forensics-tool) | `apps_reworked/` | Desktop App | Static malware triage and IOC detection |
+| [`kali_pentest`](#3-kali_pentest--kali-linux-pentest-dashboard) | `apps_reworked/` | Web Dashboard | GUI wrapper for common Kali Linux pentest tools |
+| [`network_monitor_rework`](#4-network_monitor_rework--netglass-live-traffic-monitor) | `apps_reworked/` | Desktop App | Live per-process network traffic monitor |
+| [`osint_rework`](#5-osint_rework--osint-recon--web-pentest-suite) | `apps_reworked/` | Desktop App | Full OSINT recon + active web pentest suite |
+| [`providers_lookup`](#6-providers_lookup--bgp-upstream-provider-lookup) | `apps_reworked/` | CLI Script | BGP upstream provider lookup for a domain |
+| [`f1_telemetry`](#7-f1_telemetry--f1-25-live-telemetry-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
+| [`streamix`](#8-streamix--full-stack-movie-streaming-platform) | `other_projects/` | Web App | Full-stack movie streaming platform (Next.js + PostgreSQL + TMDb) |
 
 ---
 
@@ -219,7 +220,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 
 Open: `http://127.0.0.1:8000`
 
->  Requires Nmap, Nikto, Gobuster, and SQLMap to be installed on the system. Only use on systems you are authorized to test.
+> ⚠️ Requires Nmap, Nikto, Gobuster, and SQLMap to be installed on the system. Only use on systems you are authorized to test.
 
 ---
 
@@ -273,7 +274,7 @@ pip install fastapi uvicorn pywebview scapy psutil
 python app.py
 ```
 
->  Packet sniffing requires elevated privileges. Run as `root` on Linux/macOS or as Administrator on Windows.
+> ⚠️ Packet sniffing requires elevated privileges. Run as `root` on Linux/macOS or as Administrator on Windows.
 
 ---
 
@@ -387,7 +388,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
->  Only use on domains and systems you own or have explicit written authorization to test.
+> ⚠️ Only use on domains and systems you own or have explicit written authorization to test.
 
 ---
 
@@ -438,7 +439,7 @@ RETN
 
 A real-time racing dashboard for **F1 25**, inspired by [f1-dash.com](https://f1-dash.com). Captures UDP telemetry packets broadcast by the game and serves a live dashboard over HTTP — accessible from any browser on the same network, including phones and tablets.
 
-Unlike the other projects in this repo, this one lives under `other_projects/` rather than `apps_reworked/` and uses a pure `asyncio` stack instead of pywebview.
+Unlike the `apps_reworked` projects, this one lives under `other_projects/` and uses a pure `asyncio` stack instead of pywebview.
 
 ### How it works
 
@@ -534,6 +535,203 @@ python logger.py
 
 ---
 
+## 8. `streamix` — Full-Stack Movie Streaming Platform
+
+A full-stack movie streaming platform built with **Next.js 14**, **PostgreSQL**, and the **TMDb API**. Browse thousands of movies, build a personal watchlist, track watch history, and pick up right where you left off.
+
+> **Educational project.** Movie data is provided by [The Movie Database (TMDb)](https://www.themoviedb.org). Streamix does not host any media files.
+
+### Features
+
+- **Movie Browser** — Hero banner with rotating trending films, horizontally scrollable rows by category (Trending, Now Playing, Top Rated, Popular, Upcoming) and genre
+- **Search** — Full-text movie search powered by TMDb
+- **Watch Page** — Embedded video player with multi-source fallback across 8 streaming providers
+- **Progress Tracking** — Playback position saved automatically; resumes on next visit
+- **Watchlist** — Add/remove movies; persisted per user in PostgreSQL
+- **Watch History** — Full log of every movie watched, with timestamps
+- **Authentication** — JWT-based auth (register, login, logout) with HTTP-only cookies
+- **Route Protection** — Middleware guards `/browse` and `/watch` routes; unauthenticated users are redirected to `/login`
+- **Responsive UI** — Mobile-first design with a collapsible sidebar drawer and top navbar
+
+### Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Database | PostgreSQL (via `pg`) |
+| Auth | JWT (`jose`) + `bcryptjs` for password hashing |
+| Movie Data | TMDb REST API |
+| Cookie Handling | `cookies-next` |
+
+### Project structure
+
+```
+other_projects/streamix/
+├── app/
+│   ├── page.tsx                  # Main browse page (home, search, genre, type filters)
+│   ├── layout.tsx                # Root layout
+│   ├── globals.css               # Global styles & Tailwind base
+│   ├── browse/
+│   │   ├── layout.tsx            # Browse shell: AuthProvider + Navbar + Footer
+│   │   ├── watchlist/page.tsx    # User's watchlist
+│   │   └── history/page.tsx      # User's watch history
+│   ├── watch/[id]/
+│   │   ├── page.tsx              # Watch page entry
+│   │   └── WatchClient.tsx       # Video player client component
+│   ├── login/                    # Login page
+│   ├── register/                 # Register page
+│   └── api/
+│       ├── auth/login/           # POST — authenticate user, set JWT cookie
+│       ├── auth/logout/          # POST — clear JWT cookie
+│       ├── auth/register/        # POST — create account
+│       ├── auth/me/              # GET  — return current user from session
+│       ├── movies/               # GET  — proxy to TMDb
+│       ├── history/              # GET/POST — watch history CRUD
+│       ├── watchlist/            # GET/POST/DELETE — watchlist CRUD
+│       └── progress/             # GET/POST — playback progress CRUD
+├── components/
+│   ├── AuthContext.tsx           # React context: user state, login/logout helpers
+│   ├── layout/
+│   │   └── Navbar.tsx            # Top navbar + sidebar drawer
+│   └── movie/
+│       ├── HeroBanner.tsx        # Auto-rotating hero with top-5 trending films
+│       ├── MovieRow.tsx          # Horizontally scrollable movie shelf
+│       ├── MovieCard.tsx         # Individual poster card with hover overlay
+│       └── VideoPlayer.tsx       # Embedded player with multi-source fallback
+├── lib/
+│   ├── tmdb.ts                   # TMDb API client + type definitions
+│   ├── db.ts                     # PostgreSQL connection pool + query helpers
+│   ├── auth.ts                   # Session helpers: getSession, getUserFromSession
+│   ├── jwt.ts                    # signToken / verifyToken (jose)
+│   └── streaming.ts              # Streaming source URL builders
+├── middleware.ts                 # Route protection & auth redirect logic
+├── scripts/
+│   └── setup-db.js               # Creates all DB tables and indexes
+└── .env.local.example            # Environment variable template
+```
+
+### Routes
+
+| Route | Access | Description |
+|---|---|---|
+| `/` | Public | Main browse page (hero + movie rows) |
+| `/login` | Public (redirects if authed) | Login form |
+| `/register` | Public (redirects if authed) | Registration form |
+| `/browse/watchlist` | Protected | User's saved movies |
+| `/browse/history` | Protected | User's watch history |
+| `/watch/[id]` | Protected | Video player for a specific movie |
+
+URL query parameters on `/`:
+
+| Parameter | Example | Effect |
+|---|---|---|
+| `q` | `/?q=inception` | Full-text movie search |
+| `type` | `/?type=popular` | Filter to Popular or Top Rated |
+| `genre` + `genreName` | `/?genre=28&genreName=Action` | Browse by genre |
+
+### Authentication flow
+
+1. User registers via `/register` → password hashed with `bcryptjs` → stored in `users` table
+2. User logs in via `/login` → credentials verified → JWT signed with `jose` and stored in an HTTP-only cookie (`streamix-token`)
+3. `middleware.ts` intercepts every request to `/browse` and `/watch`, verifies the JWT, and redirects unauthenticated users to `/login`
+4. Client-side auth state is managed by `AuthContext`, which calls `/api/auth/me` on mount
+5. Logout hits `/api/auth/logout`, which clears the cookie
+
+### Database schema
+
+```sql
+-- Users
+CREATE TABLE users (
+  id           SERIAL PRIMARY KEY,
+  name         VARCHAR(255) NOT NULL,
+  email        VARCHAR(255) UNIQUE NOT NULL,
+  password     VARCHAR(255) NOT NULL,
+  avatar       VARCHAR(500),
+  plan         VARCHAR(50) DEFAULT 'free',
+  created_at   TIMESTAMPTZ DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Watch History
+CREATE TABLE watch_history (
+  id             SERIAL PRIMARY KEY,
+  user_id        INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  movie_id       INTEGER NOT NULL,
+  movie_title    VARCHAR(500) NOT NULL,
+  movie_poster   VARCHAR(500),
+  movie_backdrop VARCHAR(500),
+  movie_rating   DECIMAL(3,1),
+  movie_year     INTEGER,
+  watched_at     TIMESTAMPTZ DEFAULT NOW(),
+  progress       INTEGER DEFAULT 0,
+  completed      BOOLEAN DEFAULT FALSE,
+  UNIQUE(user_id, movie_id)
+);
+
+-- Watchlist
+CREATE TABLE watchlist (
+  id             SERIAL PRIMARY KEY,
+  user_id        INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  movie_id       INTEGER NOT NULL,
+  movie_title    VARCHAR(500) NOT NULL,
+  movie_poster   VARCHAR(500),
+  movie_backdrop VARCHAR(500),
+  movie_rating   DECIMAL(3,1),
+  movie_year     INTEGER,
+  movie_genre    VARCHAR(255),
+  added_at       TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, movie_id)
+);
+```
+
+### TMDb API
+
+Movie data is fetched server-side from [TMDb](https://www.themoviedb.org) via `lib/tmdb.ts`. All requests are cached for 1 hour (`next: { revalidate: 3600 }`).
+
+| Function | Endpoint |
+|---|---|
+| `getTrending(timeWindow)` | `/trending/movie/{day\|week}` |
+| `getPopular(page)` | `/movie/popular` |
+| `getTopRated(page)` | `/movie/top_rated` |
+| `getNowPlaying()` | `/movie/now_playing` |
+| `getUpcoming()` | `/movie/upcoming` |
+| `getMovieDetails(id)` | `/movie/{id}?append_to_response=videos,credits,similar,recommendations` |
+| `searchMovies(query, page)` | `/search/movie` |
+| `getByGenre(genreId, page)` | `/discover/movie?with_genres={id}` |
+
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL 14+
+- A free [TMDb API key](https://www.themoviedb.org/settings/api)
+
+### Run
+
+```bash
+cd other_projects/streamix
+npm install
+cp .env.local.example .env.local
+# fill in DATABASE_URL, JWT_SECRET, TMDB_API_KEY in .env.local
+npm run db:setup
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Available scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the Next.js dev server on port 3000 |
+| `npm run build` | Build for production |
+| `npm run start` | Start the production server |
+| `npm run lint` | Run ESLint |
+| `npm run db:setup` | Create/migrate database tables |
+
+---
+
 ## ️ Common Architecture
 
 All `apps_reworked` desktop apps follow the same launcher pattern:
@@ -546,7 +744,7 @@ app.py  →  find_free_port()
         →  signal server to exit
 ```
 
-All backends share the same project layout:
+All `apps_reworked` backends share the same project layout:
 
 ```
 <project>/
@@ -565,12 +763,12 @@ All backends share the same project layout:
 └── requirements.txt
 ```
 
-`f1_telemetry` intentionally diverges from this pattern — it uses raw `asyncio` sockets instead of FastAPI/Uvicorn and has no pywebview dependency, since the dashboard is accessed over the network rather than in a native window.
+`f1_telemetry` and `streamix` intentionally diverge from this pattern — they use their own stacks suited to their purpose and live under `other_projects/` rather than `apps_reworked/`.
 
 ---
 
-##  Legal & Ethical Notice
+## ⚖️ Legal & Ethical Notice
 
-These tools are intended for **authorized security research, CTF environments, and lab use only**. Running active scans, exploit probes, or packet sniffers against systems you do not own or have explicit written permission to test may be **illegal** in your jurisdiction. Always obtain proper authorization before use.
+The security and network tools are intended for **authorized security research, CTF environments, and lab use only**. Running active scans, exploit probes, or packet sniffers against systems you do not own or have explicit written permission to test may be **illegal** in your jurisdiction. Always obtain proper authorization before use.
 
----
+`streamix` is an **educational project** built for learning purposes. It does not host, store, or distribute any video content. All movie metadata and images are provided by the [TMDb API](https://www.themoviedb.org). This product uses the TMDb API but is not endorsed or certified by TMDb.

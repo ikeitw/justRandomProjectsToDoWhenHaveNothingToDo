@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-bebas: 'Bebas Neue', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --accent: #00A0EC;
+  --accent-hover: #0088cc;
+  --bg-deep: #03171E;
+  --bg-card: #0d2630;
+  --bg-elevated: #122c38;
+  --bg-hover: #1a3a48;
+  --border: rgba(0, 160, 236, 0.15);
+  --text-muted: #7a9caa;
+}
+
+/* Global reset - ensure consistent spacing across browsers */
+* { box-sizing: border-box; padding: 0; margin: 0; }
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-deep);
+  color: white;
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* Custom scrollbar styling for webkit browsers */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: #1e4a5c; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Horizontal scrollable container with snap positioning */
+.movie-row {
+  display: flex;
+  gap: 0.625rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.movie-row::-webkit-scrollbar { height: 2px; }
+
+.movie-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  transition: transform 0.25s ease;
+  position: relative;
+}
+/* Scale up on hover with higher z-index to prevent clipping */
+.movie-card:hover { transform: scale(1.06); z-index: 10; }
+
+/* Hero banner gradient - fades from left and top */
+.hero-gradient {
+  background: linear-gradient(
+          to right,
+          rgba(3,23,30,0.97) 0%,
+          rgba(3,23,30,0.75) 45%,
+          rgba(3,23,30,0.1) 100%
+  ),
+  linear-gradient(
+          to top,
+          rgba(3,23,30,1) 0%,
+          rgba(3,23,30,0) 40%
+  );
+}
+
+/* Shimmer loading placeholder */
+.skeleton {
+  background: linear-gradient(90deg, #0d2630 0%, #1a3a48 50%, #0d2630 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Smooth left-to-right animation for skeleton loaders */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Primary button style */
+.btn-primary {
+  @apply bg-[#00A0EC] hover:bg-[#0088cc] text-white font-semibold px-6 py-3 rounded transition-colors duration-200;
+}
+
+/* Outlined button with subtle background */
+.btn-outline {
+  @apply bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded transition-colors duration-200 border border-white/20;
+}
+
+/* Netflix-style button (blue accent) */
+.btn-netflix {
+  @apply bg-[#00A0EC] hover:bg-[#0088cc] text-white font-semibold px-6 py-3 rounded transition-colors duration-200;
+}
+
+/* Input field with focus highlight and muted placeholder */
+.input-field {
+  @apply w-full bg-[#0d2630] text-white placeholder-[#7a9caa] border border-[#1a3a48] rounded px-4 py-3 focus:outline-none focus:border-[#00A0EC] transition-colors;
+}
+
+/* Backwards compatibility */
+.input-netflix { @apply input-field; }
+
+/* IMDb/rating badge styling */
+.rating-badge {
+  @apply inline-flex items-center gap-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold px-2 py-1 rounded;
+}
+
+/* Genre label with subtle accent color */
+.genre-tag {
+  @apply text-xs bg-[#00A0EC]/10 text-[#00A0EC]/80 border border-[#00A0EC]/20 px-2 py-1 rounded;
+}
+
+/* Glass-morphism effect with blur and semi-transparent background */
+.glass-card {
+  background: rgba(3, 23, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 160, 236, 0.15);
+}
+
+/* Auth pages - full-width background with overlay */
+.auth-bg {
+  background-image:
+          linear-gradient(to bottom, rgba(3,23,30,0.75), rgba(3,23,30,0.95)),
+          url('https://assets.nflxext.com/ffe/siteui/vlv3/79fe65d8-4ef2-4f7c-b9d5-6b5818ac6d63/web/IN-en-20250407-TRIFECTA-perspective_69de4e68-5cd4-4a56-a3e3-d4c0dca5b6fb_large.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.row-fade-right {
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+/* Responsive 16:9 aspect ratio video player */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: #000;
+}
+.video-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+/* Smooth image fade on load */
+img { transition: opacity 0.3s ease; }
+
+/* Notification badge for nav items */
+.nav-badge {
+  @apply absolute -top-1 -right-1 bg-[#00A0EC] text-white text-xs w-4 h-4 rounded-full flex items-center justify-center;
+}
+
+/* Sidebar navigation link with active state */
+.drawer-link {
+  @apply flex items-center gap-3 px-4 py-2.5 text-sm text-[#7a9caa] hover:text-white hover:bg-[#1a3a48] rounded transition-colors cursor-pointer;
+}
+.drawer-link.active {
+  @apply text-white bg-[#1a3a48] border-l-2 border-[#00A0EC];
+}

@@ -1,62 +1,150 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import VideoPlayer from '@/components/movie/VideoPlayer';
 import MovieRow from '@/components/movie/MovieRow';
-import { useAuth } from '@/components/AuthContext';
-import { MovieDetails } from '@/lib/tmdb';
 import Navbar from '@/components/layout/Navbar';
-import { AuthProvider } from '@/components/AuthContext';
+import { AuthProvider, useAuth } from '@/components/AuthContext';
+import { TmdbMovieDetails, MediaItem, movieEmbedUrl } from '@/lib/vidapi';
 
-function WatchClientInner({ movie }: { movie: MovieDetails }) {
+// ─── Season/Episode Selector ─────────────────────────────────────────────────
+
+function EpisodeSelector({
+  details,
+  season,
+  episode,
+  onSelect,
+}: {
+  details: TmdbMovieDetails;
+  season: number;
+  episode: number;
+  onSelect: (s: number, e: number) => void;
+}) {
+  const [activeSeason, setActiveSeason] = useState(season);
+  const seasons = (details.seasons ?? []).filter((s) => s.season_number > 0);
+  const currentSeason = seasons.find((s) => s.season_number === activeSeason);
+
+  if (!seasons.length) return null;
+
+  return (
+    <div className="mt-8">
+      {/* Season tabs */}
+      <div className="flex items-center gap-0 border-b border-[#1e4a5c]/50 mb-4">
+        {seasons.map((s) => (
+          <button
+            key={s.season_number}
+            onClick={() => setActiveSeason(s.season_number)}
+            className={`px-4 py-2 text-xs font-semibold transition-all border-b-2 -mb-px ${
+              activeSeason === s.season_number
+                ? 'text-white border-[#00A0EC]'
+                : 'text-[#7a9caa] border-transparent hover:text-white'
+            }`}
+          >
+            Season {s.season_number}
+          </button>
+        ))}
+      </div>
+
+      {/* Episode grid */}
+      {currentSeason && (
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
+          {Array.from({ length: currentSeason.episode_count }, (_, i) => {
+            const epNum = i + 1;
+            const isActive = activeSeason === season && epNum === episode;
+            return (
+              <button
+                key={epNum}
+                onClick={() => onSelect(activeSeason, epNum)}
+                className={`aspect-square rounded flex items-center justify-center text-xs font-bold transition-all border ${
+                  isActive
+                    ? 'bg-[#00A0EC] text-white border-[#00A0EC]'
+                    : 'bg-[#0d2630] text-[#7a9caa] border-[#1e4a5c] hover:border-[#00A0EC]/50 hover:text-white'
+                }`}
+              >
+                {epNum}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Inner client (needs auth context) ───────────────────────────────────────
+
+function WatchClientInner({
+  details,
+  tmdbId,
+  mediaType,
+  initialSeason,
+  initialEpisode,
+}: {
+  details: TmdbMovieDetails;
+  tmdbId: number;
+  mediaType: 'movie' | 'tv';
+  initialSeason: number;
+  initialEpisode: number;
+}) {
   const { user } = useAuth();
-  // Watchlist and history UI states
+  const [season, setSeason] = useState(initialSeason);
+  const [episode, setEpisode] = useState(initialEpisode);
   const [inWatchlist, setInWatchlist] = useState(false);
   const [watchlistLoading, setWatchlistLoading] = useState(false);
-  const [historyRecorded, setHistoryRecorded] = useState(false);
 
-  const year = movie.release_date ? new Date(movie.release_date).getFullYear() : null;
-  // Extract director from crew list
-  const director = movie.credits?.crew?.find((c) => c.job === 'Director');
-  const cast = movie.credits?.cast?.slice(0, 5) ?? [];
-  // Find official trailer, fallback to any YouTube video
-  const trailer = movie.videos?.results?.find(
+  const title = details.title ?? details.name ?? 'Untitled';
+  const year = (details.release_date ?? details.first_air_date ?? '').slice(0, 4);
+  const runtime =
+    details.runtime ??
+    (details.episode_run_time?.[0] ? details.episode_run_time[0] : null);
+  const director = details.credits?.crew?.find((c) => c.job === 'Director');
+  const cast = details.credits?.cast?.slice(0, 5) ?? [];
+  const trailer = details.videos?.results?.find(
     (v) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
-  ) ?? movie.videos?.results?.find((v) => v.site === 'YouTube');
+  ) ?? details.videos?.results?.find((v) => v.site === 'YouTube');
 
-  // Record movie in watch history when page loads
-  useEffect(() => {
-    if (!user || historyRecorded) return;
-    const record = async () => {
-      try {
-        await fetch('/api/history', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ movie }),
-        });
-        setHistoryRecorded(true);
-      } catch { /* silent */ }
-    };
-    record();
-  }, [user, movie, historyRecorded]);
+  // Normalise similar/recommendations to MediaItem for MovieRow
+  const toMediaItem = (item: TmdbMovieDetails): MediaItem => ({
+    id: String(item.id),
+    imdb_id: '',
+    title: item.title ?? item.name ?? 'Untitled',
+    year: (item.release_date ?? item.first_air_date ?? '').slice(0, 4),
+    poster_url: item.poster_path
+      ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
+      : null,
+    rating: item.vote_average ?? 0,
+    genre: '',
+    type: mediaType,
+    embed_url: movieEmbedUrl(item.id),
+  });
 
-  // Check if movie already in watchlist on mount
-  useEffect(() => {
-    if (!user) return;
-    const check = async () => {
-      try {
-        const res = await fetch('/api/watchlist');
-        if (res.ok) {
-          const data = await res.json();
-          setInWatchlist(data.watchlist?.some((w: { movie_id: number }) => w.movie_id === movie.id));
-        }
-      } catch { /* silent */ }
-    };
-    check();
-  }, [user, movie.id]);
+  const recommendations =
+    details.recommendations?.results?.slice(0, 15).map(toMediaItem) ?? [];
+  const similar =
+    details.similar?.results?.slice(0, 15).map(toMediaItem) ?? [];
 
-  // Add/remove from watchlist toggle
+  // Next episode
+  const currentSeasonObj = details.seasons?.find((s) => s.season_number === season);
+  const totalEpisodesInSeason = currentSeasonObj?.episode_count ?? 0;
+  const hasNextEpisode =
+    mediaType === 'tv' &&
+    (episode < totalEpisodesInSeason || season < (details.number_of_seasons ?? 1));
+
+  const handleNextEpisode = useCallback(() => {
+    if (episode < totalEpisodesInSeason) {
+      setEpisode((e) => e + 1);
+    } else if (season < (details.number_of_seasons ?? 1)) {
+      setSeason((s) => s + 1);
+      setEpisode(1);
+    }
+  }, [episode, season, totalEpisodesInSeason, details.number_of_seasons]);
+
+  const handleEpisodeSelect = (s: number, e: number) => {
+    setSeason(s);
+    setEpisode(e);
+  };
+
   const toggleWatchlist = async () => {
     if (!user) return;
     setWatchlistLoading(true);
@@ -64,7 +152,16 @@ function WatchClientInner({ movie }: { movie: MovieDetails }) {
       const res = await fetch('/api/watchlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movie }),
+        body: JSON.stringify({
+          movie: {
+            id: tmdbId,
+            title,
+            poster_path: details.poster_path,
+            backdrop_path: details.backdrop_path,
+            vote_average: details.vote_average,
+            release_date: details.release_date ?? details.first_air_date,
+          },
+        }),
       });
       const data = await res.json();
       setInWatchlist(data.action === 'added');
@@ -73,79 +170,131 @@ function WatchClientInner({ movie }: { movie: MovieDetails }) {
     }
   };
 
-  const recommendations = movie.recommendations?.results?.slice(0, 15) ?? [];
-  const similar = movie.similar?.results?.slice(0, 15) ?? [];
+  const posterUrl = details.poster_path
+    ? `https://image.tmdb.org/t/p/w500${details.poster_path}`
+    : null;
 
   return (
-    <div className="min-h-screen bg-netflix-dark">
+    <div className="min-h-screen bg-[#03171E]">
       <Navbar />
       <div className="pt-16">
         <div className="max-w-[1400px] mx-auto">
-          <VideoPlayer movieId={movie.id} movieTitle={movie.title} />
+          <VideoPlayer
+            tmdbId={tmdbId}
+            title={title}
+            mediaType={mediaType}
+            season={season}
+            episode={episode}
+            totalEpisodes={totalEpisodesInSeason}
+            onNextEpisode={hasNextEpisode ? handleNextEpisode : undefined}
+            onEpisodeChange={handleEpisodeSelect}
+          />
         </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <h1 className="font-display text-4xl sm:text-5xl text-white tracking-wide mb-2">{movie.title}</h1>
-            {movie.tagline && (
-              <p className="text-gray-400 italic text-lg mb-4">&ldquo;{movie.tagline}&rdquo;</p>
+            {/* Title + meta */}
+            <div className="flex items-start gap-3 mb-2">
+              <div className="flex-1">
+                <h1 className="font-display text-4xl sm:text-5xl text-white tracking-wide">{title}</h1>
+                {mediaType === 'tv' && (
+                  <p className="text-[#00A0EC] text-sm font-semibold mt-1">
+                    Season {season} · Episode {episode}
+                    {currentSeasonObj && ` of ${currentSeasonObj.episode_count}`}
+                  </p>
+                )}
+              </div>
+              {mediaType === 'tv' && (
+                <span className="mt-1 bg-[#0d2630] border border-[#1e4a5c] text-[#7a9caa] text-xs font-bold px-2 py-1 rounded">TV SERIES</span>
+              )}
+            </div>
+
+            {details.tagline && (
+              <p className="text-gray-400 italic text-lg mb-4">&ldquo;{details.tagline}&rdquo;</p>
             )}
 
             <div className="flex items-center flex-wrap gap-3 mb-6">
               <span className="flex items-center gap-1 text-yellow-400 font-bold">
-                <span>★</span><span>{movie.vote_average.toFixed(1)}</span>
+                <span>★</span><span>{(details.vote_average ?? 0).toFixed(1)}</span>
               </span>
-              <span className="text-gray-400 text-sm">({movie.vote_count.toLocaleString()} votes)</span>
+              <span className="text-gray-400 text-sm">({(details.vote_count ?? 0).toLocaleString()} votes)</span>
               {year && <span className="text-gray-300 text-sm font-medium">{year}</span>}
-              {movie.runtime && (
+              {runtime && (
                 <span className="text-gray-300 text-sm">
-                  {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
+                  {Math.floor(runtime / 60)}h {runtime % 60}m
+                </span>
+              )}
+              {mediaType === 'tv' && details.number_of_seasons && (
+                <span className="text-gray-300 text-sm">
+                  {details.number_of_seasons} season{details.number_of_seasons > 1 ? 's' : ''}
                 </span>
               )}
               <span className="border border-gray-600 text-gray-300 text-xs px-1.5 py-0.5 rounded">HD</span>
-              <span className={`text-xs font-bold px-2 py-0.5 rounded ${movie.vote_average >= 7 ? 'bg-green-800 text-green-200' : 'bg-yellow-800 text-yellow-200'}`}>
-                {movie.vote_average >= 7 ? 'CERTIFIED FRESH' : 'GOOD'}
-              </span>
+              {(details.vote_average ?? 0) >= 7 && (
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-green-800 text-green-200">
+                  CERTIFIED FRESH
+                </span>
+              )}
             </div>
 
-            {movie.genres && (
+            {details.genres && details.genres.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-5">
-                {movie.genres.map((g) => (
+                {details.genres.map((g) => (
                   <span key={g.id} className="genre-tag">{g.name}</span>
                 ))}
               </div>
             )}
 
-            <p className="text-gray-300 text-base leading-relaxed mb-6">{movie.overview}</p>
+            <p className="text-gray-300 text-base leading-relaxed mb-6">{details.overview}</p>
 
+            {/* Action buttons */}
             <div className="flex items-center gap-3 flex-wrap mb-8">
               {user ? (
-                <button onClick={toggleWatchlist} disabled={watchlistLoading}
+                <button
+                  onClick={toggleWatchlist}
+                  disabled={watchlistLoading}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded font-semibold text-sm transition-colors ${
                     inWatchlist
                       ? 'bg-green-700 hover:bg-green-600 text-white'
                       : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
-                  }`}>
+                  }`}
+                >
                   {inWatchlist ? '✓ In My List' : '+ My List'}
                 </button>
               ) : (
-                <Link href="/login"
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors border border-white/20">
+                <Link
+                  href="/login"
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors border border-white/20"
+                >
                   + My List
                 </Link>
               )}
 
               {trailer && (
-                <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-red-900/40 hover:bg-red-900/60 text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors border border-red-800/50">
+                <a
+                  href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-red-900/40 hover:bg-red-900/60 text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors border border-red-800/50"
+                >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                   Watch Trailer
                 </a>
               )}
+
+              {hasNextEpisode && (
+                <button
+                  onClick={handleNextEpisode}
+                  className="flex items-center gap-2 bg-[#00A0EC] hover:bg-[#0088cc] text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors"
+                >
+                  Next Episode →
+                </button>
+              )}
             </div>
 
+            {/* Credits */}
             <div className="space-y-4">
               {director && (
                 <div className="flex items-start gap-2">
@@ -160,17 +309,32 @@ function WatchClientInner({ movie }: { movie: MovieDetails }) {
                 </div>
               )}
             </div>
+
+            {/* Episode selector for TV shows */}
+            {mediaType === 'tv' && (
+              <EpisodeSelector
+                details={details}
+                season={season}
+                episode={episode}
+                onSelect={handleEpisodeSelect}
+              />
+            )}
           </div>
 
+          {/* Poster */}
           <div className="hidden lg:block">
-            {movie.poster_path && (
+            {posterUrl && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}
-                className="w-full rounded-lg shadow-2xl" />
+              <img
+                src={posterUrl}
+                alt={title}
+                className="w-full rounded-lg shadow-2xl"
+              />
             )}
           </div>
         </div>
 
+        {/* Related content */}
         {recommendations.length > 0 && (
           <div className="mt-12">
             <MovieRow title="More Like This" movies={recommendations} />
@@ -178,7 +342,7 @@ function WatchClientInner({ movie }: { movie: MovieDetails }) {
         )}
         {similar.length > 0 && recommendations.length === 0 && (
           <div className="mt-12">
-            <MovieRow title="Similar Movies" movies={similar} />
+            <MovieRow title="Similar Titles" movies={similar} />
           </div>
         )}
       </div>
@@ -186,10 +350,18 @@ function WatchClientInner({ movie }: { movie: MovieDetails }) {
   );
 }
 
-export default function WatchClient({ movie }: { movie: MovieDetails }) {
+// ─── Exported wrapper (provides auth context) ─────────────────────────────────
+
+export default function WatchClient(props: {
+  details: TmdbMovieDetails;
+  tmdbId: number;
+  mediaType: 'movie' | 'tv';
+  initialSeason: number;
+  initialEpisode: number;
+}) {
   return (
     <AuthProvider>
-      <WatchClientInner movie={movie} />
+      <WatchClientInner {...props} />
     </AuthProvider>
   );
 }

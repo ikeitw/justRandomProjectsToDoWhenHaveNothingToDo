@@ -1,36 +1,48 @@
-import { getMovieDetails } from '@/lib/tmdb';
 import WatchClient from './WatchClient';
+import { getTmdbDetails } from '@/lib/vidapi';
 import { notFound } from 'next/navigation';
 
 interface WatchPageProps {
   params: { id: string };
+  searchParams: { type?: string; season?: string; episode?: string };
 }
 
-// Generate SEO metadata for watch page
-export async function generateMetadata({ params }: WatchPageProps) {
+export async function generateMetadata({ params, searchParams }: WatchPageProps) {
   try {
-    const movie = await getMovieDetails(parseInt(params.id));
+    const mediaType = searchParams.type === 'tv' ? 'tv' : 'movie';
+    const details = await getTmdbDetails(parseInt(params.id), mediaType);
+    const title = details.title ?? details.name ?? 'Untitled';
     return {
-      title: `Watch ${movie.title} — Streamix`,
-      description: movie.overview,
+      title: `Watch ${title} — Streamix`,
+      description: details.overview,
     };
   } catch {
     return { title: 'Watch — Streamix' };
   }
 }
 
-// Server component - fetches movie details and passes to client for interactivity
-export default async function WatchPage({ params }: WatchPageProps) {
-  const movieId = parseInt(params.id);
-  if (isNaN(movieId)) return notFound();
+export default async function WatchPage({ params, searchParams }: WatchPageProps) {
+  const tmdbId = parseInt(params.id);
+  if (isNaN(tmdbId)) return notFound();
 
-  // Fetch movie details with credits, similar, and recommendations
-  let movie;
+  const mediaType = searchParams.type === 'tv' ? 'tv' : 'movie';
+  const initialSeason = parseInt(searchParams.season ?? '1') || 1;
+  const initialEpisode = parseInt(searchParams.episode ?? '1') || 1;
+
+  let details;
   try {
-    movie = await getMovieDetails(movieId);
+    details = await getTmdbDetails(tmdbId, mediaType);
   } catch {
     return notFound();
   }
 
-  return <WatchClient movie={movie} />;
+  return (
+    <WatchClient
+      details={details}
+      tmdbId={tmdbId}
+      mediaType={mediaType}
+      initialSeason={initialSeason}
+      initialEpisode={initialEpisode}
+    />
+  );
 }

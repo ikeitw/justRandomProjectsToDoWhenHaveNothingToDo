@@ -13,12 +13,17 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Allow vaplayer.ru iframes; don't block ourselves
         source: '/(.*)',
         headers: [
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
         ],
       },
     ];
+  },
+  // Allow fetching from VidAPI listing endpoints
+  async rewrites() {
+    return [];
   },
   webpack: (config) => {
     config.externals.push({ 'pg-native': 'pg-native' });

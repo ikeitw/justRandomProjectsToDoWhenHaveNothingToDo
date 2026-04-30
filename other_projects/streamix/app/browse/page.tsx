@@ -1,61 +1,40 @@
 import { Suspense } from 'react';
-import { getLatestMovies, getLatestShows, getLatestEpisodes, getStats } from '@/lib/vidapi';
+import { getLatestMovies, getLatestShows } from '@/lib/vidapi';
 import HeroBanner from '@/components/movie/HeroBanner';
 import MovieRow from '@/components/movie/MovieRow';
 
-async function BrowseContent({
-  searchParams,
-}: {
-  searchParams: { q?: string; type?: string };
-}) {
-  const { q, type } = searchParams;
-
-  // Search mode — delegate to client page at /
-  if (q || type) {
-    // Redirect to the client-side browse page at root which handles search
-    const { redirect } = await import('next/navigation');
-    const qs = new URLSearchParams();
-    if (q) qs.set('q', q);
-    if (type) qs.set('type', type);
-    redirect(`/?${qs}`);
-  }
-
-  // Fetch movies and shows in parallel (2 pages each for more content)
-  const [page1Movies, page2Movies, page1Shows, page2Shows] = await Promise.all([
+async function BrowseContent() {
+  const [page1Movies, page2Movies, page1Shows, page2Shows, page3Movies] = await Promise.all([
     getLatestMovies(1),
     getLatestMovies(2),
     getLatestShows(1),
     getLatestShows(2),
+    getLatestMovies(3),
   ]);
 
-  const movies = [...page1Movies.items, ...page2Movies.items];
+  const movies = [...page1Movies.items, ...page2Movies.items, ...page3Movies.items];
   const shows = [...page1Shows.items, ...page2Shows.items];
 
-  // Split movies into sections based on rating for varied rows
-  const topMovies = movies.filter((m) => m.rating >= 7.5);
-  const recentMovies = movies.slice(0, 24);
+  // Sort variants for different rows
+  const topRatedMovies = [...movies].sort((a, b) => b.rating - a.rating).slice(0, 24);
+  const topRatedShows = [...shows].sort((a, b) => b.rating - a.rating).slice(0, 24);
 
   return (
     <>
       <HeroBanner movies={movies} />
       <div className="px-4 sm:px-8 max-w-[1800px] mx-auto pb-16 -mt-4 relative z-10">
-        <MovieRow title="🎬 Latest Movies" movies={recentMovies} size="md" />
+        <MovieRow title="🎬 Latest Movies" movies={movies.slice(0, 24)} size="md" />
         <MovieRow title="📺 Latest TV Series" movies={shows.slice(0, 24)} size="md" />
-        {topMovies.length > 0 && (
-          <MovieRow title="⭐ Top Rated Movies" movies={topMovies.slice(0, 24)} size="md" />
-        )}
-        <MovieRow title="🔥 More Movies" movies={movies.slice(24)} size="md" />
-        <MovieRow title="🌟 More Series" movies={shows.slice(24)} size="md" />
+        <MovieRow title="⭐ Top Rated Movies" movies={topRatedMovies} size="md" />
+        <MovieRow title="🌟 Top Rated Series" movies={topRatedShows} size="md" />
+        <MovieRow title="🔥 More Movies" movies={movies.slice(24, 48)} size="md" />
+        <MovieRow title="📡 More Series" movies={shows.slice(24)} size="md" />
       </div>
     </>
   );
 }
 
-export default function BrowsePage({
-  searchParams,
-}: {
-  searchParams: { q?: string; type?: string };
-}) {
+export default function BrowsePage() {
   return (
     <div className="min-h-screen bg-[#03171E]">
       <Suspense
@@ -75,7 +54,7 @@ export default function BrowsePage({
           </div>
         }
       >
-        <BrowseContent searchParams={searchParams} />
+        <BrowseContent />
       </Suspense>
     </div>
   );

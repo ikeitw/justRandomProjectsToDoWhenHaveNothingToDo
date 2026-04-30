@@ -68,7 +68,7 @@ export default function WatchlistPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-netflix-dark pt-24 px-8">
+      <div className="min-h-screen bg-[#03171E] pt-24 px-8">
         <div className="h-8 w-32 skeleton rounded mb-8" />
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {Array.from({ length: 10 }).map((_, i) => (
@@ -80,7 +80,7 @@ export default function WatchlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-netflix-dark pt-24 px-4 sm:px-8">
+    <div className="min-h-screen bg-[#03171E] pt-24 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-display text-white tracking-wide">My List</h1>

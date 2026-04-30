@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRIFT PRO INTEL - AI Predict</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-name">DRIFT PRO INTEL</div>
+      <div class="brand-sub">Telemetry Grid - RDS GP - RDS Europe - SDC</div>
+    </div>
+    <div class="header-center">
+      <div class="hstat">
+        <div id="hRunCount" class="hstat-val">0</div>
+        <div class="hstat-label">Анализов</div>
+      </div>
+      <div class="hstat">
+        <div id="hLastScore" class="hstat-val">-</div>
+        <div class="hstat-label">Последний счет</div>
+      </div>
+      <div class="hstat">
+        <div id="hLastConf" class="hstat-val">-</div>
+        <div class="hstat-label">Уверенность</div>
+      </div>
+    </div>
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      <span class="live-text">AI LINK STABLE</span>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('analyze', this)">
+      <span class="tab-icon">AI</span> Predict
+    </button>
+    <button class="tab-btn" onclick="switchTab('standings', this)">
+      <span class="tab-icon">#</span> Standings
+    </button>
+    <button class="tab-btn" onclick="switchTab('live', this)">
+      <span class="live-pip"></span> Live
+    </button>
+    <button class="tab-btn" onclick="switchTab('calendar', this)">
+      <span class="tab-icon">CAL</span> Calendar
+    </button>
+    <button class="tab-btn" onclick="switchTab('telemetry', this)">
+      <span class="tab-icon">TEL</span> Telemetry
+    </button>
+    <button class="tab-btn" onclick="switchTab('drivers', this)">
+      <span class="tab-icon">DRV</span> Drivers
+    </button>
+    <button class="tab-btn" onclick="switchTab('teams', this)">
+      <span class="tab-icon">TM</span> Teams
+    </button>
+    <button class="tab-btn" onclick="switchTab('cars', this)">
+      <span class="tab-icon">CAR</span> Cars
+    </button>
+  </nav>
+
+  <section id="tab-analyze" class="tab-panel active">
+    <div class="workspace">
+      <aside class="left-col">
+        <div class="search-panel">
+          <div class="search-label">Идентификация гонщика</div>
+          <div class="driver-select-wrapper">
+            <button id="driverSelectToggle" class="driver-select-toggle" type="button">
+              <span class="driver-select-label">Выберите гонщика...</span>
+              <span class="driver-select-arrow">▼</span>
+            </button>
+            <div id="driverSelectDropdown" class="driver-select-dropdown" style="display:none;">
+              <div id="driverList" class="driver-list"></div>
+            </div>
+          </div>
+          <input id="driverInput" type="hidden">
+
+          <div class="search-label">Выбор трассы</div>
+          <select id="trackSelect" class="track-select">
+            <option value="auto">Авто-определение (текущий этап)</option>
+            <option value="red_ring">Red Ring - Красноярск</option>
+            <option value="igora">Igora Drive - Санкт-Петербург</option>
+            <option value="nring">NRing - Нижний Новгород</option>
+            <option value="kazan">Kazan Ring - Казань</option>
+            <option value="moscow_raceway">Moscow Raceway - Волоколамск</option>
+            <option value="adm">ADM Raceway - Мячково</option>
+          </select>
+
+          <button id="analyzeBtn" class="analyze-btn" onclick="runAnalysis()">
+            АНАЛИЗИРОВАТЬ ГОНЩИКА
+            <span class="btn-shimmer"></span>
+          </button>
+        </div>
+
+        <div class="flow-panel">
+          <div class="flow-title">Статус конвейера</div>
+          <div class="flow-step">
+            <div id="node-A" class="flow-node">A</div>
+            <div>
+              <div id="name-A" class="flow-name">Сканер и линкер данных</div>
+              <div class="flow-detail">Поиск DuckDuckGo + извлечение гонщика/авто/команды</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div id="node-B" class="flow-node">B</div>
+            <div>
+              <div id="name-B" class="flow-name">Трасса и погода</div>
+              <div class="flow-detail">Определение трека + Open-Meteo в реальном времени</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div id="node-C" class="flow-node">C</div>
+            <div>
+              <div id="name-C" class="flow-name">AI прогноз</div>
+              <div class="flow-detail">Claude API, структурированный JSON прогноз на русском</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div id="node-D" class="flow-node">D</div>
+            <div>
+              <div id="name-D" class="flow-name">Результат готов</div>
+              <div class="flow-detail">Прогноз и оценка рисков отображены</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="log-panel">
+          <div class="log-title">Лог конвейера</div>
+          <div id="logContainer"></div>
+        </div>
+      </aside>
+
+      <main id="outputCol" class="right-col">
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">🏁</div>
+          <div class="empty-text">
+            Введите имя российского дрифтера<br>
+            и нажмите АНАЛИЗИРОВАТЬ ГОНЩИКА<br>
+            для запуска telemetry-конвейера
+          </div>
+        </div>
+        <div id="historyPanel" class="info-card" style="display:none;">
+          <div class="info-card-header">
+            <div class="info-card-title">История анализов</div>
+            <div class="info-card-tag">LOCAL</div>
+          </div>
+          <div id="historyList" class="info-card-body"></div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="tab-standings" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Турнирная таблица</div>
+        <div class="data-page-sub">RDS GP 2025 - финальные результаты</div>
+      </div>
+      <div class="standings-table-wrap">
+        <div class="st-head">
+          <span>P</span>
+          <span>Пилот</span>
+          <span>Команда</span>
+          <span>Победы</span>
+          <span>Очки</span>
+          <span>Дельта</span>
+        </div>
+        <div id="standings-rows"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-live" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Live результаты</div>
+        <div id="live-updated" class="data-page-sub"></div>
+      </div>
+      <div class="live-last-run">
+        <div class="llr-label">LAST RUN</div>
+        <div id="llr-text" class="llr-text"></div>
+      </div>
+      <div class="standings-table-wrap">
+        <div class="st-head st-head-live">
+          <span>P</span>
+          <span>Пилот</span>
+          <span>Qual</span>
+          <span>Battle</span>
+          <span>Total</span>
+          <span>Статус</span>
+        </div>
+        <div id="live-rows"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-calendar" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Календарь сезона</div>
+        <div class="data-page-sub">RDS GP 2025 - этапы и фестивали</div>
+      </div>
+      <div id="calendar-list"></div>
+    </div>
+  </section>
+
+  <section id="tab-telemetry" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Телеметрия</div>
+        <div class="data-page-sub">Последняя сессия - иллюстративные данные</div>
+      </div>
+      <div id="telem-driver-sel" class="telem-driver-sel"></div>
+      <div id="telem-stats-grid" class="telem-stats-grid"></div>
+
+      <div class="telem-chart-card">
+        <div class="telem-chart-label">Скорость по секторам (км/ч)</div>
+        <canvas id="speed-canvas" height="120"></canvas>
+      </div>
+      <div class="telem-chart-card">
+        <div class="telem-chart-label">Угол скольжения по секторам (°)</div>
+        <canvas id="angle-canvas" height="120"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-drivers" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Пилоты RDS</div>
+        <div class="data-page-sub">Данные из локального API /api/drivers</div>
+      </div>
+      <div id="drivers-grid" class="rds-card-grid"></div>
+    </div>
+  </section>
+  
+  <section id="tab-teams" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Команды RDS</div>
+        <div class="data-page-sub">Данные из локального API /api/teams</div>
+      </div>
+      <div id="teams-grid" class="rds-card-grid"></div>
+    </div>
+  </section>
+  
+  <section id="tab-cars" class="tab-panel">
+    <div class="data-page">
+      <div class="data-page-header">
+        <div class="data-page-title">Технические карты автомобилей</div>
+        <div class="data-page-sub">Данные из локального API /api/cars</div>
+      </div>
+      <div id="cars-grid" class="rds-card-grid"></div>
+    </div>
+  </section>
+
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+  <script src="tabs.js"></script>
+</body>
+</html>

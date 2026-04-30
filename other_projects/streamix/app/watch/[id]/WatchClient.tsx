@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import VideoPlayer from '@/components/movie/VideoPlayer';
 import MovieRow from '@/components/movie/MovieRow';
@@ -29,26 +29,28 @@ function EpisodeSelector({
 
   return (
     <div className="mt-8">
+      <h3 className="text-white font-semibold text-sm mb-3">Episodes</h3>
       {/* Season tabs */}
-      <div className="flex items-center gap-0 border-b border-[#1e4a5c]/50 mb-4">
+      <div className="flex items-center gap-0 border-b border-[#1e4a5c]/50 mb-4 overflow-x-auto">
         {seasons.map((s) => (
           <button
             key={s.season_number}
             onClick={() => setActiveSeason(s.season_number)}
-            className={`px-4 py-2 text-xs font-semibold transition-all border-b-2 -mb-px ${
+            className={`px-4 py-2 text-xs font-semibold transition-all border-b-2 -mb-px whitespace-nowrap ${
               activeSeason === s.season_number
                 ? 'text-white border-[#00A0EC]'
                 : 'text-[#7a9caa] border-transparent hover:text-white'
             }`}
           >
             Season {s.season_number}
+            <span className="ml-1.5 text-[10px] text-[#7a9caa]">({s.episode_count})</span>
           </button>
         ))}
       </div>
 
       {/* Episode grid */}
       {currentSeason && (
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
+        <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2">
           {Array.from({ length: currentSeason.episode_count }, (_, i) => {
             const epNum = i + 1;
             const isActive = activeSeason === season && epNum === episode;
@@ -58,8 +60,8 @@ function EpisodeSelector({
                 onClick={() => onSelect(activeSeason, epNum)}
                 className={`aspect-square rounded flex items-center justify-center text-xs font-bold transition-all border ${
                   isActive
-                    ? 'bg-[#00A0EC] text-white border-[#00A0EC]'
-                    : 'bg-[#0d2630] text-[#7a9caa] border-[#1e4a5c] hover:border-[#00A0EC]/50 hover:text-white'
+                    ? 'bg-[#00A0EC] text-white border-[#00A0EC] shadow-lg shadow-[#00A0EC]/20'
+                    : 'bg-[#0d2630] text-[#7a9caa] border-[#1e4a5c] hover:border-[#00A0EC]/50 hover:text-white hover:bg-[#122c38]'
                 }`}
               >
                 {epNum}
@@ -68,6 +70,20 @@ function EpisodeSelector({
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Navbar skeleton fallback ─────────────────────────────────────────────────
+
+function NavbarFallback() {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-30 h-14 bg-[#03171E] border-b border-[#1e4a5c]">
+      <div className="max-w-[1800px] mx-auto px-6 flex items-center h-full gap-4">
+        <div className="w-24 h-5 skeleton rounded" />
+        <div className="w-16 h-4 skeleton rounded" />
+        <div className="w-16 h-4 skeleton rounded" />
+      </div>
     </div>
   );
 }
@@ -99,10 +115,11 @@ function WatchClientInner({
     details.runtime ??
     (details.episode_run_time?.[0] ? details.episode_run_time[0] : null);
   const director = details.credits?.crew?.find((c) => c.job === 'Director');
-  const cast = details.credits?.cast?.slice(0, 5) ?? [];
-  const trailer = details.videos?.results?.find(
-    (v) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
-  ) ?? details.videos?.results?.find((v) => v.site === 'YouTube');
+  const cast = details.credits?.cast?.slice(0, 6) ?? [];
+  const trailer =
+    details.videos?.results?.find(
+      (v) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
+    ) ?? details.videos?.results?.find((v) => v.site === 'YouTube');
 
   // Normalise similar/recommendations to MediaItem for MovieRow
   const toMediaItem = (item: TmdbMovieDetails): MediaItem => ({
@@ -124,12 +141,13 @@ function WatchClientInner({
   const similar =
     details.similar?.results?.slice(0, 15).map(toMediaItem) ?? [];
 
-  // Next episode
+  // Next episode logic
   const currentSeasonObj = details.seasons?.find((s) => s.season_number === season);
   const totalEpisodesInSeason = currentSeasonObj?.episode_count ?? 0;
   const hasNextEpisode =
     mediaType === 'tv' &&
-    (episode < totalEpisodesInSeason || season < (details.number_of_seasons ?? 1));
+    (episode < totalEpisodesInSeason ||
+      season < (details.number_of_seasons ?? 1));
 
   const handleNextEpisode = useCallback(() => {
     if (episode < totalEpisodesInSeason) {
@@ -165,7 +183,9 @@ function WatchClientInner({
       });
       const data = await res.json();
       setInWatchlist(data.action === 'added');
-    } catch { /* silent */ } finally {
+    } catch {
+      /* silent */
+    } finally {
       setWatchlistLoading(false);
     }
   };
@@ -176,8 +196,13 @@ function WatchClientInner({
 
   return (
     <div className="min-h-screen bg-[#03171E]">
-      <Navbar />
-      <div className="pt-16">
+      {/* Navbar with Suspense — useSearchParams inside Navbar needs it */}
+      <Suspense fallback={<NavbarFallback />}>
+        <Navbar />
+      </Suspense>
+
+      {/* Player */}
+      <div className="pt-14">
         <div className="max-w-[1400px] mx-auto">
           <VideoPlayer
             tmdbId={tmdbId}
@@ -192,13 +217,27 @@ function WatchClientInner({
         </div>
       </div>
 
+      {/* Details */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            {/* Title + meta */}
+            {/* Back link */}
+            <Link
+              href={mediaType === 'tv' ? '/browse/series' : '/browse/movies'}
+              className="inline-flex items-center gap-1.5 text-[#7a9caa] hover:text-white text-xs mb-4 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to {mediaType === 'tv' ? 'TV Series' : 'Movies'}
+            </Link>
+
+            {/* Title */}
             <div className="flex items-start gap-3 mb-2">
               <div className="flex-1">
-                <h1 className="font-display text-4xl sm:text-5xl text-white tracking-wide">{title}</h1>
+                <h1 className="font-display text-4xl sm:text-5xl text-white tracking-wide leading-tight">
+                  {title}
+                </h1>
                 {mediaType === 'tv' && (
                   <p className="text-[#00A0EC] text-sm font-semibold mt-1">
                     Season {season} · Episode {episode}
@@ -207,19 +246,25 @@ function WatchClientInner({
                 )}
               </div>
               {mediaType === 'tv' && (
-                <span className="mt-1 bg-[#0d2630] border border-[#1e4a5c] text-[#7a9caa] text-xs font-bold px-2 py-1 rounded">TV SERIES</span>
+                <span className="mt-2 bg-[#0d2630] border border-[#1e4a5c] text-[#7a9caa] text-xs font-bold px-2 py-1 rounded shrink-0">
+                  TV SERIES
+                </span>
               )}
             </div>
 
             {details.tagline && (
-              <p className="text-gray-400 italic text-lg mb-4">&ldquo;{details.tagline}&rdquo;</p>
+              <p className="text-gray-400 italic text-base mb-4">&ldquo;{details.tagline}&rdquo;</p>
             )}
 
-            <div className="flex items-center flex-wrap gap-3 mb-6">
+            {/* Meta row */}
+            <div className="flex items-center flex-wrap gap-3 mb-5">
               <span className="flex items-center gap-1 text-yellow-400 font-bold">
-                <span>★</span><span>{(details.vote_average ?? 0).toFixed(1)}</span>
+                <span>★</span>
+                <span>{(details.vote_average ?? 0).toFixed(1)}</span>
               </span>
-              <span className="text-gray-400 text-sm">({(details.vote_count ?? 0).toLocaleString()} votes)</span>
+              <span className="text-gray-400 text-sm">
+                ({(details.vote_count ?? 0).toLocaleString()} votes)
+              </span>
               {year && <span className="text-gray-300 text-sm font-medium">{year}</span>}
               {runtime && (
                 <span className="text-gray-300 text-sm">
@@ -228,10 +273,13 @@ function WatchClientInner({
               )}
               {mediaType === 'tv' && details.number_of_seasons && (
                 <span className="text-gray-300 text-sm">
-                  {details.number_of_seasons} season{details.number_of_seasons > 1 ? 's' : ''}
+                  {details.number_of_seasons} season
+                  {details.number_of_seasons > 1 ? 's' : ''}
                 </span>
               )}
-              <span className="border border-gray-600 text-gray-300 text-xs px-1.5 py-0.5 rounded">HD</span>
+              <span className="border border-gray-600 text-gray-300 text-xs px-1.5 py-0.5 rounded">
+                HD
+              </span>
               {(details.vote_average ?? 0) >= 7 && (
                 <span className="text-xs font-bold px-2 py-0.5 rounded bg-green-800 text-green-200">
                   CERTIFIED FRESH
@@ -239,10 +287,13 @@ function WatchClientInner({
               )}
             </div>
 
+            {/* Genres */}
             {details.genres && details.genres.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-5">
                 {details.genres.map((g) => (
-                  <span key={g.id} className="genre-tag">{g.name}</span>
+                  <span key={g.id} className="genre-tag">
+                    {g.name}
+                  </span>
                 ))}
               </div>
             )}
@@ -250,7 +301,7 @@ function WatchClientInner({
             <p className="text-gray-300 text-base leading-relaxed mb-6">{details.overview}</p>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-3 flex-wrap mb-8">
+            <div className="flex items-center gap-3 flex-wrap mb-6">
               {user ? (
                 <button
                   onClick={toggleWatchlist}
@@ -279,7 +330,9 @@ function WatchClientInner({
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 bg-red-900/40 hover:bg-red-900/60 text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors border border-red-800/50"
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
                   Watch Trailer
                 </a>
               )}
@@ -295,22 +348,22 @@ function WatchClientInner({
             </div>
 
             {/* Credits */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {director && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm w-20 flex-shrink-0">Director</span>
+                <div className="flex items-start gap-3">
+                  <span className="text-gray-500 text-sm w-20 shrink-0">Director</span>
                   <span className="text-white text-sm font-medium">{director.name}</span>
                 </div>
               )}
               {cast.length > 0 && (
-                <div className="flex items-start gap-2">
-                  <span className="text-gray-500 text-sm w-20 flex-shrink-0">Cast</span>
+                <div className="flex items-start gap-3">
+                  <span className="text-gray-500 text-sm w-20 shrink-0">Cast</span>
                   <span className="text-white text-sm">{cast.map((c) => c.name).join(', ')}</span>
                 </div>
               )}
             </div>
 
-            {/* Episode selector for TV shows */}
+            {/* Episode selector for TV */}
             {mediaType === 'tv' && (
               <EpisodeSelector
                 details={details}
@@ -321,7 +374,7 @@ function WatchClientInner({
             )}
           </div>
 
-          {/* Poster */}
+          {/* Poster sidebar */}
           <div className="hidden lg:block">
             {posterUrl && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -334,7 +387,7 @@ function WatchClientInner({
           </div>
         </div>
 
-        {/* Related content */}
+        {/* Related rows */}
         {recommendations.length > 0 && (
           <div className="mt-12">
             <MovieRow title="More Like This" movies={recommendations} />
@@ -350,7 +403,7 @@ function WatchClientInner({
   );
 }
 
-// ─── Exported wrapper (provides auth context) ─────────────────────────────────
+// ─── Exported wrapper ─────────────────────────────────────────────────────────
 
 export default function WatchClient(props: {
   details: TmdbMovieDetails;

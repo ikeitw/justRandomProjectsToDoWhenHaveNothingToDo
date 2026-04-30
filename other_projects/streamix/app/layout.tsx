@@ -1,19 +1,17 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-// SEO metadata for root layout
 export const metadata: Metadata = {
-  title: 'Streamix — Watch Movies Online',
-  description: 'Stream thousands of movies in HD. No ads. No interruptions.',
-  keywords: 'movies, streaming, watch online, HD movies',
+  title: 'Streamix — Watch Movies & TV Online',
+  description: 'Stream thousands of movies and TV shows in HD.',
+  keywords: 'movies, tv series, streaming, watch online, HD',
   openGraph: {
     title: 'Streamix',
-    description: 'Stream thousands of movies in HD',
+    description: 'Stream thousands of movies and TV shows in HD',
     type: 'website',
   },
 };
 
-// Root layout with font preloading and global styles
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -24,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-          <title></title>
       </head>
       <body className="bg-netflix-dark text-white antialiased">
         {children}

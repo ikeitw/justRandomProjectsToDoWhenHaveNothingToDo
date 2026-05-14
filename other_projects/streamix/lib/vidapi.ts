@@ -1,5 +1,5 @@
+const RIVESTREAM_BASE = 'https://rivestream.pages.dev/embed';
 const VIDAPI_BASE = 'https://vidapi.ru';
-const VAPLAYER_BASE = 'https://vaplayer.ru';
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -175,12 +175,8 @@ export async function getLatestShowsMulti(pages = 3): Promise<MediaItem[]> {
 // ─── Embed URL builders ───────────────────────────────────────────────────────
 
 export function movieEmbedUrl(tmdbId: string | number, opts?: { resumeAt?: number; color?: string; lang?: string }): string {
-  const params = new URLSearchParams();
-  if (opts?.resumeAt && opts.resumeAt > 30) params.set('resumeAt', String(Math.floor(opts.resumeAt)));
-  if (opts?.color) params.set('primaryColor', opts.color);
-  if (opts?.lang) params.set('lang', opts.lang);
-  const qs = params.toString();
-  return `${VAPLAYER_BASE}/embed/movie/${tmdbId}${qs ? `?${qs}` : ''}`;
+  // Rivestream API: no need for options, just type and id
+  return `${RIVESTREAM_BASE}?type=movie&id=${tmdbId}`;
 }
 
 export function tvEmbedUrl(
@@ -189,18 +185,14 @@ export function tvEmbedUrl(
   episode: number,
   opts?: { resumeAt?: number; color?: string; lang?: string }
 ): string {
-  const params = new URLSearchParams();
-  if (opts?.resumeAt && opts.resumeAt > 30) params.set('resumeAt', String(Math.floor(opts.resumeAt)));
-  if (opts?.color) params.set('primaryColor', opts.color);
-  if (opts?.lang) params.set('lang', opts.lang);
-  const qs = params.toString();
-  return `${VAPLAYER_BASE}/embed/tv/${tmdbId}/${season}/${episode}${qs ? `?${qs}` : ''}`;
+  // Rivestream API: type=tv with id, season, and episode
+  return `${RIVESTREAM_BASE}?type=tv&id=${tmdbId}&season=${season}&episode=${episode}`;
 }
 
 // Legacy compat
 export const STREAM_PROVIDERS = [
   {
-    name: 'VidAPI',
+    name: 'RiveStream',
     getUrl: (tmdbId: number) => movieEmbedUrl(tmdbId),
     isIframe: true,
   },

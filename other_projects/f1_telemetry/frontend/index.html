@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Live Timing Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header id="header">
+    <div id="session-info">
+      <div id="flag-icon"></div>
+      <div id="session-text">
+        <div id="session-name">Connecting…</div>
+        <div id="session-type">Race</div>
+      </div>
+    </div>
+
+    <div id="timer">00:00:00</div>
+
+    <div class="pill-group">
+      <!-- Track temp ring -->
+      <div class="metric-pill" id="pill-trc">
+        <svg class="ring" viewBox="0 0 56 36">
+          <circle id="ring-trc" cx="28" cy="18" r="16"
+                  stroke="#e8b300" stroke-dasharray="100.5" stroke-dashoffset="100.5"/>
+        </svg>
+        <span class="val" id="trc-val">--</span>
+        <span class="lbl">TRC</span>
+      </div>
+      <!-- Air temp ring -->
+      <div class="metric-pill" id="pill-air">
+        <svg class="ring" viewBox="0 0 56 36">
+          <circle id="ring-air" cx="28" cy="18" r="16"
+                  stroke="#64c4ff" stroke-dasharray="100.5" stroke-dashoffset="100.5"/>
+        </svg>
+        <span class="val" id="air-val">--</span>
+        <span class="lbl">AIR</span>
+      </div>
+      <!-- Humidity ring -->
+      <div class="metric-pill" id="pill-hum">
+        <svg class="ring" viewBox="0 0 56 36">
+          <circle id="ring-hum" cx="28" cy="18" r="16"
+                  stroke="#27f4d2" stroke-dasharray="100.5" stroke-dashoffset="100.5"/>
+        </svg>
+        <span class="val" id="hum-val">--</span>
+        <span class="lbl">HUM</span>
+      </div>
+    </div>
+
+    <!-- Weather icon -->
+    <div class="weather-icon" id="weather-icon">🌤</div>
+
+    <!-- Wind -->
+    <div class="wind-pill">
+      <span class="big" id="wind-val">--</span>
+      <span>m/s</span>
+    </div>
+
+    <!-- Lap counter -->
+    <div id="lap-counter">
+      <span id="lap-cur">--</span><span> / </span><span id="lap-tot">--</span>
+    </div>
+
+    <!-- Track status badge -->
+    <div id="track-status-badge">--</div>
+
+    <!-- Demo badge -->
+    <div id="demo-badge">DEMO</div>
+
+    <!-- WS indicator -->
+    <div id="ws-status" title="WebSocket"></div>
+  </header>
+
+  <!-- ── Leaderboard ─────────────────────────────────────────────────────── -->
+  <div id="leaderboard">
+    <div class="lb-header">
+      <span>POS</span>
+      <span>DRV</span>
+      <span>TYR</span>
+      <span>LAP</span>
+      <span>Δ</span>
+      <span>GAP</span>
+      <span>LAST LAP</span>
+      <span>BEST</span>
+      <span>S1</span>
+      <span>S2</span>
+      <span>S3</span>
+    </div>
+    <div id="lb-body">
+      <!-- rows injected by JS -->
+    </div>
+  </div>
+
+  <!-- ── Track canvas ────────────────────────────────────────────────────── -->
+  <div id="track-pane">
+    <canvas id="track-canvas"></canvas>
+  </div>
+
+</div>
+
+<!-- ── Connecting overlay ─────────────────────────────────────────────────── -->
+<div id="connecting-overlay">
+  <div class="connecting-box">
+    <div class="connecting-logo">F1<span> LIVE</span></div>
+    <div class="connecting-msg">Connecting to timing server</div>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,113 +1,64 @@
-# run.py — F1 25 Live Telemetry Server
-# 
-# Key fixes:
-# 1. Graceful shutdown via signal handlers (SIGINT/SIGTERM) so sessions always record ended_at
-# 2. Shutdown Event properly canceled so asyncio.run() doesn't swallow it
+#!/usr/bin/env python3
+"""
+F1 Dashboard - Quick Setup & Runner
+Run this script to verify dependencies and start the server
+"""
 
-import asyncio
-import logging
-import signal
 import sys
+import subprocess
+import platform
 from pathlib import Path
 
-_ROOT = Path(__file__).resolve().parent
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+def check_python_version():
+    """Verify Python 3.11+"""
+    if sys.version_info < (3, 11):
+        print("❌ Python 3.11+ required")
+        print(f"   Current version: {sys.version}")
+        sys.exit(1)
+    print(f"✅ Python {sys.version_info.major}.{sys.version_info.minor}")
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s  %(levelname)-7s  %(name)s — %(message)s",
-    datefmt="%H:%M:%S",
-)
-log = logging.getLogger("f1")
+def install_dependencies():
+    """Install required packages"""
+    print("\n📦 Installing dependencies...")
+    req_file = Path(__file__).parent / "requirements.txt"
 
-from server.config import UDP_PORT, WS_PORT, HTTP_PORT
-from server import database as db
-from server.websocket_server import broadcast, start_ws_server, start_http_server, get_local_ip
-from server.udp_listener import listen, shutdown_recorder
-
-ROOT          = Path(__file__).resolve().parent
-DASHBOARD_DIR = ROOT / "dashboard"
-
-
-def _print_banner(local_ip: str) -> None:
-    w = 60
-    sep = "─" * w
-    print(f"\n┌{sep}┐")
-    print(f"│{'F1 25  LIVE TELEMETRY SERVER':^{w}}│")
-    print(f"├{sep}┤")
-    print(f"│  {'UDP (game → server)':<24} port {UDP_PORT:<27}│")
-    print(f"│  {'WebSocket (live data)':<24} ws://{local_ip}:{WS_PORT:<20}│")
-    print(f"│  {'Dashboard + History':<24} http://{local_ip}:{HTTP_PORT:<18}│")
-    print(f"│  {'History page':<24} http://{local_ip}:{HTTP_PORT}/history.html{'':5}│")
-    print(f"├{sep}┤")
-    print(f"│  Session data stored in: f1_telemetry.db{' '*(w-42)}│")
-    print(f"└{sep}┘\n")
-
-
-async def main() -> None:
-    local_ip = get_local_ip()
-    db.init_db(ROOT)
-    _print_banner(local_ip)
-
-    if not DASHBOARD_DIR.exists():
-        log.error(f"Dashboard folder not found: {DASHBOARD_DIR}")
+    try:
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install", "-r", str(req_file)
+        ])
+        print("✅ Dependencies installed")
+    except subprocess.CalledProcessError:
+        print("❌ Failed to install dependencies")
         sys.exit(1)
 
-    # 1. WebSocket server
-    ws_server = await start_ws_server()
+def start_server():
+    """Start the FastAPI server"""
+    print("\n🚀 Starting F1 Dashboard Server...")
+    print("=" * 60)
+    print("📍 Dashboard: http://localhost:8000")
+    print("📡 WebSocket: ws://localhost:8000/ws")
+    print("📊 API Debug: http://localhost:8000/docs")
+    print("=" * 60)
+    print("\nPress Ctrl+C to stop the server\n")
 
-    # 2. HTTP server — daemon thread
-    start_http_server(DASHBOARD_DIR)
-
-    # 3. UDP listener
-    udp_task = asyncio.create_task(listen(on_update=broadcast), name="udp-listener")
-
-    log.info("All services running. Press Ctrl+C to stop.")
-
-    # Shutdown event — set by signal handlers OR KeyboardInterrupt
-    shutdown = asyncio.Event()
-
-    def _request_shutdown(sig_name: str = "signal") -> None:
-        if not shutdown.is_set():
-            log.info(f"Shutdown requested ({sig_name})")
-            shutdown.set()
-
-    # Register OS-level signal handlers so SIGTERM (e.g. systemd / Task Manager)
-    # also triggers a clean shutdown and writes ended_at.
-    loop = asyncio.get_running_loop()
-    try:
-        loop.add_signal_handler(signal.SIGINT,  lambda: _request_shutdown("SIGINT"))
-        loop.add_signal_handler(signal.SIGTERM, lambda: _request_shutdown("SIGTERM"))
-    except NotImplementedError:
-        # Windows doesn't support add_signal_handler for all signals — fall back
-        # to the KeyboardInterrupt path below.
-        pass
+    backend_dir = Path(__file__).parent / "backend"
+    main_file = backend_dir / "main.py"
 
     try:
-        await shutdown.wait()
-    except (KeyboardInterrupt, asyncio.CancelledError):
-        _request_shutdown("KeyboardInterrupt")
+        subprocess.run([sys.executable, str(main_file)])
+    except KeyboardInterrupt:
+        print("\n\n👋 Dashboard stopped")
+        sys.exit(0)
 
-    # shutdown services
-    log.info("Shutting down...")
+def main():
+    print("=" * 60)
+    print("  F1 LIVE TIMING DASHBOARD")
+    print("=" * 60)
 
-    udp_task.cancel()
-    try:
-        await udp_task
-    except asyncio.CancelledError:
-        pass
-
-    # Always write ended_at — this is the fix for sessions with ended_at=None
-    shutdown_recorder()
-
-    ws_server.close()
-    await ws_server.wait_closed()
-    log.info("Server stopped.")
-
+    check_python_version()
+    install_dependencies()
+    start_server()
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        pass
+    main()
+

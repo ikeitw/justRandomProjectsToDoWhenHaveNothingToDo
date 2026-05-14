@@ -211,19 +211,19 @@ export default function VideoPlayer({
         )}
       </div>
 
-      {/* Status bar */}
-      <div className="bg-[#0d0d0d] border-t border-white/5 px-4 py-2 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-3">
-          <span className="text-gray-500">Source:</span>
-          <span className="text-gray-300 font-medium">VidAPI</span>
-          {loading && <span className="text-yellow-500 animate-pulse">● Connecting</span>}
-          {!loading && !error && <span className="text-green-500">● Active</span>}
-          {resumeAt && resumeAt > 30 && !loading && (
-            <span className="text-[#00A0EC]">
-              ↩ Resumed at {Math.floor(resumeAt / 60)}m {Math.floor(resumeAt % 60)}s
-            </span>
-          )}
-        </div>
+       {/* Status bar */}
+       <div className="bg-[#0d0d0d] border-t border-white/5 px-4 py-2 flex items-center justify-between text-xs">
+         <div className="flex items-center gap-3">
+           <span className="text-gray-500">Source:</span>
+           <span className="text-gray-300 font-medium">RiveStream</span>
+           {loading && <span className="text-yellow-500 animate-pulse">● Connecting</span>}
+           {!loading && !error && <span className="text-green-500">● Active</span>}
+           {resumeAt && resumeAt > 30 && !loading && (
+             <span className="text-[#00A0EC]">
+               ↩ Resumed at {Math.floor(resumeAt / 60)}m {Math.floor(resumeAt % 60)}s
+             </span>
+           )}
+         </div>
         {mediaType === 'tv' && (
           <span className="text-gray-500">
             S{season.toString().padStart(2, '0')} E{episode.toString().padStart(2, '0')}

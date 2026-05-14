@@ -14,7 +14,7 @@ A collection of desktop and web-based security, OSINT, network analysis, and per
 | [`network_monitor_rework`](#4-network_monitor_rework--netglass-live-traffic-monitor) | `apps_reworked/` | Desktop App | Live per-process network traffic monitor |
 | [`osint_rework`](#5-osint_rework--osint-recon--web-pentest-suite) | `apps_reworked/` | Desktop App | Full OSINT recon + active web pentest suite |
 | [`providers_lookup`](#6-providers_lookup--bgp-upstream-provider-lookup) | `apps_reworked/` | CLI Script | BGP upstream provider lookup for a domain |
-| [`f1_telemetry`](#7-f1_telemetry--f1-25-live-telemetry-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
+| [`f1_telemetry_game`](#7-f1_telemetry_game--f1-25-live-telemetry-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
 | [`streamix`](#8-streamix--full-stack-movie-streaming-platform) | `other_projects/` | Web App | Full-stack movie streaming platform (Next.js + PostgreSQL + TMDb) |
 
 ---
@@ -435,7 +435,7 @@ RETN
 
 ---
 
-## 7. `f1_telemetry` — F1 25 Live Telemetry Dashboard
+## 7. `f1_telemetry_game` — F1 25 Live Telemetry Dashboard
 
 A real-time racing dashboard for **F1 25**, inspired by [f1-dash.com](https://f1-dash.com). Captures UDP telemetry packets broadcast by the game and serves a live dashboard over HTTP — accessible from any browser on the same network, including phones and tablets.
 
@@ -476,7 +476,7 @@ Session and lap data are stored in `f1_telemetry.db` (SQLite, standard library o
 ### Project structure
 
 ```
-other_projects/f1_telemetry/
+other_projects/f1_telemetry_game/
 ├── run.py                      ← entry point
 ├── logger.py                   ← standalone raw-packet logger / debug tool
 ├── server/
@@ -763,7 +763,7 @@ All `apps_reworked` backends share the same project layout:
 └── requirements.txt
 ```
 
-`f1_telemetry` and `streamix` intentionally diverge from this pattern — they use their own stacks suited to their purpose and live under `other_projects/` rather than `apps_reworked/`.
+`f1_telemetry_game` and `streamix` intentionally diverge from this pattern — they use their own stacks suited to their purpose and live under `other_projects/` rather than `apps_reworked/`.
 
 ---
 

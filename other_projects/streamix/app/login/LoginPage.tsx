@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthContext';
+import CTA from '@/components/ui/CTA';
 
 export default function LoginPage() {
   // Form state management
@@ -44,10 +45,9 @@ export default function LoginPage() {
               placeholder="Email address" required autoComplete="email" className="input-netflix" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
               placeholder="Password" required autoComplete="current-password" className="input-netflix" />
-            <button type="submit" disabled={loading}
-              className="btn-netflix w-full mt-2 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-              {loading ? (<><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Signing in...</>) : 'Sign In'}
-            </button>
+            <CTA type="submit" disabled={loading} variant="accent" className="w-full mt-2 justify-center">
+              {loading ? (<><div className="w-4 h-4 border-2 border-[#050505] border-t-transparent rounded-full animate-spin" />Signing in...</>) : 'Sign In'}
+            </CTA>
           </form>
           <p className="text-gray-400 text-sm mt-6">
             New to Streamix?{' '}

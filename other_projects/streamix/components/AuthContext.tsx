@@ -9,6 +9,7 @@ interface User {
   email: string;
   avatar?: string;
   plan: string;
+  created_at?: string;
 }
 
 interface AuthContextType {

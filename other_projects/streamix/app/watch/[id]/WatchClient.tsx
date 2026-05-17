@@ -31,19 +31,19 @@ function EpisodeSelector({
     <div className="mt-8">
       <h3 className="text-white font-semibold text-sm mb-3">Episodes</h3>
       {/* Season tabs */}
-      <div className="flex items-center gap-0 border-b border-[#1e4a5c]/50 mb-4 overflow-x-auto">
+      <div className="flex items-center gap-0 border-b border-[var(--hairline)] mb-4 overflow-x-auto">
         {seasons.map((s) => (
           <button
             key={s.season_number}
             onClick={() => setActiveSeason(s.season_number)}
             className={`px-4 py-2 text-xs font-semibold transition-all border-b-2 -mb-px whitespace-nowrap ${
               activeSeason === s.season_number
-                ? 'text-white border-[#00A0EC]'
-                : 'text-[#7a9caa] border-transparent hover:text-white'
+                ? 'text-white border-[var(--accent)]'
+                : 'text-[var(--dim)] border-transparent hover:text-[var(--ivory)]'
             }`}
           >
             Season {s.season_number}
-            <span className="ml-1.5 text-[10px] text-[#7a9caa]">({s.episode_count})</span>
+            <span className="ml-1.5 text-[10px] text-[var(--dim)]">({s.episode_count})</span>
           </button>
         ))}
       </div>
@@ -60,8 +60,8 @@ function EpisodeSelector({
                 onClick={() => onSelect(activeSeason, epNum)}
                 className={`aspect-square rounded flex items-center justify-center text-xs font-bold transition-all border ${
                   isActive
-                    ? 'bg-[#00A0EC] text-white border-[#00A0EC] shadow-lg shadow-[#00A0EC]/20'
-                    : 'bg-[#0d2630] text-[#7a9caa] border-[#1e4a5c] hover:border-[#00A0EC]/50 hover:text-white hover:bg-[#122c38]'
+                    ? 'bg-[var(--accent)] text-[var(--oled)] border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20'
+                    : 'bg-[var(--card)] text-[var(--dim)] border-[var(--hairline)] hover:border-[var(--accent)]/50 hover:text-[var(--ivory)] hover:bg-[var(--surface)]'
                 }`}
               >
                 {epNum}
@@ -78,7 +78,7 @@ function EpisodeSelector({
 
 function NavbarFallback() {
   return (
-    <div className="fixed top-0 left-0 right-0 z-30 h-14 bg-[#03171E] border-b border-[#1e4a5c]">
+    <div className="fixed top-0 left-0 right-0 z-30 h-14 bg-[var(--oled)] border-b border-[var(--hairline)]">
       <div className="max-w-[1800px] mx-auto px-6 flex items-center h-full gap-4">
         <div className="w-24 h-5 skeleton rounded" />
         <div className="w-16 h-4 skeleton rounded" />
@@ -195,7 +195,7 @@ function WatchClientInner({
     : null;
 
   return (
-    <div className="min-h-screen bg-[#03171E]">
+    <div className="min-h-screen bg-[var(--oled)]">
       {/* Navbar with Suspense — useSearchParams inside Navbar needs it */}
       <Suspense fallback={<NavbarFallback />}>
         <Navbar />
@@ -224,7 +224,7 @@ function WatchClientInner({
             {/* Back link */}
             <Link
               href={mediaType === 'tv' ? '/browse/series' : '/browse/movies'}
-              className="inline-flex items-center gap-1.5 text-[#7a9caa] hover:text-white text-xs mb-4 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[var(--dim)] hover:text-[var(--ivory)] text-xs mb-4 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -239,14 +239,14 @@ function WatchClientInner({
                   {title}
                 </h1>
                 {mediaType === 'tv' && (
-                  <p className="text-[#00A0EC] text-sm font-semibold mt-1">
+                  <p className="text-[var(--accent)] text-sm font-semibold mt-1">
                     Season {season} · Episode {episode}
                     {currentSeasonObj && ` of ${currentSeasonObj.episode_count}`}
                   </p>
                 )}
               </div>
               {mediaType === 'tv' && (
-                <span className="mt-2 bg-[#0d2630] border border-[#1e4a5c] text-[#7a9caa] text-xs font-bold px-2 py-1 rounded shrink-0">
+                <span className="mt-2 bg-[var(--card)] border border-[var(--hairline)] text-[var(--dim)] text-xs font-bold px-2 py-1 shrink-0">
                   TV SERIES
                 </span>
               )}
@@ -340,7 +340,7 @@ function WatchClientInner({
               {hasNextEpisode && (
                 <button
                   onClick={handleNextEpisode}
-                  className="flex items-center gap-2 bg-[#00A0EC] hover:bg-[#0088cc] text-white font-semibold px-5 py-2.5 rounded text-sm transition-colors"
+                  className="flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dim)] text-[var(--oled)] font-semibold px-5 py-2.5 text-sm transition-colors"
                 >
                   Next Episode →
                 </button>

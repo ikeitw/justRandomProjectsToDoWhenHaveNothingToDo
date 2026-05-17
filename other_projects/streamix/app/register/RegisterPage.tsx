@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthContext';
+import CTA from '@/components/ui/CTA';
 
 export default function RegisterPage() {
   // Registration form state
@@ -53,12 +54,11 @@ export default function RegisterPage() {
               placeholder="Password (min. 6 characters)" required autoComplete="new-password" className="input-netflix" />
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm password" required autoComplete="new-password" className="input-netflix" />
-            <button type="submit" disabled={loading}
-              className="btn-netflix w-full mt-2 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+            <CTA type="submit" disabled={loading} variant="accent" className="w-full mt-2 justify-center">
               {loading
-                ? (<><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Creating account...</>)
+                ? (<><div className="w-4 h-4 border-2 border-[#050505] border-t-transparent rounded-full animate-spin" />Creating account...</>)
                 : 'Get Started'}
-            </button>
+            </CTA>
           </form>
           <p className="text-gray-400 text-sm mt-6">
             Already have an account?{' '}

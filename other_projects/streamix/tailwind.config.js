@@ -7,21 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        netflix: {
-          red: '#00A0EC',
-          'red-hover': '#0088cc',
-          dark: '#03171E',
-          'dark-card': '#0d2630',
-          'dark-elevated': '#122c38',
-          gray: '#7a9caa',
-          'gray-light': '#b3cdd6',
-        },
-        accent: '#00A0EC',
-      },
       fontFamily: {
         display: ['var(--font-bebas)', 'sans-serif'],
-        body: ['var(--font-inter)', 'sans-serif'],
+        body:    ['var(--font-inter)', 'sans-serif'],
+        sans:    ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif:   ['var(--font-serif)', 'Georgia', 'serif'],
+        mono:    ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -10,63 +10,79 @@ interface MovieCardProps {
   showInfo?: boolean;
 }
 
-export default function MovieCard({ movie, size = 'md', showInfo = true }: MovieCardProps) {
+export default function MovieCard({ movie, showInfo = true }: MovieCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const sizeClasses = { sm: 'w-28 sm:w-32', md: 'w-36 sm:w-44', lg: 'w-44 sm:w-56' };
-
-  // Build the watch URL including media type so the watch page knows what to embed
   const watchUrl = `/watch/${movie.id}?type=${movie.type}`;
+  const primaryGenre = movie.genre?.split(',')[0]?.trim() ?? '';
+  const caption = [primaryGenre, movie.year].filter(Boolean).join(' · ');
 
   return (
-    <Link href={watchUrl} className={`movie-card ${sizeClasses[size]} group`}>
-      <div className="relative rounded overflow-hidden bg-[#0d2630] border border-[#1e4a5c]/40 aspect-[2/3]">
-        {!imageLoaded && !imageError && <div className="absolute inset-0 skeleton" />}
+    <Link href={watchUrl} className="block w-full group/card">
+      {/* Poster — sharp corners, inner glow on hover */}
+      <div className="relative aspect-[2/3] overflow-hidden bg-[var(--card)] transition-[box-shadow] duration-200 group-hover/card:ring-1 group-hover/card:ring-inset group-hover/card:ring-[var(--accent)]">
+        {/* Skeleton — only while image is loading */}
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 skeleton" />
+        )}
 
         {movie.poster_url && !imageError ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={movie.poster_url}
             alt={movie.title}
-            className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover transition-opacity duration-300 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
           />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-3 text-center">
             <span className="text-3xl mb-2">{movie.type === 'tv' ? '📺' : '🎬'}</span>
-            <span className="text-xs text-[#7a9caa] line-clamp-3">{movie.title}</span>
+            <span className="text-[11px] text-[var(--dim)] line-clamp-3">{movie.title}</span>
           </div>
         )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#03171E] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-2">
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-center gap-1">
-              <span className="text-yellow-400 text-xs">★</span>
-              <span className="text-white text-xs font-medium">{movie.rating.toFixed(1)}</span>
-            </div>
-            <div className="w-6 h-6 rounded-full bg-[#00A0EC] flex items-center justify-center flex-shrink-0">
-              <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
+        {/* TOP badge */}
         {movie.rating > 7.5 && (
-          <div className="absolute top-1.5 left-1.5 bg-[#00A0EC] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">TOP</div>
+          <div
+            className="absolute top-0 left-0 text-[var(--oled)] text-[8px] font-semibold tracking-[0.15em] uppercase px-2 py-0.5"
+            style={{ background: 'var(--accent)', fontFamily: 'var(--font-mono)' }}
+          >
+            Top
+          </div>
         )}
+
+        {/* TV badge */}
         {movie.type === 'tv' && (
-          <div className="absolute top-1.5 right-1.5 bg-[#0d2630]/80 text-[#7a9caa] text-[10px] font-bold px-1.5 py-0.5 rounded border border-[#1e4a5c]">TV</div>
+          <div
+            className="absolute top-0 right-0 text-[var(--dim)] text-[8px] tracking-[0.15em] uppercase px-2 py-0.5 border-l border-b border-[var(--hairline)]"
+            style={{ background: 'var(--card)', fontFamily: 'var(--font-mono)' }}
+          >
+            TV
+          </div>
         )}
       </div>
 
+      {/* Info below poster */}
       {showInfo && (
         <div className="mt-1.5 px-0.5">
-          <h3 className="text-white text-xs font-medium truncate group-hover:text-[#00A0EC] transition-colors">{movie.title}</h3>
-          {movie.year && <p className="text-[#7a9caa] text-[11px] mt-0.5">{movie.year}</p>}
+          <h3
+            className="text-[var(--ivory)] text-[13px] leading-snug truncate group-hover/card:text-[var(--accent)] transition-colors duration-200"
+            style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 500 }}
+          >
+            {movie.title}
+          </h3>
+          {caption && (
+            <p
+              className="text-[var(--dim)] text-[10px] tracking-[0.06em] mt-0.5 truncate"
+              style={{ fontFamily: 'var(--font-mono)' }}
+            >
+              {caption}
+            </p>
+          )}
         </div>
       )}
     </Link>

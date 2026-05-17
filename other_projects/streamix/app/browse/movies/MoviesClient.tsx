@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import MovieCard from '@/components/movie/MovieCard';
+import CTA from '@/components/ui/CTA';
 import { MediaItem } from '@/lib/vidapi';
 
 const GENRES = [
@@ -139,7 +140,7 @@ export default function MoviesClient() {
   const hasFilters = activeGenre || activeSort !== 'latest' || minRating > 0 || q;
 
   return (
-    <div className="min-h-screen bg-[#03171E] pt-16">
+    <div className="min-h-screen bg-[var(--oled)] pt-16">
       <div className="px-4 sm:px-8 max-w-[1800px] mx-auto pb-16">
 
         {/* Header */}
@@ -148,15 +149,15 @@ export default function MoviesClient() {
             <h1 className="text-white font-semibold text-xl flex items-center gap-2">
               🎬 Movies
               {displayed.length > 0 && (
-                <span className="text-[#7a9caa] text-sm font-normal">{displayed.length} titles</span>
+                <span className="text-[var(--dim)] text-sm font-normal">{displayed.length} titles</span>
               )}
             </h1>
-            {q && <p className="text-[#7a9caa] text-sm mt-0.5">Search: &ldquo;{q}&rdquo;</p>}
+            {q && <p className="text-[var(--dim)] text-sm mt-0.5">Search: &ldquo;{q}&rdquo;</p>}
           </div>
           <div className="flex items-center gap-2">
             {hasFilters && (
               <button onClick={clearFilters}
-                className="text-xs text-[#7a9caa] hover:text-white border border-[#1e4a5c] hover:border-[#00A0EC]/50 px-3 py-1.5 rounded transition-colors">
+                className="text-xs text-[var(--dim)] hover:text-[var(--ivory)] border border-[var(--hairline)] hover:border-[var(--accent)]/50 px-3 py-1.5 rounded transition-colors">
                 Clear filters
               </button>
             )}
@@ -164,8 +165,8 @@ export default function MoviesClient() {
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded border transition-colors ${
                 showFilters || hasFilters
-                  ? 'bg-[#00A0EC]/10 text-[#00A0EC] border-[#00A0EC]/40'
-                  : 'text-[#7a9caa] border-[#1e4a5c] hover:text-white hover:border-[#00A0EC]/50'
+                  ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/40'
+                  : 'text-[var(--dim)] border-[var(--hairline)] hover:text-[var(--ivory)] hover:border-[var(--accent)]/50'
               }`}
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,17 +179,17 @@ export default function MoviesClient() {
 
         {/* Filter Panel */}
         {showFilters && (
-          <div className="bg-[#0d2630] border border-[#1e4a5c] rounded-lg p-4 mb-6 space-y-4">
+          <div className="bg-[var(--card)] border border-[var(--hairline)] rounded-lg p-4 mb-6 space-y-4">
             {/* Sort */}
             <div>
-              <p className="text-[#7a9caa] text-[10px] uppercase tracking-widest font-semibold mb-2">Sort By</p>
+              <p className="text-[var(--dim)] text-[10px] uppercase tracking-widest font-semibold mb-2">Sort By</p>
               <div className="flex flex-wrap gap-1.5">
                 {(Object.keys(SORT_LABELS) as SortOption[]).map((s) => (
                   <button key={s} onClick={() => setParam('sort', s === 'latest' ? '' : s)}
                     className={`px-3 py-1.5 rounded text-xs font-semibold border transition-all ${
                       activeSort === s
-                        ? 'bg-[#00A0EC] text-white border-[#00A0EC]'
-                        : 'bg-[#03171E] text-[#7a9caa] border-[#1e4a5c] hover:text-white hover:border-[#00A0EC]/50'
+                        ? 'bg-[var(--ivory)] text-[var(--oled)] border-[var(--ivory)]'
+                        : 'bg-transparent text-[var(--dim)] border-[var(--hairline)] hover:text-[var(--ivory)] hover:border-[var(--accent)]/50'
                     }`}
                   >
                     {SORT_LABELS[s]}
@@ -199,7 +200,7 @@ export default function MoviesClient() {
 
             {/* Minimum Rating */}
             <div>
-              <p className="text-[#7a9caa] text-[10px] uppercase tracking-widest font-semibold mb-2">
+              <p className="text-[var(--dim)] text-[10px] uppercase tracking-widest font-semibold mb-2">
                 Min Rating: <span className="text-yellow-400">{minRating > 0 ? `★ ${minRating}+` : 'Any'}</span>
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -208,7 +209,7 @@ export default function MoviesClient() {
                     className={`px-3 py-1.5 rounded text-xs font-semibold border transition-all ${
                       minRating === r
                         ? 'bg-yellow-600 text-white border-yellow-600'
-                        : 'bg-[#03171E] text-[#7a9caa] border-[#1e4a5c] hover:text-white hover:border-yellow-600/50'
+                        : 'bg-transparent text-[var(--dim)] border-[var(--hairline)] hover:text-[var(--ivory)] hover:border-yellow-600/50'
                     }`}
                   >
                     {r === 0 ? 'Any' : `★ ${r}+`}
@@ -219,13 +220,13 @@ export default function MoviesClient() {
 
             {/* Genre */}
             <div>
-              <p className="text-[#7a9caa] text-[10px] uppercase tracking-widest font-semibold mb-2">Genre</p>
+              <p className="text-[var(--dim)] text-[10px] uppercase tracking-widest font-semibold mb-2">Genre</p>
               <div className="flex flex-wrap gap-1.5">
                 <button onClick={() => setParam('genre', '')}
                   className={`px-3 py-1.5 rounded text-xs font-semibold border transition-all ${
                     !activeGenre
-                      ? 'bg-[#00A0EC] text-white border-[#00A0EC]'
-                      : 'bg-[#03171E] text-[#7a9caa] border-[#1e4a5c] hover:text-white hover:border-[#00A0EC]/50'
+                      ? 'bg-[var(--ivory)] text-[var(--oled)] border-[var(--ivory)]'
+                      : 'bg-transparent text-[var(--dim)] border-[var(--hairline)] hover:text-[var(--ivory)] hover:border-[var(--accent)]/50'
                   }`}
                 >
                   All
@@ -234,8 +235,8 @@ export default function MoviesClient() {
                   <button key={g} onClick={() => setParam('genre', activeGenre === g ? '' : g)}
                     className={`px-3 py-1.5 rounded text-xs font-semibold border transition-all ${
                       activeGenre === g
-                        ? 'bg-[#00A0EC] text-white border-[#00A0EC]'
-                        : 'bg-[#03171E] text-[#7a9caa] border-[#1e4a5c] hover:text-white hover:border-[#00A0EC]/50'
+                        ? 'bg-[var(--ivory)] text-[var(--oled)] border-[var(--ivory)]'
+                        : 'bg-transparent text-[var(--dim)] border-[var(--hairline)] hover:text-[var(--ivory)] hover:border-[var(--accent)]/50'
                     }`}
                   >
                     {g}
@@ -250,13 +251,13 @@ export default function MoviesClient() {
         {(activeGenre || activeSort !== 'latest' || minRating > 0) && (
           <div className="flex flex-wrap gap-2 mb-4">
             {activeGenre && (
-              <span className="flex items-center gap-1 bg-[#00A0EC]/10 text-[#00A0EC] text-xs px-2.5 py-1 rounded border border-[#00A0EC]/30">
+              <span className="flex items-center gap-1 bg-[var(--accent)]/10 text-[var(--accent)] text-xs px-2.5 py-1 rounded border border-[var(--accent)]/30">
                 {activeGenre}
                 <button onClick={() => setParam('genre', '')} className="ml-1 hover:text-white">✕</button>
               </span>
             )}
             {activeSort !== 'latest' && (
-              <span className="flex items-center gap-1 bg-[#00A0EC]/10 text-[#00A0EC] text-xs px-2.5 py-1 rounded border border-[#00A0EC]/30">
+              <span className="flex items-center gap-1 bg-[var(--accent)]/10 text-[var(--accent)] text-xs px-2.5 py-1 rounded border border-[var(--accent)]/30">
                 {SORT_LABELS[activeSort]}
                 <button onClick={() => setParam('sort', '')} className="ml-1 hover:text-white">✕</button>
               </span>
@@ -284,8 +285,8 @@ export default function MoviesClient() {
           <div className="text-center py-24">
             <p className="text-5xl mb-4">🔍</p>
             <p className="text-white font-semibold text-lg mb-1">No matches for these filters</p>
-            <p className="text-[#7a9caa] text-sm mb-4">Try adjusting your genre, rating, or sort options</p>
-            <button onClick={clearFilters} className="btn-netflix text-sm px-5 py-2">Clear Filters</button>
+            <p className="text-[var(--dim)] text-sm mb-4">Try adjusting your genre, rating, or sort options</p>
+            <CTA onClick={clearFilters} variant="accent" size="sm">Clear Filters</CTA>
           </div>
         )}
 
@@ -293,7 +294,7 @@ export default function MoviesClient() {
           <div className="text-center py-24">
             <p className="text-5xl mb-4">🎬</p>
             <p className="text-white font-semibold text-lg mb-1">No movies found</p>
-            <p className="text-[#7a9caa] text-sm">Try a different search</p>
+            <p className="text-[var(--dim)] text-sm">Try a different search</p>
           </div>
         )}
 
@@ -302,13 +303,13 @@ export default function MoviesClient() {
           {loading && allItems.length > 0 && (
             <div className="flex gap-1.5">
               {[0, 1, 2].map((i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-[#00A0EC] animate-bounce"
+                <div key={i} className="w-2 h-2 rounded-full bg-[var(--accent)] animate-bounce"
                   style={{ animationDelay: `${i * 0.15}s` }} />
               ))}
             </div>
           )}
           {!loading && apiPage >= apiTotalPages && allItems.length > 0 && (
-            <p className="text-[#7a9caa] text-xs">— end of results —</p>
+            <p className="text-[var(--dim)] text-xs">— end of results —</p>
           )}
         </div>
       </div>

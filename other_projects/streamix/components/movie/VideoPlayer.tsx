@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { movieEmbedUrl, tvEmbedUrl } from '@/lib/vidapi';
+import CTA from '@/components/ui/CTA';
 
 interface VideoPlayerProps {
   tmdbId: number;
@@ -55,12 +56,12 @@ export default function VideoPlayer({
     mediaType === 'tv'
       ? tvEmbedUrl(tmdbId, season, episode, {
           resumeAt: resumeAt ?? undefined,
-          color: '#00A0EC',
+          color: '#c89b5a',
           lang: 'en',
         })
       : movieEmbedUrl(tmdbId, {
           resumeAt: resumeAt ?? undefined,
-          color: '#00A0EC',
+          color: '#c89b5a',
           lang: 'en',
         });
 
@@ -153,7 +154,7 @@ export default function VideoPlayer({
             {mediaType === 'tv' && ` S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}`}
             {' '}is temporarily unavailable.
           </p>
-          <button onClick={retry} className="btn-netflix">Try Again</button>
+          <CTA onClick={retry} variant="accent">Try Again</CTA>
         </div>
       </div>
     );
@@ -164,7 +165,7 @@ export default function VideoPlayer({
       <div className="video-container">
         {loading && (
           <div className="absolute inset-0 bg-black flex flex-col items-center justify-center z-10">
-            <div className="w-12 h-12 border-2 border-[#00A0EC] border-t-transparent rounded-full animate-spin mb-4" />
+            <div className="w-12 h-12 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin mb-4" />
             <p className="text-white text-sm font-medium">Loading stream…</p>
             {mediaType === 'tv' && (
               <p className="text-gray-500 text-xs mt-1">
@@ -188,22 +189,22 @@ export default function VideoPlayer({
 
         {/* Next episode banner */}
         {showNextBanner && onNextEpisode && (
-          <div className="absolute bottom-4 right-4 z-20 bg-[#0d2630] border border-[#00A0EC]/50 rounded-lg p-4 shadow-xl flex items-center gap-4">
+          <div className="absolute bottom-4 right-4 z-20 bg-[var(--card)] border border-[var(--accent)]/40 p-4 shadow-xl flex items-center gap-4">
             <div>
-              <p className="text-white text-sm font-semibold">Episode finished!</p>
-              <p className="text-[#7a9caa] text-xs">
+              <p className="text-[var(--ivory)] text-sm font-semibold">Episode finished!</p>
+              <p className="text-[var(--dim)] text-xs">
                 Next: S{season.toString().padStart(2, '0')}E{(episode + 1).toString().padStart(2, '0')}
               </p>
             </div>
             <button
               onClick={() => { setShowNextBanner(false); onNextEpisode(); }}
-              className="bg-[#00A0EC] hover:bg-[#0088cc] text-white font-bold text-xs px-4 py-2 rounded transition-colors"
+              className="bg-[var(--accent)] hover:bg-[var(--accent-dim)] text-[var(--oled)] font-bold text-xs px-4 py-2 transition-colors"
             >
               Play Next →
             </button>
             <button
               onClick={() => setShowNextBanner(false)}
-              className="text-[#7a9caa] hover:text-white text-xs"
+              className="text-[var(--dim)] hover:text-[var(--ivory)] text-xs"
             >
               ✕
             </button>
@@ -219,7 +220,7 @@ export default function VideoPlayer({
            {loading && <span className="text-yellow-500 animate-pulse">● Connecting</span>}
            {!loading && !error && <span className="text-green-500">● Active</span>}
            {resumeAt && resumeAt > 30 && !loading && (
-             <span className="text-[#00A0EC]">
+             <span className="text-[var(--accent)]">
                ↩ Resumed at {Math.floor(resumeAt / 60)}m {Math.floor(resumeAt % 60)}s
              </span>
            )}

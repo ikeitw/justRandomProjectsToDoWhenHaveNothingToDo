@@ -1,16 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { MediaItem } from '@/lib/vidapi';
+import CTA from '@/components/ui/CTA';
+import Eyebrow from '@/components/ui/Eyebrow';
 
-export default function HeroBanner({ movies }: { movies: MediaItem[] }) {
+const TMDB_ORIGINAL = 'https://image.tmdb.org/t/p/original';
+
+interface HeroBannerProps {
+  movies: MediaItem[];
+  backdropPaths?: (string | null)[];
+}
+
+export default function HeroBanner({ movies, backdropPaths = [] }: HeroBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const featured = movies.slice(0, 5);
   const movie = featured[currentIndex];
 
+  // Auto-rotate — logic unchanged from original
   useEffect(() => {
     const timer = setInterval(() => {
       setIsTransitioning(true);
@@ -24,87 +33,186 @@ export default function HeroBanner({ movies }: { movies: MediaItem[] }) {
 
   if (!movie) return null;
 
-  // VidAPI posters are already full TMDB URLs – use them directly
-  // Upgrade w342 to w780 for the hero banner
-  const backdropUrl = movie.poster_url
+  const backdropPath = backdropPaths[currentIndex] ?? null;
+  const backdropUrl = backdropPath ? `${TMDB_ORIGINAL}${backdropPath}` : null;
+  // Fallback: poster_url at larger size when no TMDB backdrop
+  const fallbackUrl = movie.poster_url
     ? movie.poster_url.replace('/w342/', '/w780/').replace('/original/', '/w780/')
     : null;
+  const imageUrl = backdropUrl ?? fallbackUrl;
+
+  const watchUrl = `/watch/${movie.id}?type=${movie.type}`;
 
   return (
-    <div className="relative w-full h-[52vw] max-h-[650px] min-h-[380px] overflow-hidden">
-      {backdropUrl && (
+    <div className="relative w-full h-[56vw] sm:h-[52vw] max-h-[760px] min-h-[460px] overflow-hidden bg-[var(--oled)]">
+
+      {/* Backdrop — cross-fade on slide change */}
+      {imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={backdropUrl}
+          src={imageUrl}
           alt={movie.title}
-          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-400 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-[400ms] ${
+            isTransitioning ? 'opacity-0' : 'opacity-100'
+          }`}
         />
       )}
 
-      <div className="hero-gradient absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#03171E]/80 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#03171E] to-transparent" />
+      {/* Mood gradient — shown when no image at all */}
+      {!imageUrl && (
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse at 70% 40%, #1a2733 0%, #0d1820 50%, #050403 100%)' }}
+        />
+      )}
 
-      <div className={`absolute inset-0 flex flex-col justify-end pb-16 px-8 sm:px-14 transition-opacity duration-400 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-        <div className="max-w-xl">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[#00A0EC] text-xs font-bold uppercase tracking-widest">
-              #{currentIndex + 1} {movie.type === 'tv' ? 'Latest Series' : 'Latest Movie'}
-            </span>
-            <span className="w-1 h-1 rounded-full bg-[#7a9caa]" />
-            {movie.year && <span className="text-[#7a9caa] text-xs">{movie.year}</span>}
-            {movie.type === 'tv' && (
-              <span className="bg-[#0d2630] border border-[#1e4a5c] text-[#7a9caa] text-[10px] font-bold px-1.5 py-0.5 rounded">TV SERIES</span>
-            )}
-          </div>
+      {/* Film grain texture */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 2px)',
+          mixBlendMode: 'overlay',
+        }}
+      />
 
-          <h1 className="text-white font-display text-5xl sm:text-6xl tracking-wide leading-none mb-3 drop-shadow-2xl">
+      {/* Top vignette + bottom fade to page */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(180deg, rgba(5,5,5,0.55) 0%, transparent 18%, transparent 58%, #050403 100%)' }}
+      />
+
+      {/* Left-to-right vignette — pushes content left off backdrop */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.45) 38%, transparent 68%)' }}
+      />
+
+      {/* Content — also fades on slide change */}
+      <div
+        className={`absolute inset-0 flex flex-col justify-end transition-opacity duration-[400ms] ${
+          isTransitioning ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <div className="px-8 sm:px-12 pb-16 sm:pb-20 max-w-[720px]">
+
+          <Eyebrow
+            number={`No. 0${currentIndex + 1}`}
+            label={movie.type === 'tv' ? 'Featured Series' : 'Featured Tonight'}
+            className="mb-5"
+          />
+
+          {/* Centrepiece title — fluid scale clamped at 124px */}
+          <h1
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              fontWeight: 400,
+              fontSize: 'clamp(44px, 8.5vw, 124px)',
+              lineHeight: 0.92,
+              letterSpacing: '-0.025em',
+              color: 'var(--ivory)',
+              margin: '20px 0 20px',
+            }}
+          >
             {movie.title}
           </h1>
 
-          <div className="flex items-center gap-3 mb-3 flex-wrap">
-            <span className="flex items-center gap-1 text-yellow-400 font-semibold text-sm">
-              <span>★</span><span>{movie.rating.toFixed(1)}</span>
-            </span>
-            {movie.rating > 7 && (
-              <span className="text-xs font-bold px-2 py-0.5 rounded bg-green-900/60 text-green-400 border border-green-700/40">
-                CERTIFIED FRESH
-              </span>
+          {/* Meta row — year · genre · rating with vertical hairlines */}
+          <div
+            className="flex items-center flex-wrap mb-8"
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.08em', color: 'var(--text-2)' }}
+          >
+            {movie.year && (
+              <>
+                <span>{movie.year}</span>
+                <span className="inline-block w-px h-2.5 bg-[var(--dimmer)] mx-3" />
+              </>
             )}
-            <span className="border border-[#1e4a5c] text-[#7a9caa] text-xs px-1.5 py-0.5 rounded">HD</span>
             {movie.genre && (
-              <span className="text-[#7a9caa] text-xs">{movie.genre.split(',')[0].trim()}</span>
+              <>
+                <span style={{ color: 'var(--accent)' }}>{movie.genre.split(',')[0].trim()}</span>
+                <span className="inline-block w-px h-2.5 bg-[var(--dimmer)] mx-3" />
+              </>
+            )}
+            {movie.rating > 0 && <span>★ {movie.rating.toFixed(1)}</span>}
+            {movie.type === 'tv' && (
+              <>
+                <span className="inline-block w-px h-2.5 bg-[var(--dimmer)] mx-3" />
+                <span
+                  className="border border-[var(--hairline)] px-2 py-0.5"
+                  style={{ fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}
+                >
+                  Series
+                </span>
+              </>
             )}
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/watch/${movie.id}?type=${movie.type}`}
-              className="flex items-center gap-2 bg-[#00A0EC] hover:bg-[#0088cc] text-white font-bold px-5 py-2.5 rounded transition-colors text-sm"
+          {/* CTAs */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <CTA
+              href={watchUrl}
+              variant="primary"
+              size="lg"
+              icon={
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 14 14">
+                  <path d="M3 2L11.5 7L3 12V2Z" />
+                </svg>
+              }
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-              Play Now
-            </Link>
-            <Link
-              href={`/watch/${movie.id}?type=${movie.type}`}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded transition-colors border border-white/20 text-sm backdrop-blur-sm"
+              Play
+            </CTA>
+            <CTA
+              href="/browse/watchlist"
+              variant="outline"
+              size="lg"
+              icon={
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" viewBox="0 0 14 14">
+                  <path d="M7 2V12M2 7H12" />
+                </svg>
+              }
             >
-              More Info
-            </Link>
+              My Library
+            </CTA>
+            <CTA
+              href={watchUrl}
+              variant="ghost"
+              size="lg"
+              icon={
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 14 14">
+                  <circle cx="7" cy="7" r="5.5" />
+                  <circle cx="7" cy="4.5" r="0.6" fill="currentColor" />
+                  <path d="M7 6.5V10.5" strokeLinecap="round" />
+                </svg>
+              }
+            >
+              More
+            </CTA>
           </div>
         </div>
       </div>
 
-      {/* Slide dots */}
-      <div className="absolute bottom-6 right-8 flex items-center gap-1.5">
-        {featured.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => { setCurrentIndex(i); setIsTransitioning(false); }}
-            className={`h-0.5 transition-all duration-300 rounded-full ${i === currentIndex ? 'w-6 bg-[#00A0EC]' : 'w-3 bg-white/30'}`}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
+      {/* Slide indicators — bottom-right, asymmetric */}
+      <div className="absolute bottom-6 right-8 sm:right-12 flex flex-col items-end gap-2">
+        <div
+          style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--dim)', letterSpacing: '0.2em' }}
+        >
+          0{currentIndex + 1} / 0{featured.length}
+        </div>
+        <div className="flex items-center gap-1">
+          {featured.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setCurrentIndex(i); setIsTransitioning(false); }}
+              className="block h-px transition-all duration-[400ms]"
+              style={{
+                width: i === currentIndex ? 36 : 12,
+                background: i === currentIndex ? 'var(--accent)' : 'var(--dimmer)',
+              }}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

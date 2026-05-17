@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthContext';
+import CTA from '@/components/ui/CTA';
 import { useRouter } from 'next/navigation';
 
 interface HistoryItem {
@@ -77,7 +78,7 @@ export default function HistoryPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-[#03171E] pt-24 px-8">
+      <div className="min-h-screen bg-[var(--oled)] pt-24 px-8">
         <div className="h-8 w-48 skeleton rounded mb-8" />
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
@@ -89,7 +90,7 @@ export default function HistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#03171E] pt-24 px-4 sm:px-8">
+    <div className="min-h-screen bg-[var(--oled)] pt-24 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -109,7 +110,7 @@ export default function HistoryPage() {
             <div className="text-6xl mb-4">🎬</div>
             <h2 className="text-white text-xl font-semibold mb-2">No watch history yet</h2>
             <p className="text-gray-400 text-sm mb-6">Start watching movies to build your history</p>
-            <Link href="/browse" className="btn-netflix">Browse Movies</Link>
+            <CTA href="/browse" variant="accent">Browse Movies</CTA>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">

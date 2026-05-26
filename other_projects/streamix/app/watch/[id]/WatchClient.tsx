@@ -131,6 +131,7 @@ function WatchClientInner({
       ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
       : null,
     rating: item.vote_average ?? 0,
+    popularity: 0,
     genre: '',
     type: mediaType,
     embed_url: movieEmbedUrl(item.id),

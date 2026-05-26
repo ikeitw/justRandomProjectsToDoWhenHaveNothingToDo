@@ -75,6 +75,7 @@ export interface MediaItem {
   year: string;
   poster_url: string | null;
   rating: number;
+  popularity: number;
   genre: string;
   type: 'movie' | 'tv';
   embed_url: string;
@@ -97,6 +98,7 @@ function normaliseMovie(m: VidApiMovie): MediaItem {
     year: m.year,
     poster_url: m.poster_url,
     rating: parseFloat(m.rating) || 0,
+    popularity: parseFloat(m.popularity) || 0,
     genre: m.genre,
     type: 'movie',
     embed_url: m.embed_url,
@@ -111,6 +113,7 @@ function normaliseShow(s: VidApiShow): MediaItem {
     year: s.year,
     poster_url: s.poster_url,
     rating: parseFloat(s.rating) || 0,
+    popularity: parseFloat(s.popularity) || 0,
     genre: s.genre,
     type: 'tv',
     embed_url: s.embed_url,

@@ -5,54 +5,133 @@ import MovieRow from '@/components/movie/MovieRow';
 import CTA from '@/components/ui/CTA';
 import Eyebrow from '@/components/ui/Eyebrow';
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function byPopularity(items: MediaItem[]) {
+  return [...items].sort((a, b) => b.popularity - a.popularity);
+}
+
+function byRating(items: MediaItem[]) {
+  return [...items].sort((a, b) => b.rating - a.rating);
+}
+
+function byGenre(items: MediaItem[], genre: string) {
+  return items.filter((m) => m.genre.toLowerCase().includes(genre.toLowerCase()));
+}
+
+// ── Main data-fetching component ──────────────────────────────────────────────
+
 async function BrowseContent() {
-  const [page1Movies, page2Movies, page1Shows, page2Shows, page3Movies] = await Promise.all([
-    getLatestMovies(1),
-    getLatestMovies(2),
-    getLatestShows(1),
-    getLatestShows(2),
-    getLatestMovies(3),
+  // 3 pages of movies (~60 items), 3 pages of shows (~60 items)
+  const [p1m, p2m, p3m, p1s, p2s, p3s] = await Promise.all([
+    getLatestMovies(1), getLatestMovies(2), getLatestMovies(3),
+    getLatestShows(1),  getLatestShows(2),  getLatestShows(3),
   ]);
 
-  const movies = [...page1Movies.items, ...page2Movies.items, ...page3Movies.items];
-  const shows = [...page1Shows.items, ...page2Shows.items];
+  const movies = [...p1m.items, ...p2m.items, ...p3m.items];
+  const shows  = [...p1s.items, ...p2s.items, ...p3s.items];
+  const all    = [...movies, ...shows];
 
-  const featured = movies.slice(0, 5);
+  // Hero: top 5 movies by popularity
+  const heroMovies = byPopularity(movies).slice(0, 5);
 
-  // Fetch TMDB backdrop_path for hero slides — gracefully handles missing API key
+  // Fetch TMDB backdrops for hero items
   const backdropResults = await Promise.allSettled(
-    featured.map((m) => getTmdbDetails(parseInt(m.id, 10), m.type))
+    heroMovies.map((m) => getTmdbDetails(parseInt(m.id, 10), m.type))
   );
   const backdropPaths = backdropResults.map((r) =>
     r.status === 'fulfilled' ? r.value.backdrop_path : null
   );
 
-  const topRatedMovies = [...movies].sort((a, b) => b.rating - a.rating).slice(0, 24);
-  const topRatedShows = [...shows].sort((a, b) => b.rating - a.rating).slice(0, 24);
+  // Rows
+  const trendingNow   = byPopularity(all).slice(0, 24);
+  const latestMovies  = movies.slice(0, 24);
+  const latestSeries  = shows.slice(0, 24);
+  const topMovies     = byRating(movies).slice(0, 24);
+  const topSeries     = byRating(shows).slice(0, 24);
 
-  // Editorial pick — highest-rated movie in the current dataset
-  const editorialPick = topRatedMovies[0] ?? null;
+  // Editorial pick: highest-rated movie not already in hero
+  const heroIds = new Set(heroMovies.map((m) => m.id));
+  const editorialPick = byRating(movies).find((m) => !heroIds.has(m.id)) ?? null;
+
+  // Genre rows — only show when ≥ 6 items exist
+  const genreRows: { label: string; eyebrow: string; items: MediaItem[] }[] = [
+    { label: 'Action',    eyebrow: 'Genre — Adrenaline',   items: byPopularity(byGenre(all, 'action'))   },
+    { label: 'Comedy',   eyebrow: 'Genre — Laugh Track',   items: byPopularity(byGenre(all, 'comedy'))  },
+    { label: 'Drama',    eyebrow: 'Genre — Human Stories', items: byPopularity(byGenre(all, 'drama'))   },
+    { label: 'Thriller', eyebrow: 'Genre — Edge of Seat',  items: byPopularity(byGenre(all, 'thriller'))},
+    { label: 'Sci-Fi',   eyebrow: 'Genre — Future Worlds', items: byPopularity(byGenre(all, 'sci'))     },
+    { label: 'Crime',    eyebrow: 'Genre — Dark Side',     items: byPopularity(byGenre(all, 'crime'))   },
+    { label: 'Horror',   eyebrow: 'Genre — Fear Factor',   items: byPopularity(byGenre(all, 'horror'))  },
+    { label: 'Adventure',eyebrow: 'Genre — Wide World',    items: byPopularity(byGenre(all, 'adventure'))},
+  ].filter((r) => r.items.length >= 6).map((r) => ({ ...r, items: r.items.slice(0, 24) }));
 
   return (
     <>
-      <HeroBanner movies={movies} backdropPaths={backdropPaths} />
-      <div className="px-4 sm:px-8 max-w-[1800px] mx-auto pb-16 -mt-4 relative z-10">
-        <MovieRow title="Latest Movies"  eyebrow="01 — Cinema"     movies={movies.slice(0, 24)}  size="md" />
-        <MovieRow title="Latest Series"  eyebrow="02 — Television" movies={shows.slice(0, 24)}   size="md" />
+      <HeroBanner movies={heroMovies} backdropPaths={backdropPaths} />
 
-        {/* Editorial pick — between rows 2 and 3 */}
+      <div className="px-4 sm:px-8 max-w-[1800px] mx-auto pb-16 -mt-4 relative z-10">
+
+        {/* Trending Now */}
+        <MovieRow
+          title="Trending Now"
+          eyebrow="What Everyone's Watching"
+          movies={trendingNow}
+          size="md"
+        />
+
+        {/* Latest Movies */}
+        <MovieRow
+          title="Latest Movies"
+          eyebrow="New to the Library"
+          movies={latestMovies}
+          size="md"
+        />
+
+        {/* Latest Series */}
+        <MovieRow
+          title="Latest Series"
+          eyebrow="Fresh Episodes"
+          movies={latestSeries}
+          size="md"
+        />
+
+        {/* Editorial pick */}
         {editorialPick && <EditorialPick movie={editorialPick} />}
 
-        <MovieRow title="Top Rated Movies" eyebrow="03 — Acclaimed"  movies={topRatedMovies}       size="md" />
-        <MovieRow title="Top Rated Series" eyebrow="04 — Essential"  movies={topRatedShows}        size="md" />
-        <MovieRow title="More Movies"      eyebrow="05 — Discovery"  movies={movies.slice(24, 48)} size="md" />
-        <MovieRow title="More Series"      eyebrow="06 — Explore"    movies={shows.slice(24)}      size="md" />
+        {/* Top Rated Movies */}
+        <MovieRow
+          title="Top Rated Movies"
+          eyebrow="Critically Acclaimed"
+          movies={topMovies}
+          size="md"
+        />
+
+        {/* Top Rated Series */}
+        <MovieRow
+          title="Top Rated Series"
+          eyebrow="Essential Television"
+          movies={topSeries}
+          size="md"
+        />
+
+        {/* Genre rows */}
+        {genreRows.map((row) => (
+          <MovieRow
+            key={row.label}
+            title={row.label}
+            eyebrow={row.eyebrow}
+            movies={row.items}
+            size="md"
+          />
+        ))}
+
       </div>
     </>
   );
 }
 
-// ── Editorial pick block ─────────────────────────────────────────────────────
+// ── Editorial pick block ──────────────────────────────────────────────────────
 
 function EditorialPick({ movie }: { movie: MediaItem }) {
   const watchUrl = `/watch/${movie.id}?type=${movie.type}`;
@@ -70,7 +149,6 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
     >
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-12 md:gap-16 items-center">
 
-        {/* Left — editorial text */}
         <div>
           <Eyebrow label="Editor's Selection · Tonight" className="mb-5" />
 
@@ -87,7 +165,6 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
             {movie.title}
           </h2>
 
-          {/* Stats */}
           <div className="flex gap-8 mb-9 flex-wrap">
             {stats.map((s) => (
               <div key={s.label}>
@@ -107,7 +184,6 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
             ))}
           </div>
 
-          {/* CTAs */}
           <div className="flex items-center gap-3">
             <CTA
               href={watchUrl}
@@ -127,7 +203,6 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
           </div>
         </div>
 
-        {/* Right — poster with offset editorial tag */}
         <div className="relative">
           {movie.poster_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -145,7 +220,6 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
             </div>
           )}
 
-          {/* Floating "selected by" tag */}
           <div
             className="absolute bottom-0 right-0 translate-y-5 hidden sm:block px-5 py-4 border border-[var(--hairline)] max-w-[200px]"
             style={{ background: 'var(--oled)' }}
@@ -169,7 +243,7 @@ function EditorialPick({ movie }: { movie: MediaItem }) {
   );
 }
 
-// ── Page shell ───────────────────────────────────────────────────────────────
+// ── Page shell ────────────────────────────────────────────────────────────────
 
 export default function BrowsePage() {
   return (
@@ -178,7 +252,7 @@ export default function BrowsePage() {
         fallback={
           <div className="pt-20 px-4 sm:px-8 max-w-[1800px] mx-auto">
             <div className="w-full h-[52vw] max-h-[760px] min-h-[460px] skeleton mb-8" />
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="mb-10">
                 <div className="h-2.5 w-24 skeleton mb-1.5" />
                 <div className="h-6 w-52 skeleton mb-4" />

@@ -15,7 +15,9 @@ A collection of desktop and web-based security, OSINT, network analysis, and per
 | [`osint_rework`](#5-osint_rework--osint-recon--web-pentest-suite) | `apps_reworked/` | Desktop App | Full OSINT recon + active web pentest suite |
 | [`providers_lookup`](#6-providers_lookup--bgp-upstream-provider-lookup) | `apps_reworked/` | CLI Script | BGP upstream provider lookup for a domain |
 | [`f1_telemetry_game`](#7-f1_telemetry_game--f1-25-live-telemetry-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
-| [`streamix`](#8-streamix--full-stack-movie-streaming-platform) | `other_projects/` | Web App | Full-stack movie streaming platform (Next.js + PostgreSQL + TMDb) |
+| [`streamix`](#8-streamix--full-stack-movie--tv-streaming-platform) | `other_projects/` | Web App | Full-stack movie & TV streaming platform (Next.js + PostgreSQL + VidAPI + RiveStream) |
+| [`f1_telemetry`](#9-f1_telemetry--f1-live-timing-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 live timing dashboard via F1's official SignalR servers + FastF1 |
+| [`rds_predict`](#10-rds_predict--f1-ai-prediction-proxy) | `other_projects/` | API Server | Local Express.js AI proxy (GitHub Models) with F1 data REST endpoints |
 
 ---
 
@@ -535,23 +537,34 @@ python logger.py
 
 ---
 
-## 8. `streamix` — Full-Stack Movie Streaming Platform
+## 8. `streamix` — Full-Stack Movie & TV Streaming Platform
 
-A full-stack movie streaming platform built with **Next.js 14**, **PostgreSQL**, and the **TMDb API**. Browse thousands of movies, build a personal watchlist, track watch history, and pick up right where you left off.
+A full-stack movie and TV streaming platform built with **Next.js 14**, **PostgreSQL**, **VidAPI**, and the **TMDb API**. Browse thousands of movies and TV series, build a personal watchlist, track watch history, and pick up episodes right where you left off.
 
-> **Educational project.** Movie data is provided by [The Movie Database (TMDb)](https://www.themoviedb.org). Streamix does not host any media files.
+> **Educational project.** Movie and series data is sourced from [VidAPI](https://vidapi.ru) and [The Movie Database (TMDb)](https://www.themoviedb.org). Streamix does not host any media files.
 
 ### Features
 
-- **Movie Browser** — Hero banner with rotating trending films, horizontally scrollable rows by category (Trending, Now Playing, Top Rated, Popular, Upcoming) and genre
-- **Search** — Full-text movie search powered by TMDb
-- **Watch Page** — Embedded video player with multi-source fallback across 8 streaming providers
-- **Progress Tracking** — Playback position saved automatically; resumes on next visit
-- **Watchlist** — Add/remove movies; persisted per user in PostgreSQL
-- **Watch History** — Full log of every movie watched, with timestamps
+- **Movie & TV Browser** — Hero banner with top popularity films, horizontally scrollable rows for Latest Movies, Latest Series, Top Rated, and 8 genre rows (Action, Comedy, Drama, Thriller, Sci-Fi, Crime, Horror, Adventure)
+- **Dedicated Browse Pages** — `/browse/movies` and `/browse/series`: full-page grids with infinite scroll, sort controls (Latest, Trending, Top Rated, A–Z, Z–A, Oldest) and genre filter chips
+- **Editorial Pick** — algorithmically chosen highest-rated film highlighted in a full-width editorial block between rows
+- **TV Series Support** — season/episode selector on the watch page, "Next Episode" button, and per-season episode grids
+- **Search** — full-text search via VidAPI (movies) and TMDb `/search/multi` (TV + movies)
+- **Watch Page** — embedded video player via **RiveStream** (`rivestream.pages.dev/embed`); metadata, cast, director, trailer link, and recommendations pulled from TMDb
+- **Progress Tracking** — playback position saved automatically; resumes on next visit
+- **Watchlist** — Add/remove movies and shows; persisted per user in PostgreSQL
+- **Watch History** — full log of every title watched, with timestamps
 - **Authentication** — JWT-based auth (register, login, logout) with HTTP-only cookies
-- **Route Protection** — Middleware guards `/browse` and `/watch` routes; unauthenticated users are redirected to `/login`
-- **Responsive UI** — Mobile-first design with a collapsible sidebar drawer and top navbar
+- **Route Protection** — middleware guards `/browse` and `/watch` routes; unauthenticated users are redirected to `/login`
+- **Responsive UI** — OLED-black design system with CSS custom properties, serif/mono font pairing, collapsible navbar, and skeleton loading states
+
+### Data sources
+
+| Source | Role |
+|---|---|
+| **VidAPI** (`vidapi.ru`) | Primary catalog — latest movies, latest TV shows, paginated lists with ratings, genres, popularity, and embed URLs |
+| **RiveStream** (`rivestream.pages.dev/embed`) | Streaming player — embedded via iframe for both `type=movie` and `type=tv&season=S&episode=E` |
+| **TMDb** | Secondary metadata — hero backdrops, watch-page details (overview, cast, director, trailer, similar/recommendations), and search |
 
 ### Stack
 
@@ -559,10 +572,12 @@ A full-stack movie streaming platform built with **Next.js 14**, **PostgreSQL**,
 |---|---|
 | Framework | Next.js 14 (App Router) |
 | Language | TypeScript |
-| Styling | Tailwind CSS |
+| Styling | Tailwind CSS + CSS custom properties |
 | Database | PostgreSQL (via `pg`) |
 | Auth | JWT (`jose`) + `bcryptjs` for password hashing |
-| Movie Data | TMDb REST API |
+| Catalog | VidAPI REST JSON |
+| Streaming | RiveStream embed |
+| Metadata | TMDb REST API |
 | Cookie Handling | `cookies-next` |
 
 ### Project structure
@@ -570,16 +585,21 @@ A full-stack movie streaming platform built with **Next.js 14**, **PostgreSQL**,
 ```
 other_projects/streamix/
 ├── app/
-│   ├── page.tsx                  # Main browse page (home, search, genre, type filters)
+│   ├── page.tsx                  # Root redirect
 │   ├── layout.tsx                # Root layout
-│   ├── globals.css               # Global styles & Tailwind base
+│   ├── globals.css               # Global styles, CSS custom properties, Tailwind base
 │   ├── browse/
+│   │   ├── page.tsx              # Home: hero + movie/series rows + editorial pick
 │   │   ├── layout.tsx            # Browse shell: AuthProvider + Navbar + Footer
-│   │   ├── watchlist/page.tsx    # User's watchlist
+│   │   ├── movies/
+│   │   │   └── MoviesClient.tsx  # Infinite-scroll grid, sort/genre filters
+│   │   ├── series/
+│   │   │   └── SeriesClient.tsx  # Same as above, for TV shows
+│   │   ├── watchlist/page.tsx    # User's saved titles
 │   │   └── history/page.tsx      # User's watch history
 │   ├── watch/[id]/
-│   │   ├── page.tsx              # Watch page entry
-│   │   └── WatchClient.tsx       # Video player client component
+│   │   ├── page.tsx              # Watch page entry (fetches TMDb details server-side)
+│   │   └── WatchClient.tsx       # Video player + episode selector + metadata + credits
 │   ├── login/                    # Login page
 │   ├── register/                 # Register page
 │   └── api/
@@ -587,25 +607,28 @@ other_projects/streamix/
 │       ├── auth/logout/          # POST — clear JWT cookie
 │       ├── auth/register/        # POST — create account
 │       ├── auth/me/              # GET  — return current user from session
-│       ├── movies/               # GET  — proxy to TMDb
+│       ├── movies/               # GET  — proxy to VidAPI (movies or series, paginated)
 │       ├── history/              # GET/POST — watch history CRUD
 │       ├── watchlist/            # GET/POST/DELETE — watchlist CRUD
 │       └── progress/             # GET/POST — playback progress CRUD
 ├── components/
 │   ├── AuthContext.tsx           # React context: user state, login/logout helpers
 │   ├── layout/
-│   │   └── Navbar.tsx            # Top navbar + sidebar drawer
-│   └── movie/
-│       ├── HeroBanner.tsx        # Auto-rotating hero with top-5 trending films
-│       ├── MovieRow.tsx          # Horizontally scrollable movie shelf
-│       ├── MovieCard.tsx         # Individual poster card with hover overlay
-│       └── VideoPlayer.tsx       # Embedded player with multi-source fallback
+│   │   └── Navbar.tsx            # Top navbar + sidebar drawer + search
+│   ├── movie/
+│   │   ├── HeroBanner.tsx        # Auto-rotating hero (top-5 by popularity, TMDb backdrops)
+│   │   ├── MovieRow.tsx          # Horizontally scrollable shelf with eyebrow labels
+│   │   ├── MovieCard.tsx         # Poster card with hover overlay and type badge
+│   │   └── VideoPlayer.tsx       # RiveStream iframe player
+│   └── ui/
+│       ├── CTA.tsx               # Polymorphic call-to-action button/link
+│       └── Eyebrow.tsx           # Small label chip used above headings
 ├── lib/
-│   ├── tmdb.ts                   # TMDb API client + type definitions
+│   ├── vidapi.ts                 # VidAPI + RiveStream client, TMDb search/details
 │   ├── db.ts                     # PostgreSQL connection pool + query helpers
 │   ├── auth.ts                   # Session helpers: getSession, getUserFromSession
 │   ├── jwt.ts                    # signToken / verifyToken (jose)
-│   └── streaming.ts              # Streaming source URL builders
+│   └── streaming.ts              # Legacy streaming URL builders
 ├── middleware.ts                 # Route protection & auth redirect logic
 ├── scripts/
 │   └── setup-db.js               # Creates all DB tables and indexes
@@ -616,26 +639,45 @@ other_projects/streamix/
 
 | Route | Access | Description |
 |---|---|---|
-| `/` | Public | Main browse page (hero + movie rows) |
+| `/browse` | Public | Home: hero + curated rows (Latest Movies, Latest Series, Top Rated, genre rows, editorial pick) |
+| `/browse/movies` | Public | All movies — infinite scroll grid, sort & genre filter |
+| `/browse/series` | Public | All TV series — infinite scroll grid, sort & genre filter |
+| `/browse/watchlist` | Protected | User's saved titles |
+| `/browse/history` | Protected | User's watch history |
+| `/watch/[id]` | Protected | Video player — supports `?type=movie` and `?type=tv&season=S&episode=E` |
 | `/login` | Public (redirects if authed) | Login form |
 | `/register` | Public (redirects if authed) | Registration form |
-| `/browse/watchlist` | Protected | User's saved movies |
-| `/browse/history` | Protected | User's watch history |
-| `/watch/[id]` | Protected | Video player for a specific movie |
 
-URL query parameters on `/`:
+#### Browse/Movies and Browse/Series query parameters
 
-| Parameter | Example | Effect |
+| Parameter | Values | Effect |
 |---|---|---|
-| `q` | `/?q=inception` | Full-text movie search |
-| `type` | `/?type=popular` | Filter to Popular or Top Rated |
-| `genre` + `genreName` | `/?genre=28&genreName=Action` | Browse by genre |
+| `sort` | `latest`, `trending`, `rating-desc`, `title-asc`, `title-desc`, `oldest` | Sort order for the grid |
+| `genre` | e.g. `Action`, `Drama`, `Comedy` | Filter grid to a single genre |
+| `q` | any string | Text search against the loaded catalog |
+
+### How the catalog works
+
+`lib/vidapi.ts` pulls paginated JSON lists from VidAPI:
+
+| Function | VidAPI endpoint | Returns |
+|---|---|---|
+| `getLatestMovies(page)` | `/movies/latest/page-{n}.json` | `MediaItem[]` (movies) |
+| `getLatestShows(page)` | `/tvshows/latest/page-{n}.json` | `MediaItem[]` (TV shows) |
+| `getLatestEpisodes(page)` | `/episodes/latest/page-{n}.json` | Raw episode list |
+| `getStats()` | `/imdb/api/?action=stats` | Library stats |
+| `movieEmbedUrl(tmdbId)` | — | RiveStream `?type=movie&id={id}` |
+| `tvEmbedUrl(tmdbId, season, episode)` | — | RiveStream `?type=tv&id={id}&season=S&episode=E` |
+| `getTmdbDetails(tmdbId, mediaType)` | TMDb `/movie/{id}` or `/tv/{id}` | Full metadata incl. credits, videos, seasons |
+| `searchTmdb(query, page)` | TMDb `/search/multi` | Multi-media search results |
+
+All fetch calls use `next: { revalidate: 3600 }` (1-hour cache).
 
 ### Authentication flow
 
 1. User registers via `/register` → password hashed with `bcryptjs` → stored in `users` table
 2. User logs in via `/login` → credentials verified → JWT signed with `jose` and stored in an HTTP-only cookie (`streamix-token`)
-3. `middleware.ts` intercepts every request to `/browse` and `/watch`, verifies the JWT, and redirects unauthenticated users to `/login`
+3. `middleware.ts` intercepts every request to `/browse/watchlist`, `/browse/history`, and `/watch`, verifies the JWT, and redirects unauthenticated users to `/login`
 4. Client-side auth state is managed by `AuthContext`, which calls `/api/auth/me` on mount
 5. Logout hits `/api/auth/logout`, which clears the cookie
 
@@ -685,21 +727,6 @@ CREATE TABLE watchlist (
   UNIQUE(user_id, movie_id)
 );
 ```
-
-### TMDb API
-
-Movie data is fetched server-side from [TMDb](https://www.themoviedb.org) via `lib/tmdb.ts`. All requests are cached for 1 hour (`next: { revalidate: 3600 }`).
-
-| Function | Endpoint |
-|---|---|
-| `getTrending(timeWindow)` | `/trending/movie/{day\|week}` |
-| `getPopular(page)` | `/movie/popular` |
-| `getTopRated(page)` | `/movie/top_rated` |
-| `getNowPlaying()` | `/movie/now_playing` |
-| `getUpcoming()` | `/movie/upcoming` |
-| `getMovieDetails(id)` | `/movie/{id}?append_to_response=videos,credits,similar,recommendations` |
-| `searchMovies(query, page)` | `/search/movie` |
-| `getByGenre(genreId, page)` | `/discover/movie?with_genres={id}` |
 
 ### Prerequisites
 
@@ -763,7 +790,164 @@ All `apps_reworked` backends share the same project layout:
 └── requirements.txt
 ```
 
-`f1_telemetry_game` and `streamix` intentionally diverge from this pattern — they use their own stacks suited to their purpose and live under `other_projects/` rather than `apps_reworked/`.
+`f1_telemetry_game`, `f1_telemetry`, `streamix`, and `rds_predict` intentionally diverge from this pattern — they use their own stacks suited to their purpose and live under `other_projects/` rather than `apps_reworked/`.
+
+---
+
+## 9. `f1_telemetry` — F1 Live Timing Dashboard
+
+A real-time F1 live timing dashboard that connects directly to **F1's official live timing servers** (`livetiming.formula1.com`) via the SignalR protocol. Shows live car positions, a dynamic track map, and a full leaderboard with sector times, tyres, and gaps — rendered at 60fps in any browser on the local network. Falls back to a built-in 20-car demo simulator when no live session is active.
+
+### How it works
+
+`run.py` starts a FastAPI/Uvicorn server on port 8000. On startup three concurrent tasks are launched:
+
+1. **Track preloader** — uses the **FastF1** library to load cached telemetry from the most recent race weekend, extracting `X`/`Y` position arrays to seed the track geometry before live data arrives.
+
+2. **F1 live client** (`backend/f1_client.py`) — connects to `livetiming.formula1.com` using the SignalR protocol, decompresses the binary payloads, and writes parsed state (positions, timing, sector times, tyre compound/age, weather) into a thread-safe `AppState` object.
+
+3. **Broadcast loop** — runs every 100 ms, serialises `AppState.get_snapshot()` to JSON, and pushes it to every connected WebSocket client.
+
+#### Demo mode
+
+When the live client cannot reach F1 servers (no active session, network issue), `AppState.demo_mode` is set to `True` automatically. The demo simulator populates the state with 20 realistic drivers running on an oval track with lap-time variation, tyre degradation, pit-stop sequences, and weather data. Toggle it manually via `POST /demo`.
+
+#### Frontend (60fps animation)
+
+The single-file dashboard (`frontend/index.html`) uses a **LERP interpolation** loop running at 60fps. The backend sends position updates at 10Hz (100ms intervals); the frontend smoothly interpolates visual car positions each frame using `visual_x += (target_x - visual_x) * LERP_FACTOR` (default 0.12), eliminating stutter between data packets.
+
+The **HTML5 Canvas** track map normalises F1 world coordinates (in millimetres) to canvas pixels, draws the track outline, then renders each car as a coloured dot with the driver's three-letter code.
+
+The **leaderboard** (left panel) updates every 250ms and shows position, gap to leader, last lap time, sector times with fastest-sector highlighting, tyre compound and age, and on-track/pit/retired status. Tyre colours follow F1 official palette: Soft = red, Medium = yellow, Hard = white, Intermediate = green, Wet = blue.
+
+#### Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `GET /` | Serves `frontend/index.html` |
+| `GET /snapshot` | Single JSON snapshot of current `AppState` (debug/REST) |
+| `WS /ws` | 10Hz live data stream |
+| `POST /demo` | Toggle demo mode on/off |
+
+### Stack
+
+Python · FastAPI · FastF1 · Uvicorn · NumPy · Pandas · Vanilla JS · HTML5 Canvas
+
+### Run
+
+```bash
+cd other_projects/f1_telemetry
+pip install -r requirements.txt
+python run.py
+# Open http://localhost:8000
+```
+
+### Project structure
+
+```
+other_projects/f1_telemetry/
+├── run.py                 # Quick-start launcher
+├── requirements.txt
+├── backend/
+│   ├── main.py            # FastAPI server + broadcast loop + WebSocket manager
+│   ├── f1_client.py       # F1 SignalR connector + binary decompressor
+│   └── state.py           # Thread-safe AppState + demo simulator
+└── frontend/
+    └── index.html         # Complete dashboard UI + 60fps JS animation
+```
+
+---
+
+## 10. `rds_predict` — F1 AI Prediction Proxy
+
+A local **Express.js** server that acts as a secure proxy to the **GitHub Models API** (defaulting to `openai/gpt-4.1`), with an additional set of REST endpoints serving static F1 season data (drivers, teams, cars, tracks, events). Originally built to support AI-assisted F1 race predictions; the AI proxy and the data layer are independently usable.
+
+### How it works
+
+`server.js` mounts two sets of routes:
+
+**AI proxy** (`/ai/chat`) — accepts a `POST` with a `message` string and an optional `system` prompt. Validates input (length limits, type checks), then forwards to `src/services/githubModelsProvider.js` which calls the GitHub Models REST endpoint using the configured `GITHUB_MODELS_TOKEN`. Requires a bearer token for authentication.
+
+**F1 data REST API** (`/api/*`) — serves pre-generated static JSON modules from `src/data/generated/`. Each module (`drivers.generated.js`, `teams.generated.js`, `cars.generated.js`, `tracks.generated.js`, `events.generated.js`) is a JS array exported as ESM. The controllers cross-reference the arrays to enrich responses (e.g. a driver entry includes the full team object and car object joined by ID).
+
+Security middleware applied to all routes: **Helmet.js** (secure HTTP headers), **CORS** (all origins, GET/POST/OPTIONS), **express-rate-limit** (100 requests per 15-minute window per IP).
+
+#### API endpoints
+
+| Endpoint | Auth | Description |
+|---|---|---|
+| `GET /health` | None | Health check — returns uptime, provider, version |
+| `POST /ai/chat` | Bearer token | Sends a message to GitHub Models, returns AI response |
+| `GET /api/drivers` | None | All F1 drivers with current team and car |
+| `GET /api/drivers/:driverId` | None | Single driver with full team and car detail |
+| `GET /api/teams` | None | All F1 teams |
+| `GET /api/cars` | None | All F1 cars |
+| `GET /api/tracks` | None | All F1 tracks |
+| `GET /api/events` | None | All F1 calendar events |
+
+#### AI chat request/response
+
+```json
+// POST /ai/chat
+// Authorization: Bearer <APP_BEARER_TOKEN>
+{ "message": "Who will win the Monaco GP?", "system": "You are an F1 analyst." }
+
+// Response
+{ "ok": true, "model": "openai/gpt-4.1", "output_text": "...", "raw": { "usage": {...} }, "timestamp": "..." }
+```
+
+### Stack
+
+Node.js · Express.js · Helmet.js · GitHub Models API (`openai/gpt-4.1`)
+
+### Project structure
+
+```
+other_projects/rds_predict/
+├── server.js                          # App entry point
+├── package.json
+├── .env.example                       # Config template
+├── src/
+│   ├── config.js                      # Env loader
+│   ├── middleware/auth.js             # Bearer token validation
+│   ├── utils/logger.js                # Secure logging (masks tokens)
+│   ├── services/githubModelsProvider.js  # GitHub Models API client
+│   ├── controllers/
+│   │   ├── aiController.js            # /ai/chat handler
+│   │   └── healthController.js        # /health handler
+│   ├── routes/
+│   │   ├── aiRoutes.js
+│   │   └── healthRoutes.js
+│   ├── modules/
+│   │   ├── drivers/                   # GET /api/drivers
+│   │   ├── teams/                     # GET /api/teams
+│   │   ├── cars/                      # GET /api/cars
+│   │   ├── tracks/                    # GET /api/tracks
+│   │   └── events/                    # GET /api/events
+│   └── data/generated/                # Pre-built static F1 data (ESM arrays)
+└── scripts/test.js                    # Automated test suite
+```
+
+### Setup
+
+```bash
+cd other_projects/rds_predict
+npm install
+cp .env.example .env
+# Set APP_BEARER_TOKEN and GITHUB_MODELS_TOKEN in .env
+npm start
+# Server runs on http://localhost:3000
+```
+
+### Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | Server port |
+| `APP_BEARER_TOKEN` | (required) | Token clients must send to `/ai/chat` |
+| `GITHUB_MODELS_TOKEN` | (required) | GitHub Personal Access Token for Models API |
+| `GITHUB_MODEL` | `openai/gpt-4.1` | Model to use |
+| `NODE_ENV` | `development` | Environment |
 
 ---
 

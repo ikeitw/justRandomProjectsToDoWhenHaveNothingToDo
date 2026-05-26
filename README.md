@@ -17,7 +17,7 @@ A collection of desktop and web-based security, OSINT, network analysis, and per
 | [`f1_telemetry_game`](#7-f1_telemetry_game--f1-25-live-telemetry-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 25 racing telemetry dashboard with lap history |
 | [`streamix`](#8-streamix--full-stack-movie--tv-streaming-platform) | `other_projects/` | Web App | Full-stack movie & TV streaming platform (Next.js + PostgreSQL + VidAPI + RiveStream) |
 | [`f1_telemetry`](#9-f1_telemetry--f1-live-timing-dashboard) | `other_projects/` | Web Dashboard | Real-time F1 live timing dashboard via F1's official SignalR servers + FastF1 |
-| [`rds_predict`](#10-rds_predict--f1-ai-prediction-proxy) | `other_projects/` | API Server | Local Express.js AI proxy (GitHub Models) with F1 data REST endpoints |
+| [`rds_predict`](#10-rds_predict--russian-drift-series-ai-prediction-server) | `other_projects/` | API Server | RDS GP data + AI prediction server (Express.js + GitHub Models) |
 
 ---
 
@@ -858,42 +858,71 @@ other_projects/f1_telemetry/
 
 ---
 
-## 10. `rds_predict` — F1 AI Prediction Proxy
+## 10. `rds_predict` — Russian Drift Series AI Prediction Server
 
-A local **Express.js** server that acts as a secure proxy to the **GitHub Models API** (defaulting to `openai/gpt-4.1`), with an additional set of REST endpoints serving static F1 season data (drivers, teams, cars, tracks, events). Originally built to support AI-assisted F1 race predictions; the AI proxy and the data layer are independently usable.
+A local **Express.js** server built around the **Russian Drift Series Grand Prix (RDS GP)**. It serves a structured REST API of RDS GP 2025 season data — drivers, teams, cars, tracks, and calendar events — scraped from the official `rdsgp.com` website, and exposes an AI chat endpoint backed by the **GitHub Models API** (`openai/gpt-4.1`) that can answer questions about and generate predictions for the championship.
 
 ### How it works
 
-`server.js` mounts two sets of routes:
+`server.js` mounts two independent route groups:
 
-**AI proxy** (`/ai/chat`) — accepts a `POST` with a `message` string and an optional `system` prompt. Validates input (length limits, type checks), then forwards to `src/services/githubModelsProvider.js` which calls the GitHub Models REST endpoint using the configured `GITHUB_MODELS_TOKEN`. Requires a bearer token for authentication.
+**RDS GP data layer** (`/api/*`) — serves pre-generated ESM data modules from `src/data/generated/`. These are produced by running `scripts/import-rdsgp-data.js`, which scrapes driver profiles, team listings, and the official season schedule from `rdsgp.com`. Each module carries per-field source metadata: `source_type`, `source_url`, `confidence` (0–1), `extraction_method`, and a `notes` string so consumers know how reliable each value is. Controllers join the arrays at request time (e.g. a driver response embeds the matched team object and car object by ID).
 
-**F1 data REST API** (`/api/*`) — serves pre-generated static JSON modules from `src/data/generated/`. Each module (`drivers.generated.js`, `teams.generated.js`, `cars.generated.js`, `tracks.generated.js`, `events.generated.js`) is a JS array exported as ESM. The controllers cross-reference the arrays to enrich responses (e.g. a driver entry includes the full team object and car object joined by ID).
+**AI prediction proxy** (`/ai/chat`) — accepts a `POST` with a `message` string and an optional `system` prompt, validates input (length limits up to 32 000 chars, type checks), then forwards to `src/services/githubModelsProvider.js`, which calls the GitHub Models REST endpoint. Intended use: pass the RDS GP data as context and ask the model to predict match-ups, qualification scores, championship standings, or head-to-head outcomes. Requires a bearer token.
 
-Security middleware applied to all routes: **Helmet.js** (secure HTTP headers), **CORS** (all origins, GET/POST/OPTIONS), **express-rate-limit** (100 requests per 15-minute window per IP).
+Security middleware on all routes: **Helmet.js** security headers, **CORS** (all origins, GET/POST/OPTIONS), **express-rate-limit** (100 req per 15 min per IP).
 
-#### API endpoints
+### RDS GP 2025 season data
+
+#### Drivers
+
+All driver entries are scraped from individual pilot pages on `rdsgp.com`. Each record includes full name (Cyrillic), car number, city, birth date, social links (Instagram, VK, YouTube, Telegram), and career statistics fields (seasons, wins, podiums, win rate, qualification average score). Most career statistics are currently marked `unavailable` — the scraper captures the structure but the official site does not expose historical totals yet.
+
+#### Teams
+
+Includes teams such as Lukoil Racing Drift Team, Fresh Racing, Takayama Forward Auto, TimeUp, Carville Racing, Lecar Oderzhimye Motorsport, Avtoban, and Star Pyor Stars Aimol.
+
+#### Tracks
+
+SVG track geometry with viewBox, path, start/finish points, and clipping-zone polygons. The `telemetryPolicy` field on each track declares whether official telemetry is available — currently all tracks are marked `officialTelemetryAvailable: false`; the SVG paths are manually authored placeholders, not official geometry. Venues include Moscow Raceway, Igora Drive, NRing (Nizhny Novgorod), ADM Raceway, RedRing (Krasnoyarsk), and Rostov Arena.
+
+#### Calendar events (2025)
+
+| Round | Venue | City | Dates |
+|---|---|---|---|
+| 1 | Moscow Raceway | Москва | 2–3 мая |
+| 2 | Igora Drive | Санкт-Петербург | 23–24 мая |
+| 3 | NRing | Нижний Новгород | 13–14 июня |
+| RDS FEST | Moscow Raceway | Москва | 20 июня |
+| 4 | ADM Raceway | Москва | 11–12 июля |
+| 5 | RedRing | Красноярск | 1–2 августа |
+| RDS FEST | Igora Drive | Санкт-Петербург | 22–23 августа |
+| 6 | Moscow Raceway | Москва | 29–30 августа |
+| Superfinal | Ростов Арена | Ростов-на-Дону | 26–27 сентября |
+
+### API endpoints
 
 | Endpoint | Auth | Description |
 |---|---|---|
-| `GET /health` | None | Health check — returns uptime, provider, version |
-| `POST /ai/chat` | Bearer token | Sends a message to GitHub Models, returns AI response |
-| `GET /api/drivers` | None | All F1 drivers with current team and car |
+| `GET /health` | None | Health check — uptime, provider, version |
+| `POST /ai/chat` | Bearer token | AI prediction/analysis via GitHub Models |
+| `GET /api/drivers` | None | All RDS GP drivers with joined team and car |
 | `GET /api/drivers/:driverId` | None | Single driver with full team and car detail |
-| `GET /api/teams` | None | All F1 teams |
-| `GET /api/cars` | None | All F1 cars |
-| `GET /api/tracks` | None | All F1 tracks |
-| `GET /api/events` | None | All F1 calendar events |
+| `GET /api/teams` | None | All RDS GP teams |
+| `GET /api/cars` | None | All RDS GP cars |
+| `GET /api/tracks` | None | All tracks with SVG geometry and telemetry policy |
+| `GET /api/events` | None | Full 2025 season calendar with venue, city, dates, status |
 
-#### AI chat request/response
+#### Example AI prediction request
 
 ```json
-// POST /ai/chat
-// Authorization: Bearer <APP_BEARER_TOKEN>
-{ "message": "Who will win the Monaco GP?", "system": "You are an F1 analyst." }
+POST /ai/chat
+Authorization: Bearer <APP_BEARER_TOKEN>
 
-// Response
-{ "ok": true, "model": "openai/gpt-4.1", "output_text": "...", "raw": { "usage": {...} }, "timestamp": "..." }
+{
+  "message": "Based on the 2025 RDS GP season calendar, predict which driver is most likely to win the Superfinal at Rostov Arena.",
+  "system": "You are an expert Russian Drift Series analyst."
+}
 ```
 
 ### Stack
@@ -904,28 +933,39 @@ Node.js · Express.js · Helmet.js · GitHub Models API (`openai/gpt-4.1`)
 
 ```
 other_projects/rds_predict/
-├── server.js                          # App entry point
+├── server.js                              # App entry point
 ├── package.json
-├── .env.example                       # Config template
+├── .env.example                           # Config template
 ├── src/
-│   ├── config.js                      # Env loader
-│   ├── middleware/auth.js             # Bearer token validation
-│   ├── utils/logger.js                # Secure logging (masks tokens)
-│   ├── services/githubModelsProvider.js  # GitHub Models API client
+│   ├── config.js                          # Env loader
+│   ├── middleware/auth.js                 # Bearer token validation
+│   ├── utils/logger.js                    # Secure logging (masks tokens in prod)
+│   ├── services/githubModelsProvider.js   # GitHub Models API client
 │   ├── controllers/
-│   │   ├── aiController.js            # /ai/chat handler
-│   │   └── healthController.js        # /health handler
+│   │   ├── aiController.js                # /ai/chat — validates & forwards to provider
+│   │   └── healthController.js            # /health
 │   ├── routes/
 │   │   ├── aiRoutes.js
 │   │   └── healthRoutes.js
 │   ├── modules/
-│   │   ├── drivers/                   # GET /api/drivers
-│   │   ├── teams/                     # GET /api/teams
-│   │   ├── cars/                      # GET /api/cars
-│   │   ├── tracks/                    # GET /api/tracks
-│   │   └── events/                    # GET /api/events
-│   └── data/generated/                # Pre-built static F1 data (ESM arrays)
-└── scripts/test.js                    # Automated test suite
+│   │   ├── drivers/                       # GET /api/drivers[/:id]
+│   │   ├── teams/                         # GET /api/teams
+│   │   ├── cars/                          # GET /api/cars
+│   │   ├── tracks/                        # GET /api/tracks
+│   │   └── events/                        # GET /api/events
+│   └── data/
+│       ├── drivers.data.js                # Source data (manual/curated)
+│       ├── tracks.data.js
+│       ├── teams.data.js
+│       ├── cars.data.js
+│       └── generated/                     # Auto-generated from rdsgp.com scrape
+│           ├── drivers.generated.js
+│           ├── teams.generated.js
+│           ├── cars.generated.js
+│           ├── tracks.generated.js
+│           ├── events.generated.js
+│           └── metadata.generated.js
+└── scripts/test.js                        # Automated test suite
 ```
 
 ### Setup
@@ -945,8 +985,8 @@ npm start
 |---|---|---|
 | `PORT` | `3000` | Server port |
 | `APP_BEARER_TOKEN` | (required) | Token clients must send to `/ai/chat` |
-| `GITHUB_MODELS_TOKEN` | (required) | GitHub Personal Access Token for Models API |
-| `GITHUB_MODEL` | `openai/gpt-4.1` | Model to use |
+| `GITHUB_MODELS_TOKEN` | (required) | GitHub Personal Access Token with Models access |
+| `GITHUB_MODEL` | `openai/gpt-4.1` | Model used for predictions |
 | `NODE_ENV` | `development` | Environment |
 
 ---
